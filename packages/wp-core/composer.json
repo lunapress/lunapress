@@ -21,6 +21,8 @@
     },
     "require": {
         "php": "^8.3",
-        "lunapress/core-contracts": "@dev"
+        "psr/container": "^2",
+        "lunapress/core-contracts": "@dev",
+        "lunapress/wp-core-contracts": "@dev"
     }
 }

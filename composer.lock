@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "6af011cb5002f178441c54467a3f3000",
+    "content-hash": "1fb053a7685fc389b0bbb407e1cf76a4",
     "packages": [
         {
             "name": "laravel/serializable-closure",
@@ -155,6 +155,51 @@
                 "source": "https://github.com/lunapress/wp-assets-contracts/tree/main"
             },
             "time": "2025-10-07T20:41:26+00:00"
+        },
+        {
+            "name": "lunapress/wp-core-contracts",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lunapress/wp-core-contracts.git",
+                "reference": "af833fb161c457cec0991222cfa617af00292d5f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lunapress/wp-core-contracts/zipball/af833fb161c457cec0991222cfa617af00292d5f",
+                "reference": "af833fb161c457cec0991222cfa617af00292d5f",
+                "shasum": ""
+            },
+            "require": {
+                "lunapress/core-contracts": "@dev",
+                "php": "^8.3"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "LunaPress\\Wp\\CoreContracts\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Onepix",
+                    "homepage": "https://onepix.net",
+                    "role": "Company"
+                },
+                {
+                    "name": "0zd0",
+                    "homepage": "https://github.com/0zd0",
+                    "role": "Lead Developer"
+                }
+            ],
+            "description": "Contracts for lunapress/wp-core",
+            "support": {
+                "issues": "https://github.com/lunapress/wp-core-contracts/issues",
+                "source": "https://github.com/lunapress/wp-core-contracts/tree/main"
+            },
+            "time": "2025-10-07T20:36:34+00:00"
         },
         {
             "name": "php-di/invoker",
@@ -5972,7 +6017,8 @@
     "stability-flags": {
         "lunapress/core-contracts": 20,
         "lunapress/static-analysis": 20,
-        "lunapress/wp-assets-contracts": 20
+        "lunapress/wp-assets-contracts": 20,
+        "lunapress/wp-core-contracts": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
