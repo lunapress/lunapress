@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1fb053a7685fc389b0bbb407e1cf76a4",
+    "content-hash": "a748bfd9839c4ed94d3358833e26e2ee",
     "packages": [
         {
             "name": "laravel/serializable-closure",
@@ -73,12 +73,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lunapress/core-contracts.git",
-                "reference": "fb37d40bbfbe95e1bcd84ced023fc9e36b99a289"
+                "reference": "bf056e3c82981a6d1fa6a2044a5a34ff3b4d36f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lunapress/core-contracts/zipball/fb37d40bbfbe95e1bcd84ced023fc9e36b99a289",
-                "reference": "fb37d40bbfbe95e1bcd84ced023fc9e36b99a289",
+                "url": "https://api.github.com/repos/lunapress/core-contracts/zipball/bf056e3c82981a6d1fa6a2044a5a34ff3b4d36f6",
+                "reference": "bf056e3c82981a6d1fa6a2044a5a34ff3b4d36f6",
                 "shasum": ""
             },
             "require": {
@@ -109,7 +109,53 @@
                 "issues": "https://github.com/lunapress/core-contracts/issues",
                 "source": "https://github.com/lunapress/core-contracts/tree/main"
             },
-            "time": "2025-10-07T20:36:28+00:00"
+            "time": "2025-10-07T21:28:24+00:00"
+        },
+        {
+            "name": "lunapress/frontend-contracts",
+            "version": "dev-main",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/lunapress/frontend-contracts.git",
+                "reference": "c501a7f7ba11ebea1ad42d7325c2110904e1943a"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/lunapress/frontend-contracts/zipball/c501a7f7ba11ebea1ad42d7325c2110904e1943a",
+                "reference": "c501a7f7ba11ebea1ad42d7325c2110904e1943a",
+                "shasum": ""
+            },
+            "require": {
+                "lunapress/core-contracts": "@dev",
+                "lunapress/wp-assets-contracts": "@dev",
+                "php": "^8.3"
+            },
+            "default-branch": true,
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "LunaPress\\FrontendContracts\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Onepix",
+                    "homepage": "https://onepix.net",
+                    "role": "Company"
+                },
+                {
+                    "name": "0zd0",
+                    "homepage": "https://github.com/0zd0",
+                    "role": "Lead Developer"
+                }
+            ],
+            "description": "Contracts for lunapress/frontend",
+            "support": {
+                "issues": "https://github.com/lunapress/frontend-contracts/issues",
+                "source": "https://github.com/lunapress/frontend-contracts/tree/main"
+            },
+            "time": "2025-10-07T21:28:23+00:00"
         },
         {
             "name": "lunapress/wp-assets-contracts",
@@ -6016,6 +6062,7 @@
     "minimum-stability": "dev",
     "stability-flags": {
         "lunapress/core-contracts": 20,
+        "lunapress/frontend-contracts": 20,
         "lunapress/static-analysis": 20,
         "lunapress/wp-assets-contracts": 20,
         "lunapress/wp-core-contracts": 20

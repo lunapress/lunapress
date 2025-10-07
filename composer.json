@@ -16,6 +16,7 @@
     ],
     "require": {
         "lunapress/core-contracts": "@dev",
+        "lunapress/frontend-contracts": "@dev",
         "lunapress/wp-assets-contracts": "@dev",
         "lunapress/wp-core-contracts": "@dev",
         "php": "^8.3",
