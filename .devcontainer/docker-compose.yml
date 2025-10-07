@@ -1,4 +1,4 @@
-name: lunapress-contracts
+name: lunapress
 
 services:
   php:
