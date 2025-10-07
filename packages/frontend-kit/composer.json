@@ -1,0 +1,24 @@
+{
+    "name": "lunapress/frontend-kit",
+    "description": "Complete frontend package with required LunaPress implementations",
+    "type": "meta-package",
+    "authors": [
+        {
+            "name": "Onepix",
+            "homepage": "https://onepix.net",
+            "role": "Company"
+        },
+        {
+            "name": "0zd0",
+            "role": "Lead Developer",
+            "homepage": "https://github.com/0zd0"
+        }
+    ],
+    "require": {
+        "php": "^8.3",
+        "psr/container": "^2",
+        "lunapress/core": "@dev",
+        "lunapress/wp-assets": "@dev",
+        "lunapress/frontend": "@dev"
+    }
+}

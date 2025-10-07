@@ -26,6 +26,8 @@ jobs:
             split_repository: 'wp-core'
           - local_path: 'wp-assets'
             split_repository: 'wp-assets'
+          - local_path: 'frontend-kit'
+            split_repository: 'frontend-kit'
 
     steps:
       - uses: actions/checkout@v2

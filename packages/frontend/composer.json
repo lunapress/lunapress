@@ -19,10 +19,15 @@
             "LunaPress\\Frontend\\": "src/"
         }
     },
+    "suggest": {
+        "lunapress/core": "Required to enable core functionality",
+        "lunapress/wp-assets": "Required for WordPress asset management"
+    },
     "require": {
         "php": "^8.3",
         "psr/container": "^2",
         "lunapress/core-contracts": "@dev",
-        "lunapress/frontend-contracts": "@dev"
+        "lunapress/frontend-contracts": "@dev",
+        "lunapress/wp-assets-contracts": "@dev"
     }
 }
