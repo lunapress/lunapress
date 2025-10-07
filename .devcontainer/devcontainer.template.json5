@@ -1,0 +1,16 @@
+{
+    "name": "LunaPress Contracts",
+    "dockerComposeFile": [
+        "./docker-compose.yml"
+    ],
+    "service": "php",
+    "customizations": {
+        "jetbrains": {
+            "plugins": [
+            ]
+        }
+    },
+    "mounts": [
+    ],
+    "postCreateCommand": "composer install"
+}

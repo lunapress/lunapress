@@ -1,0 +1,8 @@
+name: lunapress-contracts
+
+services:
+  php:
+    build:
+      context: .
+    volumes:
+      - './php/xdebug.ini:/usr/local/etc/php/conf.d/xdebug.ini'

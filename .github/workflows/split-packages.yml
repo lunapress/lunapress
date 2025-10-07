@@ -1,0 +1,51 @@
+name: Split Packages
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - '*'
+
+env:
+  GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
+
+jobs:
+  packages_split:
+    runs-on: ubuntu-latest
+
+    strategy:
+      fail-fast: false
+      matrix:
+        package:
+          - local_path: 'core'
+            split_repository: 'core'
+          - local_path: 'frontend'
+            split_repository: 'frontend'
+          - local_path: 'wp-core'
+            split_repository: 'wp-core'
+          - local_path: 'wp-assets'
+            split_repository: 'wp-assets'
+
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Determine tag (if exists)
+        id: tag
+        run: |
+          if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
+            echo "tag_name=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+          else
+            echo "tag_name=" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Split package
+        uses: danharrin/monorepo-split-github-action@v2.4.0
+        with:
+          tag: ${{ steps.tag.outputs.tag_name }}
+          package_directory: packages/${{ matrix.package.local_path }}
+          repository_organization: lunapress
+          repository_name: ${{ matrix.package.split_repository }}
+          user_name: "github-actions[bot]"
+          user_email: "github-actions[bot]@users.noreply.github.com"
+

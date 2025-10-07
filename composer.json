@@ -1,0 +1,55 @@
+{
+    "name": "lunapress/lunapress",
+    "description": "Monorepo for the entire ecosystem",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Onepix",
+            "homepage": "https://onepix.net",
+            "role": "Company"
+        },
+        {
+            "name": "0zd0",
+            "role": "Lead Developer",
+            "homepage": "https://github.com/0zd0"
+        }
+    ],
+    "require": {
+        "php": "^8.3"
+    },
+    "require-dev": {
+        "lunapress/static-analysis": "@dev",
+        "symplify/monorepo-builder": "^12.2"
+    },
+    "repositories": [
+        {
+            "options": {
+                "symlink": true
+            },
+            "type": "path",
+            "url": "packages/*"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true
+        }
+    },
+    "scripts": {
+        "release": "monorepo-builder release",
+        "merge": "monorepo-builder merge",
+        "fix:phpcs": "lunapress-static-analysis phpcbf",
+        "check:phpcs": "lunapress-static-analysis phpcs",
+        "check:psalm": "lunapress-static-analysis psalm -- --no-cache",
+        "check": [
+            "@check:phpcs",
+            "@check:psalm"
+        ]
+    }
+}

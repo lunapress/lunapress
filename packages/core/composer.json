@@ -1,0 +1,25 @@
+{
+    "name": "lunapress/core",
+    "description": "Core for plugins and wrappers",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Onepix",
+            "homepage": "https://onepix.net",
+            "role": "Company"
+        },
+        {
+            "name": "0zd0",
+            "role": "Lead Developer",
+            "homepage": "https://github.com/0zd0"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "LunaPress\\Core\\": "src/"
+        }
+    },
+    "require": {
+        "php": "^8.3"
+    }
+}
