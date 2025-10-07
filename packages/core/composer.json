@@ -20,6 +20,8 @@
         }
     },
     "require": {
-        "php": "^8.3"
+        "php": "^8.3",
+        "php-di/php-di": "^7.1",
+        "lunapress/core-contracts": "@dev"
     }
 }

@@ -15,11 +15,20 @@
         }
     ],
     "require": {
-        "php": "^8.3"
+        "lunapress/core-contracts": "@dev",
+        "php": "^8.3",
+        "php-di/php-di": "^7.1"
     },
     "require-dev": {
         "lunapress/static-analysis": "@dev",
+        "roots/wordpress": "^6.8.3",
         "symplify/monorepo-builder": "^12.2"
+    },
+    "replace": {
+        "lunapress/core": "self.version",
+        "lunapress/frontend": "self.version",
+        "lunapress/wp-assets": "self.version",
+        "lunapress/wp-core": "self.version"
     },
     "repositories": [
         {
@@ -34,11 +43,16 @@
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
+            "LunaPress\\Core\\": "packages/core/src/",
+            "LunaPress\\Frontend\\": "packages/frontend/src/",
+            "LunaPress\\Wp\\Assets\\": "packages/wp-assets/src/",
+            "LunaPress\\Wp\\Core\\": "packages/wp-core/src/"
         }
     },
     "config": {
         "allow-plugins": {
-            "dealerdirect/phpcodesniffer-composer-installer": true
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "roots/wordpress-core-installer": true
         }
     },
     "scripts": {

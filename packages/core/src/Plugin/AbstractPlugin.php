@@ -1,0 +1,214 @@
+<?php
+declare(strict_types=1);
+
+namespace LunaPress\Core\Plugin;
+
+use DI\ContainerBuilder;
+use DI\DependencyException;
+use DI\NotFoundException;
+use Exception;
+use LunaPress\CoreContracts\Module\IModule;
+use LunaPress\CoreContracts\Package\IPackage;
+use LunaPress\CoreContracts\Plugin\IConfig;
+use LunaPress\CoreContracts\Plugin\IConfigFactory;
+use LunaPress\CoreContracts\Plugin\IContext;
+use LunaPress\CoreContracts\Plugin\IContextFactory;
+use LunaPress\CoreContracts\Plugin\IPlugin;
+use LunaPress\CoreContracts\Hook\ISubscriberRegistry;
+use LunaPress\CoreContracts\Support\HasDi;
+use LunaPress\Core\DiProvider;
+use LunaPress\Core\Support\Singleton;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\ContainerInterface;
+use Psr\Container\NotFoundExceptionInterface;
+use ReflectionClass;
+use function DI\autowire;
+use function DI\factory;
+
+defined('ABSPATH') || exit;
+
+abstract class AbstractPlugin extends Singleton implements IPlugin
+{
+    protected ContainerInterface $container;
+    protected ISubscriberRegistry $subscriberRegistry;
+    private bool $initialized = false;
+
+    /**
+     * @return void
+     * @throws ContainerExceptionInterface
+     * @throws DependencyException
+     * @throws NotFoundException
+     * @throws NotFoundExceptionInterface
+     */
+    public function boot(): void
+    {
+        if (!$this->initialized) {
+            $this->init();
+        }
+
+        $this->registerLifecycle();
+
+        $this->registerModules($this->getModules());
+        $this->registerPackages($this->getPackages());
+    }
+
+    public function activate(): void {
+        /** @var IContext $context */
+        $context = $this->container->get(IContext::class);
+
+        $this->iteratePackages(function (IPackage $package) use ($context): void {
+            $package->activate($context);
+        });
+    }
+
+    public function deactivate(): void {
+        /** @var IContext $context */
+        $context = $this->container->get(IContext::class);
+
+        $this->iteratePackages(function (IPackage $package) use ($context): void {
+            $package->deactivate($context);
+        });
+    }
+
+
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    public function registerModule(IModule|string $module): void
+    {
+        if (is_string($module)) {
+            $module = $this->container->get($module);
+        }
+
+        $this->subscriberRegistry->registerMany($module->subscribers());
+    }
+
+    /**
+     * @param array $modules
+     * @return void
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    public function registerModules(array $modules): void
+    {
+        foreach ($modules as $module) {
+            $this->registerModule($module);
+        }
+    }
+
+    /**
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    public function registerPackage(IPackage|string $package): void
+    {
+        if (is_string($package)) {
+            $package = $this->container->get($package);
+        }
+
+        $this->registerModules($package->getModules());
+    }
+
+    /**
+     * @param array $packages
+     * @return void
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
+     */
+    public function registerPackages(array $packages): void
+    {
+        foreach ($packages as $package) {
+            $this->registerPackage($package);
+        }
+    }
+
+    public static function getDiPath(): ?string
+    {
+        $ref = new ReflectionClass(static::class);
+        $dir = dirname($ref->getFileName());
+
+        $path = $dir . '/di.php';
+
+        return file_exists($path) ? $path : null;
+    }
+
+    private function registerLifecycle(): void
+    {
+        $ref  = new ReflectionClass(static::class);
+        $file = $ref->getFileName();
+
+        register_activation_hook($file, $this->activate(...));
+        register_deactivation_hook($file, $this->deactivate(...));
+    }
+
+    /**
+     * @return void
+     * @throws ContainerExceptionInterface
+     * @throws DependencyException
+     * @throws NotFoundException
+     * @throws NotFoundExceptionInterface
+     * @throws Exception
+     */
+    protected function init(): void
+    {
+        $builder = new ContainerBuilder();
+
+        // Core
+        $this->addDiFile($builder, DiProvider::class);
+
+        // Plugin
+        $builder->addDefinitions([
+            IConfigFactory::class => autowire(PluginConfigFactory::class),
+            IConfig::class => factory(function (IConfigFactory $factory) {
+                return $factory->make($this);
+            }),
+
+            IContextFactory::class => autowire(PluginContextFactory::class),
+            IContext::class => factory(fn (PluginContextFactory $factory) => $factory->make($this)),
+        ]);
+        $this->addDiFile($builder, static::class);
+
+        // Packages
+        $this->iteratePackages(function (IPackage $package) use ($builder): void {
+            $this->addDiFile($builder, $package::class);
+        });
+
+        $this->container          = $builder->build();
+        $this->subscriberRegistry = $this->container->get(ISubscriberRegistry::class);
+
+        $this->initialized = true;
+    }
+
+    /**
+     * @param ContainerBuilder    $builder
+     * @param class-string<HasDi> $class
+     */
+    private function addDiFile(ContainerBuilder $builder, string $class): void
+    {
+        $path = $class::getDiPath();
+        if ($path && file_exists($path)) {
+            $builder->addDefinitions($path);
+        }
+    }
+
+    /**
+     * @param callable(IPackage): void $callback
+     */
+    private function iteratePackages(callable $callback): void
+    {
+        foreach ($this->getPackages() as $package) {
+            if (is_string($package)) {
+                if (!class_exists($package) || !is_a($package, IPackage::class, true)) {
+                    continue;
+                }
+
+                $package = new $package();
+            }
+
+            if ($package instanceof IPackage) {
+                $callback($package);
+            }
+        }
+    }
+}
