@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace LunaPress\Frontend;
 
-use LunaPress\CoreContracts\Package\IPackage;
-use LunaPress\CoreContracts\Plugin\IContext;
+use LunaPress\FoundationContracts\Package\IPackage;
+use LunaPress\FoundationContracts\Plugin\IContext;
 
 defined('ABSPATH') || exit;
 

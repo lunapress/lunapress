@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace LunaPress\Frontend\Modules\Vite;
 
-use LunaPress\CoreContracts\Module\IModule;
+use LunaPress\FoundationContracts\Module\IModule;
 
 defined('ABSPATH') || exit;
 

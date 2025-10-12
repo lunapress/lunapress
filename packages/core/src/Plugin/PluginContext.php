@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace LunaPress\Core\Plugin;
 
-use LunaPress\CoreContracts\Plugin\IContext;
+use LunaPress\CoreContracts\Plugin\IPluginContext;
 
 defined('ABSPATH') || exit;
 
-final readonly class PluginContext implements IContext
+final readonly class PluginContext implements IPluginContext
 {
     public function __construct(
         private string $namespace,

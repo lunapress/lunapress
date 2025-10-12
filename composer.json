@@ -16,6 +16,7 @@
     ],
     "require": {
         "lunapress/core-contracts": "@dev",
+        "lunapress/foundation-contracts": "@dev",
         "lunapress/frontend-contracts": "@dev",
         "lunapress/wp-assets-contracts": "@dev",
         "lunapress/wp-core-contracts": "@dev",
@@ -30,7 +31,9 @@
     },
     "replace": {
         "lunapress/core": "self.version",
+        "lunapress/foundation": "self.version",
         "lunapress/frontend": "self.version",
+        "lunapress/frontend-kit": "self.version",
         "lunapress/wp-assets": "self.version",
         "lunapress/wp-core": "self.version"
     },
@@ -48,6 +51,7 @@
     "autoload": {
         "psr-4": {
             "LunaPress\\Core\\": "packages/core/src/",
+            "LunaPress\\Foundation\\": "packages/foundation/src/",
             "LunaPress\\Frontend\\": "packages/frontend/src/",
             "LunaPress\\Wp\\Assets\\": "packages/wp-assets/src/",
             "LunaPress\\Wp\\Core\\": "packages/wp-core/src/"

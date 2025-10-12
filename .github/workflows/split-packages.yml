@@ -18,6 +18,8 @@ jobs:
       fail-fast: false
       matrix:
         package:
+          - local_path: 'foundation'
+            split_repository: 'foundation'
           - local_path: 'core'
             split_repository: 'core'
           - local_path: 'frontend'

@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace LunaPress\Core;
 
-use LunaPress\CoreContracts\Support\HasDi;
+use LunaPress\FoundationContracts\Support\HasDi;
 
 defined('ABSPATH') || exit;
 

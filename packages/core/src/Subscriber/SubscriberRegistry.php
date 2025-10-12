@@ -1,17 +1,20 @@
 <?php
 declare(strict_types=1);
 
-namespace LunaPress\Core\Hook;
+namespace LunaPress\Core\Subscriber;
 
-use LunaPress\CoreContracts\Hook\ActionSubscriber;
-use LunaPress\CoreContracts\Hook\DelayedSubscriber;
-use LunaPress\CoreContracts\Hook\FilterSubscriber;
-use LunaPress\CoreContracts\Hook\Subscriber;
+use LunaPress\Core\Hook\ActionManager;
+use LunaPress\Core\Hook\FilterManager;
+use LunaPress\Core\Hook\Hook;
+use LunaPress\CoreContracts\Subscriber\ActionSubscriber;
+use LunaPress\CoreContracts\Subscriber\DelayedSubscriber;
+use LunaPress\CoreContracts\Subscriber\FilterSubscriber;
+use LunaPress\FoundationContracts\Subscriber\Subscriber;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use ReflectionClass;
-use LunaPress\CoreContracts\Hook\ISubscriberRegistry;
+use LunaPress\CoreContracts\Subscriber\ISubscriberRegistry;
 
 defined('ABSPATH') || exit;
 

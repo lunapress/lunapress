@@ -7,17 +7,17 @@ use DI\ContainerBuilder;
 use DI\DependencyException;
 use DI\NotFoundException;
 use Exception;
-use LunaPress\CoreContracts\Module\IModule;
-use LunaPress\CoreContracts\Package\IPackage;
+use LunaPress\CoreContracts\Plugin\IPluginContext;
+use LunaPress\FoundationContracts\Module\IModule;
+use LunaPress\FoundationContracts\Package\IPackage;
 use LunaPress\CoreContracts\Plugin\IConfig;
 use LunaPress\CoreContracts\Plugin\IConfigFactory;
-use LunaPress\CoreContracts\Plugin\IContext;
-use LunaPress\CoreContracts\Plugin\IContextFactory;
+use LunaPress\CoreContracts\Plugin\IPluginContextFactory;
+use LunaPress\CoreContracts\Subscriber\ISubscriberRegistry;
 use LunaPress\CoreContracts\Plugin\IPlugin;
-use LunaPress\CoreContracts\Hook\ISubscriberRegistry;
-use LunaPress\CoreContracts\Support\HasDi;
+use LunaPress\FoundationContracts\Support\HasDi;
 use LunaPress\Core\DiProvider;
-use LunaPress\Core\Support\Singleton;
+use LunaPress\Foundation\Support\Singleton;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -53,8 +53,8 @@ abstract class AbstractPlugin extends Singleton implements IPlugin
     }
 
     public function activate(): void {
-        /** @var IContext $context */
-        $context = $this->container->get(IContext::class);
+        /** @var IPluginContext $context */
+        $context = $this->container->get(IPluginContext::class);
 
         $this->iteratePackages(function (IPackage $package) use ($context): void {
             $package->activate($context);
@@ -62,8 +62,8 @@ abstract class AbstractPlugin extends Singleton implements IPlugin
     }
 
     public function deactivate(): void {
-        /** @var IContext $context */
-        $context = $this->container->get(IContext::class);
+        /** @var IPluginContext $context */
+        $context = $this->container->get(IPluginContext::class);
 
         $this->iteratePackages(function (IPackage $package) use ($context): void {
             $package->deactivate($context);
@@ -164,8 +164,8 @@ abstract class AbstractPlugin extends Singleton implements IPlugin
                 return $factory->make($this);
             }),
 
-            IContextFactory::class => autowire(PluginContextFactory::class),
-            IContext::class => factory(fn (PluginContextFactory $factory) => $factory->make($this)),
+            IPluginContextFactory::class => autowire(PluginContextFactory::class),
+            IPluginContext::class => factory(fn (PluginContextFactory $factory) => $factory->make($this)),
         ]);
         $this->addDiFile($builder, static::class);
 
