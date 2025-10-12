@@ -3,25 +3,12 @@ declare(strict_types=1);
 
 namespace LunaPress\Frontend;
 
-use LunaPress\FoundationContracts\Package\IPackage;
-use LunaPress\FoundationContracts\Plugin\IContext;
+use LunaPress\Foundation\Package\AbstractPackage;
 
 defined('ABSPATH') || exit;
 
-final readonly class FrontendPackage implements IPackage
+final class FrontendPackage extends AbstractPackage
 {
-    public function activate(IContext $context): void
-    {
-    }
-
-    public function boot(): void
-    {
-    }
-
-    public function deactivate(IContext $context): void
-    {
-    }
-
     /**
      * @inheritDoc
      */

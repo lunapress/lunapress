@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace LunaPress\Frontend\Modules\Vite;
 
-use LunaPress\FoundationContracts\Module\IModule;
+use LunaPress\Foundation\Module\AbstractModule;
 
 defined('ABSPATH') || exit;
 
-final readonly class ViteModule implements IModule
+final class ViteModule extends AbstractModule
 {
     /**
      * @inheritDoc

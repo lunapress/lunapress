@@ -1,11 +1,15 @@
 <?php
 declare(strict_types=1);
 
+// @phpcs:ignore LunaPressStandard.WP.AbspathAfterNamespace
 namespace LunaPress\Foundation\Container;
 
 use Closure;
 
-defined('ABSPATH') || exit;
+// for composer autoload
+if (!defined('ABSPATH')) {
+    return;
+}
 
 function autowire(string $class): AutowireDefinition
 {
