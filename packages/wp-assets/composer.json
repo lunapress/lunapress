@@ -22,6 +22,7 @@
     "require": {
         "php": "^8.3",
         "psr/container": "^2",
+        "lunapress/foundation": "@dev",
         "lunapress/core-contracts": "@dev",
         "lunapress/wp-assets-contracts": "@dev"
     }

@@ -55,7 +55,10 @@
             "LunaPress\\Frontend\\": "packages/frontend/src/",
             "LunaPress\\Wp\\Assets\\": "packages/wp-assets/src/",
             "LunaPress\\Wp\\Core\\": "packages/wp-core/src/"
-        }
+        },
+        "files": [
+            "packages/foundation/src/Container/functions.php"
+        ]
     },
     "config": {
         "allow-plugins": {

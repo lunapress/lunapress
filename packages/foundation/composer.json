@@ -17,7 +17,8 @@
     "autoload": {
         "psr-4": {
             "LunaPress\\Foundation\\": "src/"
-        }
+        },
+        "files": ["src/Container/functions.php"]
     },
     "require": {
         "php": "^8.3",
