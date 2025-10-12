@@ -13,7 +13,7 @@ use LunaPress\FrontendContracts\Vite\IViteEntry;
 use LunaPress\FrontendContracts\Vite\IViteManifest;
 use LunaPress\FrontendContracts\Vite\IViteManifestReader;
 use LunaPress\FrontendContracts\Vite\IViteModeDetector;
-use function DI\autowire;
+use function LunaPress\Foundation\Container\autowire;
 
 return [
     IViteConfig::class => autowire(WpViteConfig::class),
