@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "03c5ddc0f1e59daa959ca78f0f0cb693",
+    "content-hash": "f83bf60e63ebf6dc3d73c407f04623aa",
     "packages": [
         {
             "name": "laravel/serializable-closure",
@@ -73,12 +73,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lunapress/core-contracts.git",
-                "reference": "438b76ed129a5c2443f41ea4f44817d738347263"
+                "reference": "8efe9de9fc8dde90daef08fe7efa7244c5efc202"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lunapress/core-contracts/zipball/438b76ed129a5c2443f41ea4f44817d738347263",
-                "reference": "438b76ed129a5c2443f41ea4f44817d738347263",
+                "url": "https://api.github.com/repos/lunapress/core-contracts/zipball/8efe9de9fc8dde90daef08fe7efa7244c5efc202",
+                "reference": "8efe9de9fc8dde90daef08fe7efa7244c5efc202",
                 "shasum": ""
             },
             "require": {
@@ -110,7 +110,7 @@
                 "issues": "https://github.com/lunapress/core-contracts/issues",
                 "source": "https://github.com/lunapress/core-contracts/tree/main"
             },
-            "time": "2025-10-12T02:14:46+00:00"
+            "time": "2025-10-12T05:33:35+00:00"
         },
         {
             "name": "lunapress/foundation-contracts",

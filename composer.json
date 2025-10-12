@@ -34,6 +34,7 @@
         "lunapress/foundation": "self.version",
         "lunapress/frontend": "self.version",
         "lunapress/frontend-kit": "self.version",
+        "lunapress/php-di-adapter": "self.version",
         "lunapress/wp-assets": "self.version",
         "lunapress/wp-core": "self.version"
     },
@@ -53,6 +54,7 @@
             "LunaPress\\Core\\": "packages/core/src/",
             "LunaPress\\Foundation\\": "packages/foundation/src/",
             "LunaPress\\Frontend\\": "packages/frontend/src/",
+            "LunaPress\\PhpDiAdapter\\": "packages/php-di-adapter/src/",
             "LunaPress\\Wp\\Assets\\": "packages/wp-assets/src/",
             "LunaPress\\Wp\\Core\\": "packages/wp-core/src/"
         },

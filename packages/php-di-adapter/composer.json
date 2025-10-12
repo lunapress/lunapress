@@ -1,6 +1,6 @@
 {
-    "name": "lunapress/core",
-    "description": "Core for plugins and wrappers",
+    "name": "lunapress/php-di-adapter",
+    "description": "Adapter package that integrates PHP-DI as the dependency injection implementation",
     "type": "library",
     "authors": [
         {
@@ -16,12 +16,14 @@
     ],
     "autoload": {
         "psr-4": {
-            "LunaPress\\Core\\": "src/"
+            "LunaPress\\PhpDiAdapter\\": "src/"
         }
+    },
+    "suggest": {
     },
     "require": {
         "php": "^8.3",
-        "lunapress/core-contracts": "@dev",
+        "php-di/php-di": "^7.1",
         "lunapress/foundation": "@dev"
     }
 }

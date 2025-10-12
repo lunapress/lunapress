@@ -3,11 +3,9 @@ declare(strict_types=1);
 
 namespace LunaPress\Core\Plugin;
 
-use DI\ContainerBuilder;
-use DI\DependencyException;
-use DI\NotFoundException;
 use Exception;
 use LunaPress\CoreContracts\Plugin\IPluginContext;
+use LunaPress\FoundationContracts\Container\IContainerBuilder;
 use LunaPress\FoundationContracts\Module\IModule;
 use LunaPress\FoundationContracts\Package\IPackage;
 use LunaPress\CoreContracts\Plugin\IConfig;
@@ -22,8 +20,9 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use ReflectionClass;
-use function DI\autowire;
-use function DI\factory;
+use RuntimeException;
+use function LunaPress\Foundation\Container\autowire;
+use function LunaPress\Foundation\Container\factory;
 
 defined('ABSPATH') || exit;
 
@@ -31,18 +30,24 @@ abstract class AbstractPlugin extends Singleton implements IPlugin
 {
     protected ContainerInterface $container;
     protected ISubscriberRegistry $subscriberRegistry;
-    private bool $initialized = false;
+    protected ?IContainerBuilder $containerBuilder = null;
+    private bool $initialized                      = false;
 
     /**
      * @return void
      * @throws ContainerExceptionInterface
-     * @throws DependencyException
-     * @throws NotFoundException
      * @throws NotFoundExceptionInterface
      */
     public function boot(): void
     {
         if (!$this->initialized) {
+            if (!$this->containerBuilder) {
+                throw new RuntimeException(
+                    'No DI container builder provided. ' .
+                    'Call ->setContainerBuilder() before boot().'
+                );
+            }
+
             $this->init();
         }
 
@@ -50,6 +55,13 @@ abstract class AbstractPlugin extends Singleton implements IPlugin
 
         $this->registerModules($this->getModules());
         $this->registerPackages($this->getPackages());
+    }
+
+    public function setContainerBuilder(IContainerBuilder $builder): self
+    {
+        $this->containerBuilder = $builder;
+
+        return $this;
     }
 
     public function activate(): void {
@@ -145,14 +157,12 @@ abstract class AbstractPlugin extends Singleton implements IPlugin
     /**
      * @return void
      * @throws ContainerExceptionInterface
-     * @throws DependencyException
-     * @throws NotFoundException
      * @throws NotFoundExceptionInterface
      * @throws Exception
      */
     protected function init(): void
     {
-        $builder = new ContainerBuilder();
+        $builder = $this->containerBuilder;
 
         // Core
         $this->addDiFile($builder, DiProvider::class);
@@ -181,10 +191,10 @@ abstract class AbstractPlugin extends Singleton implements IPlugin
     }
 
     /**
-     * @param ContainerBuilder    $builder
+     * @param IContainerBuilder    $builder
      * @param class-string<HasDi> $class
      */
-    private function addDiFile(ContainerBuilder $builder, string $class): void
+    private function addDiFile(IContainerBuilder $builder, string $class): void
     {
         $path = $class::getDiPath();
         if ($path && file_exists($path)) {

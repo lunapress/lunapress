@@ -22,6 +22,8 @@ jobs:
             split_repository: 'foundation'
           - local_path: 'core'
             split_repository: 'core'
+          - local_path: 'php-di-adapter'
+            split_repository: 'php-di-adapter'
           - local_path: 'frontend'
             split_repository: 'frontend'
           - local_path: 'wp-core'
