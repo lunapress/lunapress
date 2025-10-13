@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace LunaPress\Foundation\Support;
 
+use Exception;
+
 defined('ABSPATH') || exit;
 
 abstract class Singleton
@@ -23,7 +25,12 @@ abstract class Singleton
 
     final protected function __clone(): void {
     }
-    final protected function __wakeup(): void {
+    /**
+     * @throws Exception
+     */
+    final public function __wakeup(): void
+    {
+        throw new Exception('Cannot unserialize a singleton.');
     }
     final private function __construct()
     {

@@ -5,6 +5,7 @@ namespace LunaPress\Core\Loader;
 
 use LunaPress\Core\Plugin\AbstractPlugin;
 use LunaPress\CoreContracts\Support\ILoader;
+use LunaPress\Foundation\PackageMeta\PackageMetaFactory;
 use LunaPress\FoundationContracts\Container\IContainerBuilder;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -26,7 +27,7 @@ final readonly class PluginLoader implements ILoader
      */
     public function load(): void
     {
-        (new ContainerLoader($this->plugin, $this->builder))->load();
+        (new ContainerLoader($this->plugin, $this->builder, new PackageMetaFactory()))->load();
 
         $container = $this->plugin->getContainer();
 

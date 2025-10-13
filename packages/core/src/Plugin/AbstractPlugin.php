@@ -84,6 +84,13 @@ abstract class AbstractPlugin extends Singleton implements IPlugin
         return file_exists($path) ? $path : null;
     }
 
+    public function getComposerAutoLoaders(): array
+    {
+        return [
+            \Composer\Autoload\ClassLoader::class,
+        ];
+    }
+
     /**
      * @return ContainerInterface
      */

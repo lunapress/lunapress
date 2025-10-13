@@ -36,7 +36,8 @@
         "lunapress/frontend-kit": "self.version",
         "lunapress/php-di-adapter": "self.version",
         "lunapress/wp-assets": "self.version",
-        "lunapress/wp-core": "self.version"
+        "lunapress/wp-core": "self.version",
+        "symfony/polyfill-php83": "*"
     },
     "repositories": [
         {

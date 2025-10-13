@@ -13,6 +13,8 @@ use LunaPress\CoreContracts\Plugin\IPluginContext;
 use LunaPress\CoreContracts\Plugin\IPluginContextFactory;
 use LunaPress\CoreContracts\Support\ILoader;
 use LunaPress\FoundationContracts\Container\IContainerBuilder;
+use LunaPress\FoundationContracts\PackageMeta\IPackageMetaFactory;
+use LunaPress\FoundationContracts\ServicePackage\IServicePackageMeta;
 use LunaPress\FoundationContracts\Support\HasDi;
 use function LunaPress\Foundation\Container\autowire;
 use function LunaPress\Foundation\Container\factory;
@@ -24,6 +26,7 @@ final readonly class ContainerLoader implements ILoader
     public function __construct(
         private AbstractPlugin $plugin,
         private IContainerBuilder $builder,
+        private IPackageMetaFactory $metaFactory,
     ) {
     }
 
@@ -47,6 +50,13 @@ final readonly class ContainerLoader implements ILoader
         // Packages
         foreach ($this->plugin->getPackages() as $package) {
             $this->addDiFile(is_string($package) ? $package : $package::class);
+        }
+
+        // Service Packages
+        foreach ($this->metaFactory->createAll() as $meta) {
+            if ($meta instanceof IServicePackageMeta && $meta->getDiPath()) {
+                $this->builder->addDefinitions($meta->getDiPath());
+            }
         }
 
         $this->plugin->setContainer($this->builder->build());

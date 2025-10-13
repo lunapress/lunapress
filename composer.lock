@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "f83bf60e63ebf6dc3d73c407f04623aa",
+    "content-hash": "d79e048615eebe49484214a9c8e444e6",
     "packages": [
         {
             "name": "laravel/serializable-closure",
@@ -73,12 +73,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lunapress/core-contracts.git",
-                "reference": "2a448096ff108da899c1b7204cdbc3c10095496d"
+                "reference": "bcda264ca4abbc7b1cc214eb804b1622ba5673a7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lunapress/core-contracts/zipball/2a448096ff108da899c1b7204cdbc3c10095496d",
-                "reference": "2a448096ff108da899c1b7204cdbc3c10095496d",
+                "url": "https://api.github.com/repos/lunapress/core-contracts/zipball/bcda264ca4abbc7b1cc214eb804b1622ba5673a7",
+                "reference": "bcda264ca4abbc7b1cc214eb804b1622ba5673a7",
                 "shasum": ""
             },
             "require": {
@@ -110,7 +110,7 @@
                 "issues": "https://github.com/lunapress/core-contracts/issues",
                 "source": "https://github.com/lunapress/core-contracts/tree/main"
             },
-            "time": "2025-10-12T23:21:29+00:00"
+            "time": "2025-10-13T19:29:29+00:00"
         },
         {
             "name": "lunapress/foundation-contracts",
@@ -118,12 +118,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lunapress/foundation-contracts.git",
-                "reference": "c9f729e4b97b654c3d4d16a484c4c3a7f044ca79"
+                "reference": "3c3bfee115162d7cedddfba570e80f6ed0bf0f45"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lunapress/foundation-contracts/zipball/c9f729e4b97b654c3d4d16a484c4c3a7f044ca79",
-                "reference": "c9f729e4b97b654c3d4d16a484c4c3a7f044ca79",
+                "url": "https://api.github.com/repos/lunapress/foundation-contracts/zipball/3c3bfee115162d7cedddfba570e80f6ed0bf0f45",
+                "reference": "3c3bfee115162d7cedddfba570e80f6ed0bf0f45",
                 "shasum": ""
             },
             "require": {
@@ -155,7 +155,7 @@
                 "issues": "https://github.com/lunapress/foundation-contracts/issues",
                 "source": "https://github.com/lunapress/foundation-contracts/tree/main"
             },
-            "time": "2025-10-12T02:52:37+00:00"
+            "time": "2025-10-13T20:08:20+00:00"
         },
         {
             "name": "lunapress/frontend-contracts",
@@ -5129,86 +5129,6 @@
                 }
             ],
             "time": "2024-12-23T08:48:59+00:00"
-        },
-        {
-            "name": "symfony/polyfill-php83",
-            "version": "v1.33.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/polyfill-php83.git",
-                "reference": "17f6f9a6b1735c0f163024d959f700cfbc5155e5"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/polyfill-php83/zipball/17f6f9a6b1735c0f163024d959f700cfbc5155e5",
-                "reference": "17f6f9a6b1735c0f163024d959f700cfbc5155e5",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.2"
-            },
-            "type": "library",
-            "extra": {
-                "thanks": {
-                    "url": "https://github.com/symfony/polyfill",
-                    "name": "symfony/polyfill"
-                }
-            },
-            "autoload": {
-                "files": [
-                    "bootstrap.php"
-                ],
-                "psr-4": {
-                    "Symfony\\Polyfill\\Php83\\": ""
-                },
-                "classmap": [
-                    "Resources/stubs"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Nicolas Grekas",
-                    "email": "p@tchwork.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony polyfill backporting some PHP 8.3+ features to lower PHP versions",
-            "homepage": "https://symfony.com",
-            "keywords": [
-                "compatibility",
-                "polyfill",
-                "portable",
-                "shim"
-            ],
-            "support": {
-                "source": "https://github.com/symfony/polyfill-php83/tree/v1.33.0"
-            },
-            "funding": [
-                {
-                    "url": "https://symfony.com/sponsor",
-                    "type": "custom"
-                },
-                {
-                    "url": "https://github.com/fabpot",
-                    "type": "github"
-                },
-                {
-                    "url": "https://github.com/nicolas-grekas",
-                    "type": "github"
-                },
-                {
-                    "url": "https://tidelift.com/funding/github/packagist/symfony/symfony",
-                    "type": "tidelift"
-                }
-            ],
-            "time": "2025-07-08T02:45:35+00:00"
         },
         {
             "name": "symfony/polyfill-php84",
