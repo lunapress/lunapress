@@ -1,7 +1,7 @@
 {
     "name": "lunapress/wp-core",
     "description": "Wrapper for WP functions",
-    "type": "library",
+    "type": "lunapress-service-package",
     "authors": [
         {
             "name": "Onepix",
@@ -17,6 +17,11 @@
     "autoload": {
         "psr-4": {
             "LunaPress\\Wp\\Core\\": "src/"
+        }
+    },
+    "extra": {
+        "lunapress": {
+            "di": "src/di.php"
         }
     },
     "require": {
