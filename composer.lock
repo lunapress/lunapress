@@ -73,12 +73,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lunapress/core-contracts.git",
-                "reference": "8efe9de9fc8dde90daef08fe7efa7244c5efc202"
+                "reference": "2a448096ff108da899c1b7204cdbc3c10095496d"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lunapress/core-contracts/zipball/8efe9de9fc8dde90daef08fe7efa7244c5efc202",
-                "reference": "8efe9de9fc8dde90daef08fe7efa7244c5efc202",
+                "url": "https://api.github.com/repos/lunapress/core-contracts/zipball/2a448096ff108da899c1b7204cdbc3c10095496d",
+                "reference": "2a448096ff108da899c1b7204cdbc3c10095496d",
                 "shasum": ""
             },
             "require": {
@@ -110,7 +110,7 @@
                 "issues": "https://github.com/lunapress/core-contracts/issues",
                 "source": "https://github.com/lunapress/core-contracts/tree/main"
             },
-            "time": "2025-10-12T05:33:35+00:00"
+            "time": "2025-10-12T23:21:29+00:00"
         },
         {
             "name": "lunapress/foundation-contracts",

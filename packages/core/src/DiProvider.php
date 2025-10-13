@@ -11,8 +11,7 @@ final readonly class DiProvider implements HasDi
 {
     public static function getDiPath(): ?string
     {
-        $base = dirname(__DIR__, 1);
-        $path = $base . '/di.php';
+        $path = __DIR__ . '/di.php';
 
         return file_exists($path) ? $path : null;
     }
