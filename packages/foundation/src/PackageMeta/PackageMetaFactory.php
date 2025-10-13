@@ -3,13 +3,13 @@ declare(strict_types=1);
 
 namespace LunaPress\Foundation\PackageMeta;
 
-use Composer\InstalledVersions;
+use LunaPress\Foundation\Composer\ComposerManager;
 use LunaPress\Foundation\ServicePackage\ServicePackageMeta;
+use LunaPress\FoundationContracts\Composer\IComposerManager;
 use LunaPress\FoundationContracts\PackageMeta\IPackageMetaFactory;
 use LunaPress\FoundationContracts\PackageMeta\PackageMeta;
 use LunaPress\FoundationContracts\PackageMeta\PackageType;
 use Override;
-use ReflectionClass;
 use ReflectionException;
 
 defined('ABSPATH') || exit;
@@ -20,12 +20,15 @@ final readonly class PackageMetaFactory implements IPackageMetaFactory
      * @var array<string, callable(string,array): PackageMeta>
      */
     private array $map;
+    private IComposerManager $composerManager;
 
     public function __construct()
     {
         $this->map = [
             PackageType::SERVICE->value => $this->makeServicePackage(...),
         ];
+
+        $this->composerManager = new ComposerManager(self::class);
     }
 
     /**
@@ -33,33 +36,26 @@ final readonly class PackageMetaFactory implements IPackageMetaFactory
      * @throws ReflectionException
      */
     #[Override]
-    public function createAll(array $autoLoaders = []): iterable
+    public function createAll(): iterable
     {
-        foreach ($autoLoaders as $loaderClass) {
-            $ref  = new ReflectionClass($loaderClass);
-            $json = dirname($ref->getFileName(), 2) . '/composer/installed.json';
-            if (!is_file($json)) {
-                continue;
-            }
-
-            // phpcs:ignore WordPress.WP.AlternativeFunctions.file_get_contents_file_get_contents
-            $data     = json_decode(file_get_contents($json), true);
-            $packages = array_column($data['packages'] ?? [], null, 'name');
-
-            foreach ($packages as $name => $info) {
-                $meta = $this->build($name, $info);
-                if ($meta) {
-                    yield $meta;
-                }
+        $packages = $this->composerManager->getInstalledPackages();
+        foreach ($packages as $name => $info) {
+            $meta = $this->build($name, $info);
+            if ($meta) {
+                yield $meta;
             }
         }
     }
 
+    /**
+     * @param string $packageName
+     * @return PackageMeta|null
+     * @throws ReflectionException
+     */
     #[Override]
     public function create(string $packageName): ?PackageMeta
     {
-        $packages = InstalledVersions::getAllRawData()[0]['versions'] ?? [];
-        $info     = $packages[$packageName] ?? null;
+        $info = $this->composerManager->getInstalledPackages()[$packageName] ?? null;
 
         return $info ? $this->build($packageName, $info) : null;
     }
@@ -72,9 +68,15 @@ final readonly class PackageMetaFactory implements IPackageMetaFactory
         return $maker ? $maker($name, $info) : null;
     }
 
+    /**
+     * @param string $name
+     * @param array $info
+     * @return PackageMeta|null
+     * @throws ReflectionException
+     */
     private function makeServicePackage(string $name, array $info): ?PackageMeta
     {
-        $baseDir = InstalledVersions::getInstallPath($name);
+        $baseDir = $this->composerManager->getInstallPath($name);
 
         if ($baseDir === null) {
             return null;
