@@ -1,9 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace LunaPress\Core\Subscriber;
+namespace LunaPress\Foundation\Subscriber;
 
-use LunaPress\CoreContracts\Subscriber\DelayedSubscriber;
+use LunaPress\FoundationContracts\Subscriber\DelayedSubscriber;
 
 defined('ABSPATH') || exit;
 
