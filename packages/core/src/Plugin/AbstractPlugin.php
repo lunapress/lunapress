@@ -10,6 +10,7 @@ use LunaPress\FoundationContracts\Container\IContainerBuilder;
 use LunaPress\FoundationContracts\Package\IPackage;
 use LunaPress\CoreContracts\Plugin\IPlugin;
 use LunaPress\Foundation\Support\Singleton;
+use Override;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
@@ -22,20 +23,25 @@ abstract class AbstractPlugin extends Singleton implements IPlugin
 {
     use PackageIterator;
 
+    protected string $callerFile;
     protected ContainerInterface $container;
     protected ?IContainerBuilder $containerBuilder = null;
     private bool $initialized                      = false;
 
     /**
+     * @param string $callerFile
      * @return void
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function boot(): void
+    #[Override]
+    public function boot(string $callerFile): void
     {
         if ($this->initialized) {
             return;
         }
+
+        $this->callerFile = $callerFile;
 
         if (!$this->containerBuilder) {
             throw new RuntimeException(
@@ -49,6 +55,7 @@ abstract class AbstractPlugin extends Singleton implements IPlugin
         $this->initialized = true;
     }
 
+    #[Override]
     public function setContainerBuilder(IContainerBuilder $builder): self
     {
         $this->containerBuilder = $builder;
@@ -56,6 +63,7 @@ abstract class AbstractPlugin extends Singleton implements IPlugin
         return $this;
     }
 
+    #[Override]
     public function activate(): void {
         /** @var IPluginContext $context */
         $context = $this->container->get(IPluginContext::class);
@@ -65,6 +73,7 @@ abstract class AbstractPlugin extends Singleton implements IPlugin
         });
     }
 
+    #[Override]
     public function deactivate(): void {
         /** @var IPluginContext $context */
         $context = $this->container->get(IPluginContext::class);
@@ -74,6 +83,7 @@ abstract class AbstractPlugin extends Singleton implements IPlugin
         });
     }
 
+    #[Override]
     public static function getDiPath(): ?string
     {
         $ref = new ReflectionClass(static::class);
@@ -82,6 +92,12 @@ abstract class AbstractPlugin extends Singleton implements IPlugin
         $path = $dir . '/di.php';
 
         return file_exists($path) ? $path : null;
+    }
+
+    #[Override]
+    public function getCallerFile(): string
+    {
+        return $this->callerFile;
     }
 
     /**

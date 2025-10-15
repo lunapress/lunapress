@@ -15,18 +15,13 @@ final readonly class PluginConfigFactory implements IConfigFactory
 {
     public function make(IPlugin $plugin): IConfig
     {
-        $reflection = new ReflectionClass($plugin);
-        $file       = $reflection->getFileName();
-
-        if ($file === false) {
-            throw new RuntimeException('Unable to resolve plugin file path.');
-        }
+        $file = $plugin->getCallerFile();
 
         $pluginPath = untrailingslashit(plugin_dir_path($file));
         $pluginUrl  = untrailingslashit(plugin_dir_url($file));
 
         $pluginData = get_plugin_data($file, false, false);
-        $version    = $pluginData['Version'] ?? '1.0.0';
+        $version    = $pluginData['Version'];
 
         return new PluginConfig(
             $version,
