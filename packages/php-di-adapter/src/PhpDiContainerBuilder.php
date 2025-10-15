@@ -12,6 +12,7 @@ use LunaPress\Foundation\Container\AutowireDefinition;
 use LunaPress\Foundation\Container\FactoryDefinition;
 use LunaPress\FoundationContracts\Container\IContainerBuilder;
 use LunaPress\FoundationContracts\Container\IDefinition;
+use Override;
 use Psr\Container\ContainerInterface;
 use function DI\autowire;
 use function DI\factory;
@@ -21,12 +22,15 @@ defined('ABSPATH') || exit;
 final class PhpDiContainerBuilder implements IContainerBuilder
 {
     private ContainerBuilder $builder;
+    private bool $cacheEnabled = true;
+    private ?string $cachePath = null;
 
     public function __construct()
     {
         $this->builder = new ContainerBuilder();
     }
 
+    #[Override]
     public function addDefinitions(string|array $definitions): void
     {
         // path
@@ -49,9 +53,33 @@ final class PhpDiContainerBuilder implements IContainerBuilder
      * @return ContainerInterface
      * @throws Exception
      */
+    #[Override]
     public function build(): ContainerInterface
     {
+        if ($this->isCacheEnabled() && !is_null($this->cachePath)) {
+            $this->builder->enableCompilation($this->cachePath);
+        }
+
         return $this->builder->build();
+    }
+
+    #[Override]
+    public function enableCache(string $path): void
+    {
+        $this->cacheEnabled = true;
+        $this->cachePath    = $path;
+    }
+
+    #[Override]
+    public function disableCache(): void
+    {
+        $this->cacheEnabled = false;
+    }
+
+    #[Override]
+    public function isCacheEnabled(): bool
+    {
+        return $this->cacheEnabled;
     }
 
     private function convertDefinition(IDefinition $definition): AutowireDefinitionHelper|FactoryDefinitionHelper

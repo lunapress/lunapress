@@ -12,7 +12,7 @@ use RuntimeException;
 
 defined('ABSPATH') || exit;
 
-class ComposerManager implements IComposerManager
+final class ComposerManager implements IComposerManager
 {
     private ?string $loaderPath   = null;
     private ?array $installedJson = null;

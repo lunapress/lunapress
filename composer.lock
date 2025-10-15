@@ -118,12 +118,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lunapress/foundation-contracts.git",
-                "reference": "c97dd0e9944e594b65b360d281f42f924fbb38f4"
+                "reference": "ddf255c8ade44fd7337b31ccf424affc3d75e8e3"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lunapress/foundation-contracts/zipball/c97dd0e9944e594b65b360d281f42f924fbb38f4",
-                "reference": "c97dd0e9944e594b65b360d281f42f924fbb38f4",
+                "url": "https://api.github.com/repos/lunapress/foundation-contracts/zipball/ddf255c8ade44fd7337b31ccf424affc3d75e8e3",
+                "reference": "ddf255c8ade44fd7337b31ccf424affc3d75e8e3",
                 "shasum": ""
             },
             "require": {
@@ -155,7 +155,7 @@
                 "issues": "https://github.com/lunapress/foundation-contracts/issues",
                 "source": "https://github.com/lunapress/foundation-contracts/tree/main"
             },
-            "time": "2025-10-15T19:49:33+00:00"
+            "time": "2025-10-15T23:44:03+00:00"
         },
         {
             "name": "lunapress/frontend-contracts",
