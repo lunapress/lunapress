@@ -1,7 +1,8 @@
 {
-    "name": "lunapress/frontend-kit",
-    "description": "Complete frontend package with required LunaPress implementations",
-    "type": "metapackage",
+    "name": "lunapress/cli",
+    "description": "CLI for development",
+    "type": "library",
+    "bin": ["bin/lunapress"],
     "authors": [
         {
             "name": "Onepix",
@@ -14,11 +15,14 @@
             "homepage": "https://github.com/0zd0"
         }
     ],
+    "autoload": {
+        "psr-4": {
+            "LunaPress\\Cli\\": "src/"
+        }
+    },
     "require": {
         "php": "^8.3",
-        "psr/container": "^2",
-        "lunapress/core": "@dev",
-        "lunapress/wp-assets": "@dev",
-        "lunapress/frontend": "@dev"
+        "symfony/console": "^v7",
+        "mustache/mustache": "^v3.0.0"
     }
 }

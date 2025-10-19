@@ -20,24 +20,16 @@
         "lunapress/frontend-contracts": "@dev",
         "lunapress/wp-assets-contracts": "@dev",
         "lunapress/wp-core-contracts": "@dev",
+        "mustache/mustache": "^v3.0.0",
         "php": "^8.3",
         "php-di/php-di": "^7.1",
-        "psr/container": "^2"
+        "psr/container": "^2",
+        "symfony/console": "^v7"
     },
     "require-dev": {
         "lunapress/static-analysis": "@dev",
         "roots/wordpress": "^6.8.3",
         "symplify/monorepo-builder": "^12.2"
-    },
-    "replace": {
-        "lunapress/core": "self.version",
-        "lunapress/foundation": "self.version",
-        "lunapress/frontend": "self.version",
-        "lunapress/frontend-kit": "self.version",
-        "lunapress/php-di-adapter": "self.version",
-        "lunapress/wp-assets": "self.version",
-        "lunapress/wp-core": "self.version",
-        "symfony/polyfill-php83": "*"
     },
     "repositories": [
         {
@@ -48,10 +40,9 @@
             "url": "packages/*"
         }
     ],
-    "minimum-stability": "dev",
-    "prefer-stable": true,
     "autoload": {
         "psr-4": {
+            "LunaPress\\Cli\\": "packages/cli/src/",
             "LunaPress\\Core\\": "packages/core/src/",
             "LunaPress\\Foundation\\": "packages/foundation/src/",
             "LunaPress\\Frontend\\": "packages/frontend/src/",
@@ -63,6 +54,24 @@
             "packages/foundation/src/Container/functions.php"
         ]
     },
+    "extra": {
+        "lunapress": {
+            "di": "src/di.php"
+        }
+    },
+    "replace": {
+        "lunapress/cli": "self.version",
+        "lunapress/core": "self.version",
+        "lunapress/foundation": "self.version",
+        "lunapress/frontend": "self.version",
+        "lunapress/frontend-kit": "self.version",
+        "lunapress/php-di-adapter": "self.version",
+        "lunapress/wp-assets": "self.version",
+        "lunapress/wp-core": "self.version",
+        "symfony/polyfill-php83": "*"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
     "config": {
         "allow-plugins": {
             "dealerdirect/phpcodesniffer-composer-installer": true,
