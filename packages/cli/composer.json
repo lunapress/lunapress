@@ -20,9 +20,19 @@
             "LunaPress\\Cli\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "LunaPress\\Cli\\Test\\": "tests/"
+        }
+    },
     "require": {
         "php": "^8.3",
         "symfony/console": "^v7",
         "mustache/mustache": "^v3.0.0"
+    },
+    "require-dev": {
+        "pestphp/pest": "^v4",
+        "mikey179/vfsstream": "^v1.6.12",
+        "mockery/mockery": "^1.6.12"
     }
 }

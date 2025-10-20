@@ -1,10 +1,12 @@
 #!/usr/bin/env php
 <?php
 
+use LunaPress\Cli\Frontend\Init\FrontendInitCommand;
 use Symfony\Component\Console\Application;
 
 include $_composer_autoload_path ?? __DIR__ . '/../../../vendor/autoload.php';
 
 $app = new Application('LunaPress CLI', '1.0.0');
 
+$app->add(new FrontendInitCommand());
 $app->run();

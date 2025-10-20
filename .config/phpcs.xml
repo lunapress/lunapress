@@ -3,4 +3,8 @@
     <rule ref="../vendor/lunapress/coding-standards/LunaPressStandard/ruleset.xml" />
 
     <file>../packages</file>
+
+    <rule ref="LunaPressStandard.WP.AbspathAfterNamespace">
+        <exclude-pattern type="relative">*/tests/*</exclude-pattern>
+    </rule>
 </ruleset>

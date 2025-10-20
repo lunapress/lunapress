@@ -1,1 +1,1 @@
-# LunaPress Core
+# LunaPress CLI
