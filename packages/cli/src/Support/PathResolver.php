@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace LunaPress\Cli\Support;
 
+use LunaPress\Cli\Frontend\Init\FrontendInitConfig;
 use Override;
 use RuntimeException;
 use Symfony\Component\Filesystem\Filesystem;
@@ -31,6 +32,12 @@ final readonly class PathResolver implements IPathResolver
     public function cwd(): string
     {
         return $this->workingDirectory->current();
+    }
+
+    #[Override]
+    public function frontendInitPath(FrontendInitConfig $config): string
+    {
+        return Path::join($this->cwd(), $config->directory);
     }
 
     private function findPackageRoot(string $dir): string

@@ -15,6 +15,6 @@
         </include>
     </source>
     <php>
-        <const name="ABSPATH" value="/tmp" />
+        <const name="ABSPATH" value="/wordpress" />
     </php>
 </phpunit>

@@ -21,7 +21,7 @@ final readonly class FrontendProjectGenerator implements IFrontendProjectGenerat
 
     public function generate(FrontendInitConfig $config): void
     {
-        $targetPath   = Path::join($this->pathResolver->cwd(), $config->directory);
+        $targetPath   = $this->pathResolver->frontendInitPath($config);
         $templatePath = $this->pathResolver->templates("frontend/{$config->framework->value}");
 
         $this->copyTemplate($templatePath, $targetPath);
@@ -47,6 +47,14 @@ final readonly class FrontendProjectGenerator implements IFrontendProjectGenerat
     {
         $renderer = new FrontendTemplateRenderer($targetPath, $this->filesystem);
 
-        $renderer->renderAll($config->toArray());
+        $renderer->renderAll([
+            ...$config->toArray(),
+            'name' => $this->sanitizeName($config->directory),
+        ]);
+    }
+
+    private function sanitizeName(string $name): string
+    {
+        return preg_replace('/[^a-z-]+/i', '', strtolower($name)) ?: '';
     }
 }

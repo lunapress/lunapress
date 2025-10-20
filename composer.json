@@ -27,6 +27,7 @@
         "symfony/console": "^v7"
     },
     "require-dev": {
+        "consolidation/robo": "^5.1.0",
         "lunapress/static-analysis": "@dev",
         "mikey179/vfsstream": "^v1.6.12",
         "mockery/mockery": "^1.6.12",
@@ -58,6 +59,7 @@
     "prefer-stable": true,
     "autoload": {
         "psr-4": {
+            "LunaPress\\": "src/",
             "LunaPress\\Cli\\": "packages/cli/src/",
             "LunaPress\\Core\\": "packages/core/src/",
             "LunaPress\\Foundation\\": "packages/foundation/src/",
@@ -67,11 +69,13 @@
             "LunaPress\\Wp\\Core\\": "packages/wp-core/src/"
         },
         "files": [
+            "bootstrap/abspath.php",
             "packages/foundation/src/Container/functions.php"
         ]
     },
     "autoload-dev": {
         "psr-4": {
+            "LunaPress\\Cli\\Robo\\": "packages/cli/robo/",
             "LunaPress\\Cli\\Test\\": "packages/cli/tests/"
         }
     },
@@ -96,6 +100,7 @@
         "check": [
             "@check:phpcs",
             "@check:psalm"
-        ]
+        ],
+        "cli:frontend:preview": "robo --load-from packages/cli/robo/Tasks.php frontend:preview"
     }
 }

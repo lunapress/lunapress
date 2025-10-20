@@ -22,7 +22,8 @@
     },
     "autoload-dev": {
         "psr-4": {
-            "LunaPress\\Cli\\Test\\": "tests/"
+            "LunaPress\\Cli\\Test\\": "tests/",
+            "LunaPress\\Cli\\Robo\\": "robo/"
         }
     },
     "require": {

@@ -1,8 +1,6 @@
 <?php
 declare(strict_types=1);
 
-const ABSPATH = '';
-
 require __DIR__ . '/../packages/cli/tests/Pest.php';
 
 /*
