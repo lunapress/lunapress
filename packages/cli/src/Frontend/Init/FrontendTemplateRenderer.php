@@ -9,8 +9,6 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Path;
 use Symfony\Component\Finder\Finder;
 
-defined('ABSPATH') || exit;
-
 final readonly class FrontendTemplateRenderer
 {
     private Engine $engine;

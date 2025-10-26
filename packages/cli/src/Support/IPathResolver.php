@@ -5,8 +5,6 @@ namespace LunaPress\Cli\Support;
 
 use LunaPress\Cli\Frontend\Init\FrontendInitConfig;
 
-defined('ABSPATH') || exit;
-
 interface IPathResolver
 {
     public function cwd(): string;

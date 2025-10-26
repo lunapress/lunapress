@@ -12,8 +12,6 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
 
-defined('ABSPATH') || exit;
-
 #[AsCommand(
     name: 'frontend:init',
     description: 'Initialize a new frontend project'

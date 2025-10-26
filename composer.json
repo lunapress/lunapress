@@ -24,7 +24,8 @@
         "php": "^8.3",
         "php-di/php-di": "^7.1",
         "psr/container": "^2",
-        "symfony/console": "^v7"
+        "symfony/console": "^v7",
+        "symfony/finder": "^v7.3"
     },
     "require-dev": {
         "consolidation/robo": "^5.1.0",

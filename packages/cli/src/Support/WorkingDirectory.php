@@ -5,8 +5,6 @@ namespace LunaPress\Cli\Support;
 
 use Override;
 
-defined('ABSPATH') || exit;
-
 final readonly class WorkingDirectory implements IWorkingDirectory
 {
     #[Override]

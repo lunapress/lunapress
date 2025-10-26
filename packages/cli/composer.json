@@ -29,6 +29,7 @@
     "require": {
         "php": "^8.3",
         "symfony/console": "^v7",
+        "symfony/finder": "^v7.3",
         "mustache/mustache": "^v3.0.0"
     },
     "require-dev": {

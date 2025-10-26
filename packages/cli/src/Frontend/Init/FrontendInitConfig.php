@@ -6,12 +6,10 @@ namespace LunaPress\Cli\Frontend\Init;
 use LunaPress\Cli\Frontend\FrontendFramework;
 use LunaPress\Cli\Frontend\PackageManager;
 
-defined('ABSPATH') || exit;
-
 final readonly class FrontendInitConfig
 {
-    public const bool DEFAULT_USE_TAILWIND       = true;
-    public const string DEFAULT_DIRECTORY        = 'frontend';
+    public const bool DEFAULT_USE_TAILWIND = true;
+    public const string DEFAULT_DIRECTORY  = 'frontend';
 
     private string $name;
 

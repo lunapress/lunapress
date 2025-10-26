@@ -9,9 +9,6 @@ use LunaPress\Cli\Frontend\Init\FrontendProjectGenerator;
 use LunaPress\Cli\Frontend\PackageManager;
 use LunaPress\Cli\Support\PathResolver;
 use ReflectionClass;
-use Symfony\Component\Filesystem\Path;
-
-defined('ABSPATH') || exit;
 
 final class Tasks extends \Robo\Tasks
 {

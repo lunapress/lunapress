@@ -9,8 +9,6 @@ use Override;
 use RuntimeException;
 use Symfony\Component\Filesystem\Filesystem;
 
-defined('ABSPATH') || exit;
-
 final readonly class FrontendProjectGenerator implements IFrontendProjectGenerator
 {
     public function __construct(
