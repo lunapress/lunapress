@@ -10,13 +10,10 @@ export default defineConfig(() => {
         build: {
             manifest: true,
             emptyOutDir: true,
-            copyPublicDir: false,
             rollupOptions: {
                 input: ['@module/TestNotice/index.tsx'],
             },
-            output: {
-                dir: '../assets/dist/vite',
-            },
+            outDir: '../assets/dist/vite',
         },
         resolve: {
             alias: [
