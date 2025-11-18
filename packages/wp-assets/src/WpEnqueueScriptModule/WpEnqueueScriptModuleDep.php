@@ -4,14 +4,27 @@ declare(strict_types=1);
 namespace LunaPress\Wp\Assets\WpEnqueueScriptModule;
 
 use LunaPress\Wp\AssetsContracts\WpEnqueueScriptModule\Enum\WpEnqueueScriptModuleImport;
-use LunaPress\Wp\AssetsContracts\WpEnqueueScriptModule\IWpEnqueueScriptModuleDeps;
+use LunaPress\Wp\AssetsContracts\WpEnqueueScriptModule\IWpEnqueueScriptModuleDep;
 
 defined('ABSPATH') || exit;
 
-final readonly class WpEnqueueScriptModuleDeps implements IWpEnqueueScriptModuleDeps
+final class WpEnqueueScriptModuleDep implements IWpEnqueueScriptModuleDep
 {
-    private string $id;
-    private WpEnqueueScriptModuleImport $import;
+    public function __construct(
+        private string $id,
+        private WpEnqueueScriptModuleImport $import = WpEnqueueScriptModuleImport::STATIC
+    ) {
+    }
+
+    public static function of(string $id, WpEnqueueScriptModuleImport $import = WpEnqueueScriptModuleImport::STATIC): self
+    {
+        return new self($id, $import);
+    }
+
+    public static function dynamic(string $id): self
+    {
+        return new self($id, WpEnqueueScriptModuleImport::DYNAMIC);
+    }
 
     public function toArray(): array
     {

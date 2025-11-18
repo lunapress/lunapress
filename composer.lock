@@ -163,12 +163,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lunapress/frontend-contracts.git",
-                "reference": "9403532c7df5ccd51c02cf074dd749051e7dfa9c"
+                "reference": "434907aa21ed76feadc7f0821a153c1c13c5a7be"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lunapress/frontend-contracts/zipball/9403532c7df5ccd51c02cf074dd749051e7dfa9c",
-                "reference": "9403532c7df5ccd51c02cf074dd749051e7dfa9c",
+                "url": "https://api.github.com/repos/lunapress/frontend-contracts/zipball/434907aa21ed76feadc7f0821a153c1c13c5a7be",
+                "reference": "434907aa21ed76feadc7f0821a153c1c13c5a7be",
                 "shasum": ""
             },
             "require": {
@@ -200,7 +200,7 @@
                 "issues": "https://github.com/lunapress/frontend-contracts/issues",
                 "source": "https://github.com/lunapress/frontend-contracts/tree/main"
             },
-            "time": "2025-10-12T01:27:37+00:00"
+            "time": "2025-11-18T17:46:32+00:00"
         },
         {
             "name": "lunapress/wp-assets-contracts",
@@ -208,12 +208,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lunapress/wp-assets-contracts.git",
-                "reference": "cf243f82d6aa4b57d3a32bff12661ff5e438a80e"
+                "reference": "de99be359886d04685ce7a253c5d55dbf70520f1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lunapress/wp-assets-contracts/zipball/cf243f82d6aa4b57d3a32bff12661ff5e438a80e",
-                "reference": "cf243f82d6aa4b57d3a32bff12661ff5e438a80e",
+                "url": "https://api.github.com/repos/lunapress/wp-assets-contracts/zipball/de99be359886d04685ce7a253c5d55dbf70520f1",
+                "reference": "de99be359886d04685ce7a253c5d55dbf70520f1",
                 "shasum": ""
             },
             "require": {
@@ -244,7 +244,7 @@
             "support": {
                 "source": "https://github.com/lunapress/wp-assets-contracts/tree/main"
             },
-            "time": "2025-11-18T15:02:50+00:00"
+            "time": "2025-11-18T17:24:34+00:00"
         },
         {
             "name": "lunapress/wp-core-contracts",

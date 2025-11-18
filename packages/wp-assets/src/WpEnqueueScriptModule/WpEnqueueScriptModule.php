@@ -13,7 +13,7 @@ final class WpEnqueueScriptModule implements IWpEnqueueScriptModuleFunction
     private string $src = '';
 
     /**
-     * @var WpEnqueueScriptModuleDeps[] $deps
+     * @var WpEnqueueScriptModuleDep[] $deps
      */
     private array $deps                = [];
     private false|string|null $version = false;
