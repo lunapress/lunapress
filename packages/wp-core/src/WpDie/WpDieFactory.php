@@ -5,12 +5,12 @@ namespace LunaPress\Wp\Core\WpDie;
 
 use LunaPress\Wp\CoreContracts\WpDie\IWpDieFunction;
 use LunaPress\Wp\CoreContracts\WpError;
-use LunaPress\Wp\CoreContracts\WpDie\IWpDieBuilder;
+use LunaPress\Wp\CoreContracts\WpDie\IWpDieFactory;
 use Psr\Container\ContainerInterface;
 
 defined('ABSPATH') || exit;
 
-final readonly class WpDieBuilder implements IWpDieBuilder
+final readonly class WpDieFactory implements IWpDieFactory
 {
     public function __construct(
         private ContainerInterface $container,

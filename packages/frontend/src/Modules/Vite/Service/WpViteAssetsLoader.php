@@ -7,10 +7,10 @@ use LunaPress\CoreContracts\Hook\IActionManager;
 use LunaPress\CoreContracts\Support\WpFunction\IWpFunctionExecutor;
 use LunaPress\Wp\AssetsContracts\IAssetDependency;
 use LunaPress\Wp\AssetsContracts\WpEnqueueScriptModule\Enum\WpEnqueueScriptModuleImport;
-use LunaPress\Wp\AssetsContracts\WpEnqueueScriptModule\IWpEnqueueScriptModuleBuilder;
+use LunaPress\Wp\AssetsContracts\WpEnqueueScriptModule\IWpEnqueueScriptModuleFactory;
 use LunaPress\Wp\AssetsContracts\WpEnqueueScriptModule\IWpEnqueueScriptModuleDepsFactory;
-use LunaPress\Wp\AssetsContracts\WpEnqueueStyle\IWpEnqueueStyleBuilder;
-use LunaPress\Wp\AssetsContracts\WpRegisterScript\IWpRegisterScriptBuilder;
+use LunaPress\Wp\AssetsContracts\WpEnqueueStyle\IWpEnqueueStyleFactory;
+use LunaPress\Wp\AssetsContracts\WpRegisterScript\IWpRegisterScriptFactory;
 use LunaPress\Frontend\Modules\Vite\Constants;
 use LunaPress\FrontendContracts\Vite\IViteAssetsLoader;
 use LunaPress\FrontendContracts\Vite\IViteConfig;
@@ -28,9 +28,9 @@ final readonly class WpViteAssetsLoader implements IViteAssetsLoader
         private IViteManifestReader $viteManifestReader,
         private IActionManager $actionManager,
         private IWpFunctionExecutor $wpFunctionExecutor,
-        private IWpEnqueueScriptModuleBuilder $enqueueScriptModuleBuilder,
-        private IWpRegisterScriptBuilder $registerScriptBuilder,
-        private IWpEnqueueStyleBuilder $enqueueStyleBuilder,
+        private IWpEnqueueScriptModuleFactory $enqueueScriptModuleFactory,
+        private IWpRegisterScriptFactory $registerScriptFactory,
+        private IWpEnqueueStyleFactory $enqueueStyleFactory,
         private IWpEnqueueScriptModuleDepsFactory $wpEnqueueScriptModuleDepsFactory,
         private IViteConfig $config,
     ) {
@@ -121,7 +121,7 @@ final readonly class WpViteAssetsLoader implements IViteAssetsLoader
                 );
 
                 $this->wpFunctionExecutor->execute(
-                    $this->enqueueScriptModuleBuilder
+                    $this->enqueueScriptModuleFactory
                         ->make($entry->getName())
                         ->src($fileUrl)
                         ->deps($moduleDependencies)
@@ -129,7 +129,7 @@ final readonly class WpViteAssetsLoader implements IViteAssetsLoader
                 );
 
                 $this->wpFunctionExecutor->execute(
-                    $this->registerScriptBuilder
+                    $this->registerScriptFactory
                         ->make($entry->getName(), $fileUrl)
                         ->deps($dependencies)
                         ->version($version)
@@ -140,7 +140,7 @@ final readonly class WpViteAssetsLoader implements IViteAssetsLoader
             // CSS
             foreach ($entry->getCss() as $css) {
                 $this->wpFunctionExecutor->execute(
-                    $this->enqueueStyleBuilder
+                    $this->enqueueStyleFactory
                         ->make($css)
                         ->src("{$baseUrl}/{$css}")
                         ->deps($dependencies)

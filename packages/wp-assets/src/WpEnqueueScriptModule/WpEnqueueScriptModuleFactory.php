@@ -4,12 +4,12 @@ declare(strict_types=1);
 namespace LunaPress\Wp\Assets\WpEnqueueScriptModule;
 
 use LunaPress\Wp\AssetsContracts\WpEnqueueScriptModule\IWpEnqueueScriptModuleFunction;
-use LunaPress\Wp\AssetsContracts\WpEnqueueScriptModule\IWpEnqueueScriptModuleBuilder;
+use LunaPress\Wp\AssetsContracts\WpEnqueueScriptModule\IWpEnqueueScriptModuleFactory;
 use Psr\Container\ContainerInterface;
 
 defined('ABSPATH') || exit;
 
-final readonly class WpEnqueueScriptModuleBuilder implements IWpEnqueueScriptModuleBuilder
+final readonly class WpEnqueueScriptModuleFactory implements IWpEnqueueScriptModuleFactory
 {
     public function __construct(
         private ContainerInterface $container,

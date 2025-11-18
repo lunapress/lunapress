@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace LunaPress\Wp\Core\WpKses;
 
-use LunaPress\Wp\CoreContracts\WpKses\IWpKsesBuilder;
+use LunaPress\Wp\CoreContracts\WpKses\IWpKsesFactory;
 use LunaPress\Wp\CoreContracts\WpKses\IWpKsesFunction;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
@@ -11,7 +11,7 @@ use Psr\Container\NotFoundExceptionInterface;
 
 defined('ABSPATH') || exit;
 
-final readonly class WpKsesBuilder implements IWpKsesBuilder
+final readonly class WpKsesFactory implements IWpKsesFactory
 {
     public function __construct(
         private ContainerInterface $container,
