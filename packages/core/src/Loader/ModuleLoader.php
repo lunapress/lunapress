@@ -5,7 +5,7 @@ namespace LunaPress\Core\Loader;
 
 use LunaPress\CoreContracts\Subscriber\ISubscriberRegistry;
 use LunaPress\CoreContracts\Support\ILoader;
-use LunaPress\FoundationContracts\Module\HasModules;
+use LunaPress\FoundationContracts\Module\IHasModules;
 use LunaPress\FoundationContracts\Module\IModule;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
@@ -16,7 +16,7 @@ defined('ABSPATH') || exit;
 final readonly class ModuleLoader implements ILoader
 {
     public function __construct(
-        private HasModules $hasModules,
+        private IHasModules $hasModules,
         private ContainerInterface $container,
     ) {
     }

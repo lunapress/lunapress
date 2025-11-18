@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace LunaPress\Wp\Core\WpDie;
 
 use LunaPress\Wp\CoreContracts\WpDie\IWpDieFunction;
-use LunaPress\Wp\CoreContracts\WpError;
+use LunaPress\Wp\CoreContracts\IWpError;
 use LunaPress\Wp\CoreContracts\WpDie\IWpDieFactory;
 use Psr\Container\ContainerInterface;
 
@@ -17,7 +17,7 @@ final readonly class WpDieFactory implements IWpDieFactory
     ) {
     }
 
-    public function make(WpError|string $message): IWpDieFunction
+    public function make(IWpError|string $message): IWpDieFunction
     {
         /** @var IWpDieFunction $function */
         $function = $this->container->get(IWpDieFunction::class);

@@ -4,18 +4,18 @@ declare(strict_types=1);
 namespace LunaPress\Wp\Core\WpDie;
 
 use LunaPress\Wp\CoreContracts\WpDie\IWpDieArgs;
-use LunaPress\Wp\CoreContracts\WpError;
+use LunaPress\Wp\CoreContracts\IWpError;
 use LunaPress\Wp\CoreContracts\WpDie\IWpDieFunction;
 
 defined('ABSPATH') || exit;
 
 final class WpDie implements IWpDieFunction
 {
-    private WpError|string $message;
+    private IWpError|string $message;
     private int|string $title          = '';
     private int|IWpDieArgs|array $args = [];
 
-    public function message(WpError|string $message): self
+    public function message(IWpError|string $message): self
     {
         $this->message = $message;
         return $this;

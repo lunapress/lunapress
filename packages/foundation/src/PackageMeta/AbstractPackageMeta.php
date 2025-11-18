@@ -3,12 +3,12 @@ declare(strict_types=1);
 
 namespace LunaPress\Foundation\PackageMeta;
 
-use LunaPress\FoundationContracts\PackageMeta\PackageMeta;
+use LunaPress\FoundationContracts\PackageMeta\IPackageMeta;
 use LunaPress\FoundationContracts\PackageMeta\PackageType;
 
 defined('ABSPATH') || exit;
 
-abstract readonly class AbstractPackageMeta implements PackageMeta
+abstract readonly class AbstractPackageMeta implements IPackageMeta
 {
     public function __construct(
         private string $name,

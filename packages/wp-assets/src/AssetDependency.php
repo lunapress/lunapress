@@ -7,7 +7,6 @@ use LunaPress\Wp\AssetsContracts\IAssetDependency;
 
 defined('ABSPATH') || exit;
 
-
 final readonly class AssetDependency implements IAssetDependency
 {
     private string $handle;

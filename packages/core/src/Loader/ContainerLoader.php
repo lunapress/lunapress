@@ -10,7 +10,7 @@ use LunaPress\CoreContracts\Support\ILoader;
 use LunaPress\FoundationContracts\Container\IContainerBuilder;
 use LunaPress\FoundationContracts\PackageMeta\IPackageMetaFactory;
 use LunaPress\FoundationContracts\ServicePackage\IServicePackageMeta;
-use LunaPress\FoundationContracts\Support\HasDi;
+use LunaPress\FoundationContracts\Support\IHasDi;
 use Override;
 
 defined('ABSPATH') || exit;
@@ -60,7 +60,7 @@ final readonly class ContainerLoader implements ILoader
     }
 
     /**
-     * @param class-string<HasDi> $class
+     * @param class-string<IHasDi> $class
      */
     private function addDiFile(string $class): void
     {

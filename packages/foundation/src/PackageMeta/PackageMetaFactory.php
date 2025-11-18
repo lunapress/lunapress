@@ -7,7 +7,7 @@ use LunaPress\Foundation\Composer\ComposerManager;
 use LunaPress\Foundation\ServicePackage\ServicePackageMeta;
 use LunaPress\FoundationContracts\Composer\IComposerManager;
 use LunaPress\FoundationContracts\PackageMeta\IPackageMetaFactory;
-use LunaPress\FoundationContracts\PackageMeta\PackageMeta;
+use LunaPress\FoundationContracts\PackageMeta\IPackageMeta;
 use LunaPress\FoundationContracts\PackageMeta\PackageType;
 use Override;
 use ReflectionException;
@@ -17,7 +17,7 @@ defined('ABSPATH') || exit;
 final readonly class PackageMetaFactory implements IPackageMetaFactory
 {
     /**
-     * @var array<string, callable(string,array): PackageMeta>
+     * @var array<string, callable(string,array): IPackageMeta>
      */
     private array $map;
     private IComposerManager $composerManager;
@@ -49,18 +49,18 @@ final readonly class PackageMetaFactory implements IPackageMetaFactory
 
     /**
      * @param string $packageName
-     * @return PackageMeta|null
+     * @return IPackageMeta|null
      * @throws ReflectionException
      */
     #[Override]
-    public function create(string $packageName): ?PackageMeta
+    public function create(string $packageName): ?IPackageMeta
     {
         $info = $this->composerManager->getInstalledPackages()[$packageName] ?? null;
 
         return $info ? $this->build($packageName, $info) : null;
     }
 
-    private function build(string $name, array $info): ?PackageMeta
+    private function build(string $name, array $info): ?IPackageMeta
     {
         $type  = $info['type'] ?? null;
         $maker = $type ? ($this->map[$type] ?? null) : null;
@@ -71,10 +71,10 @@ final readonly class PackageMetaFactory implements IPackageMetaFactory
     /**
      * @param string $name
      * @param array $info
-     * @return PackageMeta|null
+     * @return IPackageMeta|null
      * @throws ReflectionException
      */
-    private function makeServicePackage(string $name, array $info): ?PackageMeta
+    private function makeServicePackage(string $name, array $info): ?IPackageMeta
     {
         $baseDir = $this->composerManager->getInstallPath($name);
 

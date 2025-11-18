@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace LunaPress\Core;
 
-use LunaPress\FoundationContracts\Support\HasDi;
+use LunaPress\FoundationContracts\Support\IHasDi;
 
 defined('ABSPATH') || exit;
 
-final readonly class DiProvider implements HasDi
+final readonly class DiProvider implements IHasDi
 {
     public static function getDiPath(): ?string
     {

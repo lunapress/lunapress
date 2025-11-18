@@ -3,11 +3,11 @@ declare(strict_types=1);
 
 namespace LunaPress\Foundation\Subscriber;
 
-use LunaPress\FoundationContracts\Subscriber\DelayedSubscriber;
+use LunaPress\FoundationContracts\Subscriber\IDelayedSubscriber;
 
 defined('ABSPATH') || exit;
 
-abstract class AbstractDelayedSubscriber implements DelayedSubscriber
+abstract class AbstractDelayedSubscriber implements IDelayedSubscriber
 {
     public static function afterPriority(): int
     {

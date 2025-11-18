@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace LunaPress\Core\Loader;
 
 use LunaPress\CoreContracts\Support\ILoader;
-use LunaPress\FoundationContracts\Package\HasPackages;
+use LunaPress\FoundationContracts\Package\IHasPackages;
 use LunaPress\FoundationContracts\Package\IPackage;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
@@ -15,7 +15,7 @@ defined('ABSPATH') || exit;
 final readonly class PackageLoader implements ILoader
 {
     public function __construct(
-        private HasPackages $hasPackages,
+        private IHasPackages $hasPackages,
         private ContainerInterface $container
     ) {
     }

@@ -3,8 +3,8 @@ declare(strict_types=1);
 
 namespace LunaPress\Core\Support\WpFunction;
 
-use LunaPress\CoreContracts\Support\ExecutableFunction;
-use LunaPress\CoreContracts\Support\WpFunction\WpFunctionArgs;
+use LunaPress\CoreContracts\Support\IExecutableFunction;
+use LunaPress\CoreContracts\Support\WpFunction\IWpFunctionArgs;
 use LunaPress\CoreContracts\Support\WpFunction\IWpFunctionExecutor;
 
 defined('ABSPATH') || exit;
@@ -15,10 +15,10 @@ defined('ABSPATH') || exit;
 final readonly class WpFunctionExecutor implements IWpFunctionExecutor
 {
     /**
-     * @param ExecutableFunction<TResult> $function
+     * @param IExecutableFunction<TResult> $function
      * @return TResult
      */
-    public function execute(ExecutableFunction $function): mixed
+    public function execute(IExecutableFunction $function): mixed
     {
         $args = $this->normalizeArgs($function->rawArgs());
 
@@ -37,7 +37,7 @@ final readonly class WpFunctionExecutor implements IWpFunctionExecutor
 
     private function normalizeArg(mixed $arg): mixed
     {
-        if ($arg instanceof WpFunctionArgs) {
+        if ($arg instanceof IWpFunctionArgs) {
             return $this->filterNulls($arg->toArray());
         }
 
