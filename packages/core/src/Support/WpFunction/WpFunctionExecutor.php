@@ -41,6 +41,10 @@ final readonly class WpFunctionExecutor implements IWpFunctionExecutor
             return $this->filterNulls($arg->toArray());
         }
 
+        if (is_array($arg)) {
+            return array_map(fn($arg) => $this->normalizeArg($arg), $arg);
+        }
+
         return $arg;
     }
 

@@ -20,7 +20,12 @@ final class WpEnqueueScriptModule implements IWpEnqueueScriptModuleFunction
 
     public function rawArgs(): array
     {
-        return [$this->id, $this->src, $this->deps, $this->version];
+        return [
+            $this->id,
+            $this->src,
+            $this->deps,
+            $this->version
+        ];
     }
 
     public function id(string $id): self
