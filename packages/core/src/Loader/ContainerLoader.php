@@ -6,7 +6,7 @@ namespace LunaPress\Core\Loader;
 use LunaPress\Core\DiProvider;
 use LunaPress\Core\Plugin\AbstractPlugin;
 use LunaPress\CoreContracts\Plugin\IPlugin;
-use LunaPress\CoreContracts\Support\ILoader;
+use LunaPress\FoundationContracts\Support\ILoader;
 use LunaPress\FoundationContracts\Container\IContainerBuilder;
 use LunaPress\FoundationContracts\PackageMeta\IPackageMetaFactory;
 use LunaPress\FoundationContracts\ServicePackage\IServicePackageMeta;

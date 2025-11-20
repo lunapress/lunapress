@@ -3,80 +3,121 @@ declare(strict_types=1);
 
 namespace LunaPress\Wp\Core\WpDie;
 
+use LunaPress\FoundationContracts\Support\WpFunction\WpUnset;
 use LunaPress\Wp\CoreContracts\WpDie\IWpDieArgs;
 
 defined('ABSPATH') || exit;
 
 final class WpDieArgs implements IWpDieArgs
 {
-    private ?int $response         = null;
-    private ?string $linkUrl       = null;
-    private ?string $linkText      = null;
-    private ?bool $backLink        = null;
-    private ?string $textDirection = null;
-    private ?string $charset       = null;
-    private ?string $code          = null;
-    private ?bool $exit            = null;
+    private WpUnset|int $response         = WpUnset::Value;
+    private WpUnset|string $linkUrl       = WpUnset::Value;
+    private WpUnset|string $linkText      = WpUnset::Value;
+    private WpUnset|bool $backLink        = WpUnset::Value;
+    private WpUnset|string $textDirection = WpUnset::Value;
+    private WpUnset|string $charset       = WpUnset::Value;
+    private WpUnset|string $code          = WpUnset::Value;
+    private WpUnset|bool $exit            = WpUnset::Value;
 
     public function toArray(): array
     {
         return [
-            'response'       => $this->response,
-            'link_url'       => $this->linkUrl,
-            'link_text'      => $this->linkText,
-            'back_link'      => $this->backLink,
-            'text_direction' => $this->textDirection,
-            'charset'        => $this->charset,
-            'code'           => $this->code,
-            'exit'           => $this->exit,
+            'response'       => $this->getResponse(),
+            'link_url'       => $this->getLinkUrl(),
+            'link_text'      => $this->getLinkText(),
+            'back_link'      => $this->getBackLink(),
+            'text_direction' => $this->getTextDirection(),
+            'charset'        => $this->getCharset(),
+            'code'           => $this->getCode(),
+            'exit'           => $this->getExit(),
         ];
     }
 
-    public function response(?int $response): self
+    public function response(int|WpUnset $response): self
     {
         $this->response = $response;
         return $this;
     }
 
-    public function linkUrl(?string $url): self
+    public function linkUrl(string|WpUnset $url): self
     {
         $this->linkUrl = $url;
         return $this;
     }
 
-    public function linkText(?string $text): self
+    public function linkText(string|WpUnset $text): self
     {
         $this->linkText = $text;
         return $this;
     }
 
-    public function backLink(?bool $enabled): self
+    public function backLink(bool|WpUnset $enabled): self
     {
         $this->backLink = $enabled;
         return $this;
     }
 
-    public function textDirection(?string $direction): self
+    public function textDirection(string|WpUnset $direction): self
     {
         $this->textDirection = $direction;
         return $this;
     }
 
-    public function charset(?string $charset): self
+    public function charset(string|WpUnset $charset): self
     {
         $this->charset = $charset;
         return $this;
     }
 
-    public function code(?string $code): self
+    public function code(string|WpUnset $code): self
     {
         $this->code = $code;
         return $this;
     }
 
-    public function exit(?bool $exit): self
+    public function exit(WpUnset|bool $exit): self
     {
         $this->exit = $exit;
         return $this;
+    }
+
+    public function getResponse(): int|WpUnset
+    {
+        return $this->response;
+    }
+
+    public function getLinkUrl(): string|WpUnset
+    {
+        return $this->linkUrl;
+    }
+
+    public function getLinkText(): string|WpUnset
+    {
+        return $this->linkText;
+    }
+
+    public function getBackLink(): bool|WpUnset
+    {
+        return $this->backLink;
+    }
+
+    public function getTextDirection(): string|WpUnset
+    {
+        return $this->textDirection;
+    }
+
+    public function getCharset(): string|WpUnset
+    {
+        return $this->charset;
+    }
+
+    public function getCode(): string|WpUnset
+    {
+        return $this->code;
+    }
+
+    public function getExit(): bool|WpUnset
+    {
+        return $this->exit;
     }
 }

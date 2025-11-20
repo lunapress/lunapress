@@ -17,7 +17,7 @@ use LunaPress\CoreContracts\Plugin\IConfig;
 use LunaPress\CoreContracts\Plugin\IConfigFactory;
 use LunaPress\CoreContracts\Plugin\IPluginContext;
 use LunaPress\CoreContracts\Plugin\IPluginContextFactory;
-use LunaPress\CoreContracts\Support\WpFunction\IWpFunctionExecutor;
+use LunaPress\FoundationContracts\Support\WpFunction\IWpFunctionExecutor;
 use LunaPress\FoundationContracts\View\ITemplateContextProvider;
 use LunaPress\FoundationContracts\View\ITemplateManager;
 use function LunaPress\Foundation\Container\autowire;

@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace LunaPress\Core\Loader;
 
 use LunaPress\CoreContracts\Subscriber\ISubscriberRegistry;
-use LunaPress\CoreContracts\Support\ILoader;
+use LunaPress\FoundationContracts\Support\ILoader;
 use LunaPress\FoundationContracts\Module\IHasModules;
 use LunaPress\FoundationContracts\Module\IModule;
 use Psr\Container\ContainerExceptionInterface;

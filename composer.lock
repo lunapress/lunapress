@@ -73,12 +73,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lunapress/core-contracts.git",
-                "reference": "56c04994d472f5ebcc2cd38edf0eef0f1e3ad0f0"
+                "reference": "0a90676298ee938c348fb24743b6717734ae01c6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lunapress/core-contracts/zipball/56c04994d472f5ebcc2cd38edf0eef0f1e3ad0f0",
-                "reference": "56c04994d472f5ebcc2cd38edf0eef0f1e3ad0f0",
+                "url": "https://api.github.com/repos/lunapress/core-contracts/zipball/0a90676298ee938c348fb24743b6717734ae01c6",
+                "reference": "0a90676298ee938c348fb24743b6717734ae01c6",
                 "shasum": ""
             },
             "require": {
@@ -110,7 +110,7 @@
                 "issues": "https://github.com/lunapress/core-contracts/issues",
                 "source": "https://github.com/lunapress/core-contracts/tree/main"
             },
-            "time": "2025-11-18T14:57:25+00:00"
+            "time": "2025-11-19T22:55:32+00:00"
         },
         {
             "name": "lunapress/foundation-contracts",
@@ -118,12 +118,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lunapress/foundation-contracts.git",
-                "reference": "58117e7a778e1f45022d2dd8303a57dbe3d785cf"
+                "reference": "25b37c7b216646ded650e5bc0424de9232dcd99f"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lunapress/foundation-contracts/zipball/58117e7a778e1f45022d2dd8303a57dbe3d785cf",
-                "reference": "58117e7a778e1f45022d2dd8303a57dbe3d785cf",
+                "url": "https://api.github.com/repos/lunapress/foundation-contracts/zipball/25b37c7b216646ded650e5bc0424de9232dcd99f",
+                "reference": "25b37c7b216646ded650e5bc0424de9232dcd99f",
                 "shasum": ""
             },
             "require": {
@@ -155,7 +155,7 @@
                 "issues": "https://github.com/lunapress/foundation-contracts/issues",
                 "source": "https://github.com/lunapress/foundation-contracts/tree/main"
             },
-            "time": "2025-11-18T14:57:27+00:00"
+            "time": "2025-11-20T00:59:59+00:00"
         },
         {
             "name": "lunapress/frontend-contracts",
@@ -208,12 +208,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lunapress/wp-assets-contracts.git",
-                "reference": "de99be359886d04685ce7a253c5d55dbf70520f1"
+                "reference": "92982bfb38072a2d128ece5fc134563e0b691a58"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lunapress/wp-assets-contracts/zipball/de99be359886d04685ce7a253c5d55dbf70520f1",
-                "reference": "de99be359886d04685ce7a253c5d55dbf70520f1",
+                "url": "https://api.github.com/repos/lunapress/wp-assets-contracts/zipball/92982bfb38072a2d128ece5fc134563e0b691a58",
+                "reference": "92982bfb38072a2d128ece5fc134563e0b691a58",
                 "shasum": ""
             },
             "require": {
@@ -244,7 +244,7 @@
             "support": {
                 "source": "https://github.com/lunapress/wp-assets-contracts/tree/main"
             },
-            "time": "2025-11-18T17:24:34+00:00"
+            "time": "2025-11-20T01:33:25+00:00"
         },
         {
             "name": "lunapress/wp-core-contracts",
@@ -252,12 +252,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lunapress/wp-core-contracts.git",
-                "reference": "c63436cbc854029034d90941d48b8c8135d38851"
+                "reference": "8ff4598cab607a292b672b2bc62aa8c22d7470b4"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lunapress/wp-core-contracts/zipball/c63436cbc854029034d90941d48b8c8135d38851",
-                "reference": "c63436cbc854029034d90941d48b8c8135d38851",
+                "url": "https://api.github.com/repos/lunapress/wp-core-contracts/zipball/8ff4598cab607a292b672b2bc62aa8c22d7470b4",
+                "reference": "8ff4598cab607a292b672b2bc62aa8c22d7470b4",
                 "shasum": ""
             },
             "require": {
@@ -288,7 +288,7 @@
             "support": {
                 "source": "https://github.com/lunapress/wp-core-contracts/tree/main"
             },
-            "time": "2025-11-18T15:02:56+00:00"
+            "time": "2025-11-20T01:42:29+00:00"
         },
         {
             "name": "mustache/mustache",
@@ -5455,16 +5455,16 @@
         },
         {
             "name": "phpdocumentor/reflection-docblock",
-            "version": "5.6.3",
+            "version": "5.6.4",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/ReflectionDocBlock.git",
-                "reference": "94f8051919d1b0369a6bcc7931d679a511c03fe9"
+                "reference": "90a04bcbf03784066f16038e87e23a0a83cee3c2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/94f8051919d1b0369a6bcc7931d679a511c03fe9",
-                "reference": "94f8051919d1b0369a6bcc7931d679a511c03fe9",
+                "url": "https://api.github.com/repos/phpDocumentor/ReflectionDocBlock/zipball/90a04bcbf03784066f16038e87e23a0a83cee3c2",
+                "reference": "90a04bcbf03784066f16038e87e23a0a83cee3c2",
                 "shasum": ""
             },
             "require": {
@@ -5513,9 +5513,9 @@
             "description": "With this component, a library can provide support for annotations via DocBlocks or otherwise retrieve information that is embedded in a DocBlock.",
             "support": {
                 "issues": "https://github.com/phpDocumentor/ReflectionDocBlock/issues",
-                "source": "https://github.com/phpDocumentor/ReflectionDocBlock/tree/5.6.3"
+                "source": "https://github.com/phpDocumentor/ReflectionDocBlock/tree/5.6.4"
             },
-            "time": "2025-08-01T19:43:32+00:00"
+            "time": "2025-11-17T21:13:10+00:00"
         },
         {
             "name": "phpdocumentor/type-resolver",

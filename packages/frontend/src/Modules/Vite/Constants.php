@@ -9,7 +9,7 @@ defined('ABSPATH') || exit;
 
 final readonly class Constants
 {
-    public const HMR_HOST              = 'http://localhost:5173';
-    public const MANIFEST_FILE_PATH    = '.vite/manifest.json';
-    public const DEFAULT_FRONTEND_DEPS = [WpAssetHandle::COMPONENTS];
+    public const string HMR_HOST             = 'http://localhost:5173';
+    public const string MANIFEST_FILE_PATH   = '.vite/manifest.json';
+    public const array DEFAULT_FRONTEND_DEPS = [WpAssetHandle::COMPONENTS];
 }

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace LunaPress\Wp\Assets\WpEnqueueScript;
 
+use LunaPress\FoundationContracts\Support\WpFunction\WpArray;
 use LunaPress\Wp\AssetsContracts\IAssetDependency;
 use LunaPress\Wp\AssetsContracts\WpEnqueueScript\IWpEnqueueScriptArgs;
 use LunaPress\Wp\AssetsContracts\WpEnqueueScript\IWpEnqueueScriptFunction;
@@ -12,14 +13,14 @@ defined('ABSPATH') || exit;
 final class WpEnqueueScript implements IWpEnqueueScriptFunction
 {
     private string $handle;
-    private ?string $src = null;
+    private string $src = '';
 
     /**
-     * @var IAssetDependency[]|null
+     * @var IAssetDependency[]
      */
-    private ?array $deps                         = null;
-    private string|bool|null $version            = null;
-    private IWpEnqueueScriptArgs|bool|null $args = null;
+    private array $deps                             = [];
+    private string|bool $version                    = false;
+    private IWpEnqueueScriptArgs|WpArray|bool $args = WpArray::Empty;
 
     public function rawArgs(): array
     {
@@ -42,7 +43,7 @@ final class WpEnqueueScript implements IWpEnqueueScriptFunction
         return $this->handle;
     }
 
-    public function getSrc(): ?string
+    public function getSrc(): string
     {
         return $this->src;
     }
@@ -50,17 +51,17 @@ final class WpEnqueueScript implements IWpEnqueueScriptFunction
     /**
      * @inheritDoc
      */
-    public function getDeps(): ?array
+    public function getDeps(): array
     {
         return $this->deps;
     }
 
-    public function getVersion(): string|bool|null
+    public function getVersion(): string|bool
     {
         return $this->version;
     }
 
-    public function getArgs(): IWpEnqueueScriptArgs|bool|null
+    public function getArgs(): IWpEnqueueScriptArgs|WpArray|bool
     {
         return $this->args;
     }
@@ -71,7 +72,7 @@ final class WpEnqueueScript implements IWpEnqueueScriptFunction
         return $this;
     }
 
-    public function src(?string $src): IWpEnqueueScriptFunction
+    public function src(string $src): IWpEnqueueScriptFunction
     {
         $this->src = $src;
         return $this;
@@ -80,19 +81,19 @@ final class WpEnqueueScript implements IWpEnqueueScriptFunction
     /**
      * @inheritDoc
      */
-    public function deps(?array $deps): IWpEnqueueScriptFunction
+    public function deps(array $deps): IWpEnqueueScriptFunction
     {
         $this->deps = $deps;
         return $this;
     }
 
-    public function version(bool|string|null $version): IWpEnqueueScriptFunction
+    public function version(bool|string $version): IWpEnqueueScriptFunction
     {
         $this->version = $version;
         return $this;
     }
 
-    public function args(bool|IWpEnqueueScriptArgs|null $args): IWpEnqueueScriptFunction
+    public function args(bool|IWpEnqueueScriptArgs|WpArray $args): IWpEnqueueScriptFunction
     {
         $this->args = $args;
         return $this;

@@ -46,4 +46,19 @@ final class WpKses implements IWpKsesFunction
     {
         return wp_kses(...$args);
     }
+
+    public function getContent(): string
+    {
+        return $this->content;
+    }
+
+    public function getAllowedHtml(): array|string
+    {
+        return $this->allowedHtml;
+    }
+
+    public function getAllowedProtocols(): array
+    {
+        return $this->allowedProtocols;
+    }
 }

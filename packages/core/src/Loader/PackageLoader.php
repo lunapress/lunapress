@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace LunaPress\Core\Loader;
 
-use LunaPress\CoreContracts\Support\ILoader;
+use LunaPress\FoundationContracts\Support\ILoader;
 use LunaPress\FoundationContracts\Package\IHasPackages;
 use LunaPress\FoundationContracts\Package\IPackage;
 use Psr\Container\ContainerExceptionInterface;

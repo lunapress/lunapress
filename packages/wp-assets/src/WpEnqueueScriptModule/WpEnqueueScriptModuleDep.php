@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace LunaPress\Wp\Assets\WpEnqueueScriptModule;
 
+use LunaPress\FoundationContracts\Support\WpFunction\WpUnset;
 use LunaPress\Wp\AssetsContracts\WpEnqueueScriptModule\Enum\WpEnqueueScriptModuleImport;
 use LunaPress\Wp\AssetsContracts\WpEnqueueScriptModule\IWpEnqueueScriptModuleDep;
 
@@ -12,11 +13,11 @@ final class WpEnqueueScriptModuleDep implements IWpEnqueueScriptModuleDep
 {
     public function __construct(
         private string $id,
-        private WpEnqueueScriptModuleImport $import = WpEnqueueScriptModuleImport::STATIC
+        private WpEnqueueScriptModuleImport|WpUnset $import = WpUnset::Value
     ) {
     }
 
-    public static function of(string $id, WpEnqueueScriptModuleImport $import = WpEnqueueScriptModuleImport::STATIC): self
+    public static function of(string $id, WpEnqueueScriptModuleImport|WpUnset $import = WpEnqueueScriptModuleImport::STATIC): self
     {
         return new self($id, $import);
     }
@@ -42,7 +43,7 @@ final class WpEnqueueScriptModuleDep implements IWpEnqueueScriptModuleDep
         return $this;
     }
 
-    public function import(WpEnqueueScriptModuleImport $import): self
+    public function import(WpEnqueueScriptModuleImport|WpUnset $import): self
     {
         $this->import = $import;
 
@@ -54,7 +55,7 @@ final class WpEnqueueScriptModuleDep implements IWpEnqueueScriptModuleDep
         return $this->id;
     }
 
-    public function getImport(): WpEnqueueScriptModuleImport
+    public function getImport(): WpEnqueueScriptModuleImport|WpUnset
     {
         return $this->import;
     }

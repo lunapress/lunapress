@@ -30,4 +30,9 @@ final class AssetDependency implements IAssetDependency
     {
         return $this->handle;
     }
+
+    public function __toString(): string
+    {
+        return $this->getHandle();
+    }
 }

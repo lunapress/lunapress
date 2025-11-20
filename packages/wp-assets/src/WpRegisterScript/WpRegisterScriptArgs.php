@@ -3,33 +3,35 @@ declare(strict_types=1);
 
 namespace LunaPress\Wp\Assets\WpRegisterScript;
 
+use LunaPress\FoundationContracts\Support\WpFunction\WpUnset;
+use LunaPress\Wp\AssetsContracts\WpRegisterScript\Enum\WpRegisterScriptStrategy;
 use LunaPress\Wp\AssetsContracts\WpRegisterScript\IWpRegisterScriptArgs;
 
 defined('ABSPATH') || exit;
 
 final class WpRegisterScriptArgs implements IWpRegisterScriptArgs
 {
-    private ?string $strategy = null;
-    private ?bool $inFooter   = null;
+    private WpRegisterScriptStrategy|WpUnset $strategy = WpUnset::Value;
+    private bool|WpUnset $inFooter                     = WpUnset::Value;
 
-    public function strategy(?string $strategy): self
+    public function strategy(WpRegisterScriptStrategy|WpUnset $strategy): self
     {
         $this->strategy = $strategy;
         return $this;
     }
 
-    public function inFooter(?bool $inFooter): self
+    public function inFooter(bool|WpUnset $inFooter): self
     {
         $this->inFooter = $inFooter;
         return $this;
     }
 
-    public function getStrategy(): ?string
+    public function getStrategy(): WpRegisterScriptStrategy|WpUnset
     {
         return $this->strategy;
     }
 
-    public function isInFooter(): ?bool
+    public function isInFooter(): bool|WpUnset
     {
         return $this->inFooter;
     }
@@ -37,8 +39,8 @@ final class WpRegisterScriptArgs implements IWpRegisterScriptArgs
     public function toArray(): array
     {
         return [
-            'strategy' => $this->strategy,
-            'in_footer' => $this->inFooter,
+            'strategy' => $this->getStrategy(),
+            'in_footer' => $this->isInFooter(),
         ];
     }
 }

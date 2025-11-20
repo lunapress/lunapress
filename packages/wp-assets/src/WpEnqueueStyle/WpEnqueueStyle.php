@@ -54,11 +54,11 @@ final class WpEnqueueStyle implements IWpEnqueueStyleFunction
     public function rawArgs(): array
     {
         return [
-            $this->handle,
-            $this->src,
-            array_map(static fn(IAssetDependency $dep) => $dep->getHandle(), $this->deps),
-            $this->version,
-            $this->media,
+            $this->getHandle(),
+            $this->getSrc(),
+            $this->getDeps(),
+            $this->getVersion(),
+            $this->getMedia(),
         ];
     }
 
@@ -68,5 +68,30 @@ final class WpEnqueueStyle implements IWpEnqueueStyleFunction
     public function executeWithArgs(array $args): void
     {
         wp_enqueue_style(...$args);
+    }
+
+    public function getHandle(): string
+    {
+        return $this->handle;
+    }
+
+    public function getSrc(): string
+    {
+        return $this->src;
+    }
+
+    public function getDeps(): array
+    {
+        return $this->deps;
+    }
+
+    public function getVersion(): string|bool|null
+    {
+        return $this->version;
+    }
+
+    public function getMedia(): string
+    {
+        return $this->media;
     }
 }

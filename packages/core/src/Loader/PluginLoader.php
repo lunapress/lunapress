@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace LunaPress\Core\Loader;
 
 use LunaPress\Core\Plugin\AbstractPlugin;
-use LunaPress\CoreContracts\Support\ILoader;
+use LunaPress\FoundationContracts\Support\ILoader;
 use LunaPress\Foundation\PackageMeta\PackageMetaFactory;
 use LunaPress\FoundationContracts\Container\IContainerBuilder;
 use Psr\Container\ContainerExceptionInterface;

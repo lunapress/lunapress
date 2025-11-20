@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace LunaPress\Core\Loader;
 
 use LunaPress\CoreContracts\Plugin\IPlugin;
-use LunaPress\CoreContracts\Support\ILoader;
+use LunaPress\FoundationContracts\Support\ILoader;
 use ReflectionClass;
 
 defined('ABSPATH') || exit;

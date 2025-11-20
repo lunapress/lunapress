@@ -3,9 +3,13 @@ declare(strict_types=1);
 
 namespace LunaPress\Core\Support\WpFunction;
 
-use LunaPress\CoreContracts\Support\IExecutableFunction;
-use LunaPress\CoreContracts\Support\WpFunction\IWpFunctionArgs;
-use LunaPress\CoreContracts\Support\WpFunction\IWpFunctionExecutor;
+use BackedEnum;
+use LunaPress\FoundationContracts\Support\IExecutableFunction;
+use LunaPress\FoundationContracts\Support\WpFunction\IWpFunctionArgs;
+use LunaPress\FoundationContracts\Support\WpFunction\IWpFunctionExecutor;
+use LunaPress\FoundationContracts\Support\WpFunction\WpArray;
+use LunaPress\FoundationContracts\Support\WpFunction\WpUnset;
+use Stringable;
 
 defined('ABSPATH') || exit;
 
@@ -20,13 +24,20 @@ final readonly class WpFunctionExecutor implements IWpFunctionExecutor
      */
     public function execute(IExecutableFunction $function): mixed
     {
-        $args = $this->normalizeArgs($function->rawArgs());
+        $rawArgs = $function->rawArgs();
 
-        $result = $function->executeWithArgs($args);
+        $args = $this->normalizeArgs($rawArgs);
 
-        return $result;
+        return $function->executeWithArgs($args);
     }
 
+    /**
+     * Top level of WP function arguments
+     * Here we must not violate the order of arguments
+     *
+     * @param array $args
+     * @return array
+     */
     private function normalizeArgs(array $args): array
     {
         return array_map(
@@ -35,21 +46,57 @@ final readonly class WpFunctionExecutor implements IWpFunctionExecutor
         );
     }
 
+    /**
+     * Processing the WP argument of the top-level function
+     * Must return some value
+     *
+     * @param mixed $arg
+     * @return mixed
+     */
     private function normalizeArg(mixed $arg): mixed
     {
+        // We process arguments that are typed by classes,
+        // but for WP they must be strings
+        if ($arg instanceof Stringable) {
+            return (string) $arg;
+        }
+
+        if ($arg instanceof BackedEnum) {
+            return $arg->value;
+        }
+
+        if ($arg === WpArray::Empty) {
+            return [];
+        }
+
         if ($arg instanceof IWpFunctionArgs) {
-            return $this->filterNulls($arg->toArray());
+            return $this->normalizeArray($arg->toArray());
         }
 
         if (is_array($arg)) {
-            return array_map(fn($arg) => $this->normalizeArg($arg), $arg);
+            return $this->normalizeArray($arg);
         }
 
         return $arg;
     }
 
-    private function filterNulls(array $data): array
+    /**
+     * Processing the WP function argument, which is an array
+     * There are optional values that you need to be able to not pass at all
+     *
+     * @param array $data
+     * @return array
+     */
+    private function normalizeArray(array $data): array
     {
-        return array_filter($data, static fn($value) => $value !== null);
+        $mapped = array_map(
+            fn($item) => $this->normalizeArg($item),
+            $data
+        );
+
+        return array_filter(
+            $mapped,
+            static fn($item) => $item !== WpUnset::Value
+        );
     }
 }

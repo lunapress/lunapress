@@ -21,10 +21,10 @@ final class WpEnqueueScriptModule implements IWpEnqueueScriptModuleFunction
     public function rawArgs(): array
     {
         return [
-            $this->id,
-            $this->src,
-            $this->deps,
-            $this->version
+            $this->getId(),
+            $this->getSrc(),
+            $this->getDeps(),
+            $this->getVersion(),
         ];
     }
 
@@ -62,5 +62,25 @@ final class WpEnqueueScriptModule implements IWpEnqueueScriptModuleFunction
     public function executeWithArgs(array $args): void
     {
         wp_enqueue_script_module(...$args);
+    }
+
+    public function getId(): string
+    {
+        return $this->id;
+    }
+
+    public function getSrc(): string
+    {
+        return $this->src;
+    }
+
+    public function getDeps(): array
+    {
+        return $this->deps;
+    }
+
+    public function getVersion(): string|false|null
+    {
+        return $this->version;
     }
 }

@@ -4,7 +4,7 @@ declare(strict_types=1);
 namespace LunaPress\Frontend\Modules\Vite\Service;
 
 use LunaPress\CoreContracts\Hook\IActionManager;
-use LunaPress\CoreContracts\Support\WpFunction\IWpFunctionExecutor;
+use LunaPress\FoundationContracts\Support\WpFunction\IWpFunctionExecutor;
 use LunaPress\FrontendContracts\Vite\IViteEntryPoint;
 use LunaPress\Wp\AssetsContracts\IAssetDependency;
 use LunaPress\Wp\AssetsContracts\IAssetDependencyFactory;

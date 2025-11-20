@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace LunaPress\Wp\Assets\WpRegisterScript;
 
+use LunaPress\FoundationContracts\Support\WpFunction\WpArray;
 use LunaPress\Wp\AssetsContracts\IAssetDependency;
 use LunaPress\Wp\AssetsContracts\WpRegisterScript\IWpRegisterScriptArgs;
 use LunaPress\Wp\AssetsContracts\WpRegisterScript\IWpRegisterScriptFunction;
@@ -14,9 +15,9 @@ final class WpRegisterScript implements IWpRegisterScriptFunction
     private string $handle;
     private string|false $src = false;
     /** @var IAssetDependency[] */
-    private array $deps                            = [];
-    private string|bool|null $version              = false;
-    private IWpRegisterScriptArgs|bool|array $args = [];
+    private array $deps                              = [];
+    private string|bool|null $version                = false;
+    private IWpRegisterScriptArgs|WpArray|bool $args = WpArray::Empty;
 
     public function handle(string $handle): self
     {
@@ -42,7 +43,7 @@ final class WpRegisterScript implements IWpRegisterScriptFunction
         return $this;
     }
 
-    public function args(IWpRegisterScriptArgs|bool $args): self
+    public function args(IWpRegisterScriptArgs|WpArray|bool $args): self
     {
         $this->args = $args;
         return $this;
@@ -54,11 +55,11 @@ final class WpRegisterScript implements IWpRegisterScriptFunction
     public function rawArgs(): array
     {
         return [
-            $this->handle,
-            $this->src,
-            array_map(static fn($dep) => $dep->getHandle(), $this->deps),
-            $this->version,
-            $this->args,
+            $this->getHandle(),
+            $this->getSrc(),
+            $this->getDeps(),
+            $this->getVersion(),
+            $this->getArgs(),
         ];
     }
 
@@ -68,5 +69,30 @@ final class WpRegisterScript implements IWpRegisterScriptFunction
     public function executeWithArgs(array $args): bool
     {
         return wp_register_script(...$args);
+    }
+
+    public function getHandle(): string
+    {
+        return $this->handle;
+    }
+
+    public function getSrc(): string|false
+    {
+        return $this->src;
+    }
+
+    public function getDeps(): array
+    {
+        return $this->deps;
+    }
+
+    public function getVersion(): string|bool|null
+    {
+        return $this->version;
+    }
+
+    public function getArgs(): IWpRegisterScriptArgs|WpArray|bool
+    {
+        return $this->args;
     }
 }
