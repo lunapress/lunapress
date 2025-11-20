@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 use LunaPress\Wp\I18n\RenderTranslate\RenderTranslate;
 use LunaPress\Wp\I18n\Translate\Translate;
+use LunaPress\Wp\I18n\Translator\Translator;
 use LunaPress\Wp\I18nContracts\RenderTranslate\IRenderTranslateFunction;
 use LunaPress\Wp\I18nContracts\Translate\ITranslateFunction;
 use LunaPress\Wp\I18nContracts\PluralTranslate\IPluralTranslateFunction;
@@ -29,6 +30,7 @@ use LunaPress\Wp\I18nContracts\ContextPluralTranslate\IContextPluralTranslateFac
 use LunaPress\Wp\I18nContracts\LoadPluginTextDomain\ILoadPluginTextDomainFactory;
 use LunaPress\Wp\I18nContracts\LoadScriptTextDomain\ILoadScriptTextDomainFactory;
 use LunaPress\Wp\I18nContracts\ContextTranslate\IContextTranslateFactory;
+use LunaPress\Wp\I18nContracts\Translator\ITranslator;
 use function LunaPress\Foundation\Container\autowire;
 
 return [
@@ -52,4 +54,6 @@ return [
 
     IContextTranslateFunction::class => autowire(ContextTranslate::class),
     IContextTranslateFactory::class => autowire(ContextTranslateFactory::class),
+
+    ITranslator::class => autowire(Translator::class),
 ];
