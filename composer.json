@@ -20,6 +20,7 @@
         "lunapress/frontend-contracts": "@dev",
         "lunapress/wp-assets-contracts": "@dev",
         "lunapress/wp-core-contracts": "@dev",
+        "lunapress/wp-i18n-contracts": "@dev",
         "mustache/mustache": "^v3.0.0",
         "php": "^8.3",
         "php-di/php-di": "^7.1",
@@ -45,6 +46,7 @@
         "lunapress/php-di-adapter": "self.version",
         "lunapress/wp-assets": "self.version",
         "lunapress/wp-core": "self.version",
+        "lunapress/wp-i18n": "self.version",
         "symfony/polyfill-php83": "*"
     },
     "repositories": [
@@ -67,7 +69,8 @@
             "LunaPress\\Frontend\\": "packages/frontend/src/",
             "LunaPress\\PhpDiAdapter\\": "packages/php-di-adapter/src/",
             "LunaPress\\Wp\\Assets\\": "packages/wp-assets/src/",
-            "LunaPress\\Wp\\Core\\": "packages/wp-core/src/"
+            "LunaPress\\Wp\\Core\\": "packages/wp-core/src/",
+            "LunaPress\\Wp\\I18n\\": "packages/wp-i18n/src/"
         },
         "files": [
             "bootstrap/abspath.php",

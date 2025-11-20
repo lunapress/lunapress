@@ -1,0 +1,34 @@
+{
+    "name": "lunapress/wp-i18n",
+    "description": "Wrapper for WP functions",
+    "type": "lunapress-service-package",
+    "authors": [
+        {
+            "name": "Onepix",
+            "homepage": "https://onepix.net",
+            "role": "Company"
+        },
+        {
+            "name": "0zd0",
+            "role": "Lead Developer",
+            "homepage": "https://github.com/0zd0"
+        }
+    ],
+    "autoload": {
+        "psr-4": {
+            "LunaPress\\Wp\\I18n\\": "src/"
+        }
+    },
+    "extra": {
+        "lunapress": {
+            "di": "src/di.php"
+        }
+    },
+    "require": {
+        "php": "^8.3",
+        "psr/container": "^2",
+        "lunapress/foundation": "@dev",
+        "lunapress/core-contracts": "@dev",
+        "lunapress/wp-i18n-contracts": "@dev"
+    }
+}
