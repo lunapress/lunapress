@@ -5,7 +5,7 @@ namespace LunaPress\Wp\I18n\LoadPluginTextDomain;
 
 use LunaPress\Wp\I18nContracts\LoadPluginTextDomain\ILoadPluginTextDomainFactory;
 use LunaPress\Wp\I18nContracts\LoadPluginTextDomain\ILoadPluginTextDomainFunction;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 defined('ABSPATH') || exit;
 

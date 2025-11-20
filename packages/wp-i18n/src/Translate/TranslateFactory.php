@@ -5,7 +5,7 @@ namespace LunaPress\Wp\I18n\Translate;
 
 use LunaPress\Wp\I18nContracts\Translate\ITranslateFactory;
 use LunaPress\Wp\I18nContracts\Translate\ITranslateFunction;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 defined('ABSPATH') || exit;
 

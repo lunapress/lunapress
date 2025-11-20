@@ -5,7 +5,7 @@ namespace LunaPress\Wp\I18n\ContextPluralTranslate;
 
 use LunaPress\Wp\I18nContracts\ContextPluralTranslate\IContextPluralTranslateFactory;
 use LunaPress\Wp\I18nContracts\ContextPluralTranslate\IContextPluralTranslateFunction;
-use Symfony\Component\DependencyInjection\ContainerInterface;
+use Psr\Container\ContainerInterface;
 
 defined('ABSPATH') || exit;
 

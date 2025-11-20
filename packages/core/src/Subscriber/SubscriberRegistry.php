@@ -21,7 +21,7 @@ defined('ABSPATH') || exit;
 final readonly class SubscriberRegistry implements ISubscriberRegistry
 {
     public function __construct(
-        private ContainerInterface     $container,
+        private ContainerInterface $container,
         private ActionManager $actions,
         private FilterManager $filters,
     ) {
