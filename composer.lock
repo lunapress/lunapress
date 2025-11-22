@@ -163,12 +163,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lunapress/frontend-contracts.git",
-                "reference": "434907aa21ed76feadc7f0821a153c1c13c5a7be"
+                "reference": "5208b0f4016ac18ca0667a015c489c579ea5d5de"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lunapress/frontend-contracts/zipball/434907aa21ed76feadc7f0821a153c1c13c5a7be",
-                "reference": "434907aa21ed76feadc7f0821a153c1c13c5a7be",
+                "url": "https://api.github.com/repos/lunapress/frontend-contracts/zipball/5208b0f4016ac18ca0667a015c489c579ea5d5de",
+                "reference": "5208b0f4016ac18ca0667a015c489c579ea5d5de",
                 "shasum": ""
             },
             "require": {
@@ -200,7 +200,7 @@
                 "issues": "https://github.com/lunapress/frontend-contracts/issues",
                 "source": "https://github.com/lunapress/frontend-contracts/tree/main"
             },
-            "time": "2025-11-18T17:46:32+00:00"
+            "time": "2025-11-22T19:34:08+00:00"
         },
         {
             "name": "lunapress/wp-assets-contracts",
@@ -208,12 +208,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lunapress/wp-assets-contracts.git",
-                "reference": "92982bfb38072a2d128ece5fc134563e0b691a58"
+                "reference": "b36e49705e6549e17f9cc036c6b89829f5acae52"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lunapress/wp-assets-contracts/zipball/92982bfb38072a2d128ece5fc134563e0b691a58",
-                "reference": "92982bfb38072a2d128ece5fc134563e0b691a58",
+                "url": "https://api.github.com/repos/lunapress/wp-assets-contracts/zipball/b36e49705e6549e17f9cc036c6b89829f5acae52",
+                "reference": "b36e49705e6549e17f9cc036c6b89829f5acae52",
                 "shasum": ""
             },
             "require": {
@@ -244,7 +244,7 @@
             "support": {
                 "source": "https://github.com/lunapress/wp-assets-contracts/tree/main"
             },
-            "time": "2025-11-20T01:33:25+00:00"
+            "time": "2025-11-22T19:34:11+00:00"
         },
         {
             "name": "lunapress/wp-core-contracts",
@@ -252,12 +252,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lunapress/wp-core-contracts.git",
-                "reference": "8ff4598cab607a292b672b2bc62aa8c22d7470b4"
+                "reference": "2500d4a328c07fd59de87963b0bf5ae994766673"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lunapress/wp-core-contracts/zipball/8ff4598cab607a292b672b2bc62aa8c22d7470b4",
-                "reference": "8ff4598cab607a292b672b2bc62aa8c22d7470b4",
+                "url": "https://api.github.com/repos/lunapress/wp-core-contracts/zipball/2500d4a328c07fd59de87963b0bf5ae994766673",
+                "reference": "2500d4a328c07fd59de87963b0bf5ae994766673",
                 "shasum": ""
             },
             "require": {
@@ -288,7 +288,7 @@
             "support": {
                 "source": "https://github.com/lunapress/wp-core-contracts/tree/main"
             },
-            "time": "2025-11-20T01:42:29+00:00"
+            "time": "2025-11-22T19:25:34+00:00"
         },
         {
             "name": "lunapress/wp-i18n-contracts",
@@ -296,12 +296,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lunapress/wp-i18n-contracts.git",
-                "reference": "70f9dd1b6c0c1e172b2a30141a61baa23bfae5de"
+                "reference": "0248456cd5045250bfff89ec91181f1b1a1a1e53"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lunapress/wp-i18n-contracts/zipball/70f9dd1b6c0c1e172b2a30141a61baa23bfae5de",
-                "reference": "70f9dd1b6c0c1e172b2a30141a61baa23bfae5de",
+                "url": "https://api.github.com/repos/lunapress/wp-i18n-contracts/zipball/0248456cd5045250bfff89ec91181f1b1a1a1e53",
+                "reference": "0248456cd5045250bfff89ec91181f1b1a1a1e53",
                 "shasum": ""
             },
             "require": {
@@ -331,7 +331,7 @@
             "support": {
                 "source": "https://github.com/lunapress/wp-i18n-contracts/tree/main"
             },
-            "time": "2025-11-20T21:44:55+00:00"
+            "time": "2025-11-22T19:12:45+00:00"
         },
         {
             "name": "mustache/mustache",
@@ -4198,16 +4198,16 @@
         },
         {
             "name": "nette/utils",
-            "version": "v4.0.8",
+            "version": "v4.0.9",
             "source": {
                 "type": "git",
                 "url": "https://github.com/nette/utils.git",
-                "reference": "c930ca4e3cf4f17dcfb03037703679d2396d2ede"
+                "reference": "505a30ad386daa5211f08a318e47015b501cad30"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/nette/utils/zipball/c930ca4e3cf4f17dcfb03037703679d2396d2ede",
-                "reference": "c930ca4e3cf4f17dcfb03037703679d2396d2ede",
+                "url": "https://api.github.com/repos/nette/utils/zipball/505a30ad386daa5211f08a318e47015b501cad30",
+                "reference": "505a30ad386daa5211f08a318e47015b501cad30",
                 "shasum": ""
             },
             "require": {
@@ -4281,9 +4281,9 @@
             ],
             "support": {
                 "issues": "https://github.com/nette/utils/issues",
-                "source": "https://github.com/nette/utils/tree/v4.0.8"
+                "source": "https://github.com/nette/utils/tree/v4.0.9"
             },
-            "time": "2025-08-06T21:43:34+00:00"
+            "time": "2025-10-31T00:45:47+00:00"
         },
         {
             "name": "nikic/php-parser",
@@ -5562,16 +5562,16 @@
         },
         {
             "name": "phpdocumentor/type-resolver",
-            "version": "1.11.0",
+            "version": "1.11.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpDocumentor/TypeResolver.git",
-                "reference": "8cbe6100e8971efbf8e2e7da3a202ba83eafd5a3"
+                "reference": "f626740b38009078de0dc8b2b9dc4e7f749c6eba"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/8cbe6100e8971efbf8e2e7da3a202ba83eafd5a3",
-                "reference": "8cbe6100e8971efbf8e2e7da3a202ba83eafd5a3",
+                "url": "https://api.github.com/repos/phpDocumentor/TypeResolver/zipball/f626740b38009078de0dc8b2b9dc4e7f749c6eba",
+                "reference": "f626740b38009078de0dc8b2b9dc4e7f749c6eba",
                 "shasum": ""
             },
             "require": {
@@ -5614,9 +5614,9 @@
             "description": "A PSR-5 based resolver of Class names, Types and Structural Element Names",
             "support": {
                 "issues": "https://github.com/phpDocumentor/TypeResolver/issues",
-                "source": "https://github.com/phpDocumentor/TypeResolver/tree/1.11.0"
+                "source": "https://github.com/phpDocumentor/TypeResolver/tree/1.11.1"
             },
-            "time": "2025-11-19T20:28:58+00:00"
+            "time": "2025-11-21T11:31:57+00:00"
         },
         {
             "name": "phpowermove/docblock",
