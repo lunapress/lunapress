@@ -37,10 +37,6 @@ it('correctly passes arguments combination', function ($input, $expected) {
 
     $this->tester->execute($input);
 })->with([
-    // [
-    // $input,
-    // $expected
-    // ]
     'defaults' => [
         [],
         [getcwd(), Path::join(getcwd(), 'languages'), [], []]
@@ -61,3 +57,9 @@ it('correctly passes arguments combination', function ($input, $expected) {
         ['./src', './languages', ['plugin'], ['default']]
     ],
 ]);
+
+it('outputs success message', function () {
+    $this->generator->shouldReceive('generate')->once();
+    $this->tester->execute([]);
+    expect($this->tester->getDisplay())->toContain('Successfully completed');
+});
