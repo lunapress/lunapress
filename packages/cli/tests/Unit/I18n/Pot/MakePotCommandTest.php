@@ -1,0 +1,63 @@
+<?php
+declare(strict_types=1);
+
+use LunaPress\Cli\I18n\Pot\MakePotCommand;
+use LunaPress\Cli\I18n\Pot\Generator\IPotGenerator;
+use Symfony\Component\Console\Tester\CommandTester;
+use Symfony\Component\Filesystem\Path;
+
+beforeEach(function () {
+    $this->generator = Mockery::mock(IPotGenerator::class);
+    $this->command   = new MakePotCommand($this->generator);
+    $this->tester    = new CommandTester($this->command);
+});
+
+it('all command parameters', function () {
+    $definition = $this->command->getDefinition();
+
+    expect($definition->hasArgument('source'))->toBeTrue()
+        ->and($definition->getArgument('source')->isRequired())->toBeFalse()
+
+        ->and($definition->hasArgument('destination'))->toBeTrue()
+        ->and($definition->getArgument('destination')->isRequired())->toBeFalse()
+
+        ->and($definition->hasOption('domains'))->toBeTrue()
+        ->and($definition->getOption('domains')->isArray())->toBeTrue()
+        ->and($definition->getOption('domains')->isValueRequired())->toBeTrue()
+
+        ->and($definition->hasOption('ignore-domains'))->toBeTrue()
+        ->and($definition->getOption('ignore-domains')->isArray())->toBeTrue()
+        ->and($definition->getOption('ignore-domains')->isValueRequired())->toBeTrue();
+});
+
+it('correctly passes arguments combination', function ($input, $expected) {
+    $this->generator->shouldReceive('generate')
+        ->once()
+        ->with(...$expected);
+
+    $this->tester->execute($input);
+})->with([
+    // [
+    // $input,
+    // $expected
+    // ]
+    'defaults' => [
+        [],
+        [getcwd(), Path::join(getcwd(), 'languages'), [], []]
+    ],
+
+    'only source' => [
+        ['source' => './src'],
+        ['./src', Path::join(getcwd(), 'languages'), [], []]
+    ],
+
+    'source and destination' => [
+        ['source' => './src', 'destination' => './languages'],
+        ['./src', './languages', [], []]
+    ],
+
+    'all' => [
+        ['source' => './src', 'destination' => './languages', '--domains' => ['plugin'], '--ignore-domains' => ['default']],
+        ['./src', './languages', ['plugin'], ['default']]
+    ],
+]);

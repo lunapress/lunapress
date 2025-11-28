@@ -1,0 +1,14 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"POT-Creation-Date: 2025-11-28T02:01:00+00:00\n"
+"Project-Id-Version: other\n"
+"X-Domain: other\n"
+"X-Generator: LunaPress CLI\n"
+
+#: src/OtherSubscriber.php:21
+msgid "Other text"
+msgstr ""

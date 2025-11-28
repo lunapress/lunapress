@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace LunaPress\Wp\I18n\Functions\ContextTranslate;
+namespace LunaPress\Wp\I18n\Function\ContextTranslate;
 
 use LunaPress\Wp\I18nContracts\Function\ContextTranslate\IContextTranslateFactory;
 use LunaPress\Wp\I18nContracts\Function\ContextTranslate\IContextTranslateFunction;

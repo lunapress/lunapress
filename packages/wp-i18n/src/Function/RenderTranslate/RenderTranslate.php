@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace LunaPress\Wp\I18n\Functions\RenderTranslate;
+namespace LunaPress\Wp\I18n\Function\RenderTranslate;
 
 use LunaPress\Wp\I18n\Trait\HasDomain;
 use LunaPress\Wp\I18n\Trait\HasText;

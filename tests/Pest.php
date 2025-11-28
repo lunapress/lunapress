@@ -1,6 +1,10 @@
 <?php
 declare(strict_types=1);
 
+use LunaPress\Test\Package;
+use Pest\TestSuite;
+use Symfony\Component\Finder\Finder;
+
 require __DIR__ . '/../packages/cli/tests/Pest.php';
 
 /*
@@ -40,7 +44,43 @@ expect()->extend('toBeOne', function () {
 |
 */
 
-function something()
+function packageFixture(Package $package, string $fixturePath): string
 {
-    // ..
+    $path = implode(DIRECTORY_SEPARATOR, [
+        TestSuite::getInstance()->rootPath,
+        'packages',
+        $package->value,
+        'tests',
+        'Fixture',
+        str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $fixturePath),
+    ]);
+
+    $realPath = realpath($path);
+
+    if ($realPath === false) {
+        throw new InvalidArgumentException(
+            'The fixture file [' . $path . '] does not exist.',
+        );
+    }
+
+    return $realPath;
+}
+
+/**
+ * @param Package $package
+ * @param string $fixturePath
+ * @return array
+ */
+function packageFixtureDataset(Package $package, string $fixturePath): array
+{
+    $fixturesDir = packageFixture($package, $fixturePath);
+
+    $finder = (new Finder())->in($fixturesDir)->depth(0)->directories();
+
+    $dataset = [];
+    foreach ($finder as $directory) {
+        $dataset[$directory->getFilename()] = [$directory->getRealPath()];
+    }
+
+    return $dataset;
 }

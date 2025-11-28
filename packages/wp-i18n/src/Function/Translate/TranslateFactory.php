@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace LunaPress\Wp\I18n\Functions\Translate;
+namespace LunaPress\Wp\I18n\Function\Translate;
 
 use LunaPress\Wp\I18nContracts\Function\Translate\ITranslateFactory;
 use LunaPress\Wp\I18nContracts\Function\Translate\ITranslateFunction;

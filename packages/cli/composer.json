@@ -30,7 +30,10 @@
         "php": "^8.3",
         "symfony/console": "^v7",
         "symfony/finder": "^v7.3",
-        "mustache/mustache": "^v3.0.0"
+        "mustache/mustache": "^v3.0.0",
+        "gettext/gettext": "^v5.7.3",
+        "lunapress/wp-i18n-contracts": "@dev",
+        "lunapress/foundation-contracts": "@dev"
     },
     "require-dev": {
         "pestphp/pest": "^v4",

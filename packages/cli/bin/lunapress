@@ -1,12 +1,29 @@
 #!/usr/bin/env php
 <?php
 
+use Gettext\Generator\PoGenerator;
 use LunaPress\Cli\Frontend\Init\FrontendInitCommand;
+use LunaPress\Cli\I18n\Pot\Extractor\PhpStanExtractor;
+use LunaPress\Cli\I18n\Pot\Generator\PotGenerator;
+use LunaPress\Cli\I18n\Pot\MakePotCommand;
+use LunaPress\Cli\I18n\Pot\Scanner\PhpStanScanner;
 use Symfony\Component\Console\Application;
+use Symfony\Component\Filesystem\Filesystem;
 
 include $_composer_autoload_path ?? __DIR__ . '/../../../vendor/autoload.php';
 
 $app = new Application('LunaPress CLI', '1.0.0');
 
 $app->add(new FrontendInitCommand());
+$app->add(new MakePotCommand(
+    new PotGenerator(
+        [
+            new PhpStanExtractor(
+                    new PhpStanScanner()
+            )
+        ],
+        new PoGenerator(),
+        new Filesystem()
+    )
+));
 $app->run();

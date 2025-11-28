@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace LunaPress\Wp\I18n\Functions\ContextPluralTranslate;
+namespace LunaPress\Wp\I18n\Function\ContextPluralTranslate;
 
 use LunaPress\Wp\I18n\Trait\HasContext;
 use LunaPress\Wp\I18n\Trait\HasDomain;

@@ -15,3 +15,4 @@ composer.phar
 
 wordpress
 .frontend-preview
+.phpunit.result.cache

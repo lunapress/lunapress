@@ -15,6 +15,7 @@
         }
     ],
     "require": {
+        "gettext/gettext": "^v5.7.3",
         "lunapress/core-contracts": "@dev",
         "lunapress/foundation-contracts": "@dev",
         "lunapress/frontend-contracts": "@dev",
@@ -80,7 +81,8 @@
     "autoload-dev": {
         "psr-4": {
             "LunaPress\\Cli\\Robo\\": "packages/cli/robo/",
-            "LunaPress\\Cli\\Test\\": "packages/cli/tests/"
+            "LunaPress\\Cli\\Test\\": "packages/cli/tests/",
+            "LunaPress\\Test\\": "tests/"
         }
     },
     "config": {
@@ -88,6 +90,9 @@
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "roots/wordpress-core-installer": true,
             "pestphp/pest-plugin": true
+        },
+        "platform": {
+            "php": "8.3"
         }
     },
     "extra": {

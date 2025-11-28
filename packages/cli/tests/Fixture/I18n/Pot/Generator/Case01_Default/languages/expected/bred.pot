@@ -1,0 +1,39 @@
+msgid ""
+msgstr ""
+"Content-Transfer-Encoding: 8bit\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"MIME-Version: 1.0\n"
+"POT-Creation-Date: 2025-11-28T01:38:32+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Project-Id-Version: bred\n"
+"X-Domain: bred\n"
+"X-Generator: LunaPress CLI\n"
+
+#: src/AllFactoryService.php:27
+msgid "renderTranslateFactory"
+msgstr ""
+
+#: src/AllFactoryService.php:31
+msgid "translateFactory"
+msgstr ""
+
+#: src/AllFactoryService.php:35
+msgctxt "context"
+msgid "contextTranslateFactory"
+msgstr ""
+
+#: src/AllFactoryService.php:39
+msgid "pluralTranslateFactory"
+msgid_plural "plurals"
+msgstr[0] ""
+
+#: src/AllFactoryService.php:43
+msgctxt "context"
+msgid "contextPluralTranslateFactory"
+msgid_plural "plurals"
+msgstr[0] ""
+
+#: src/Subscriber.php:20
+#: src/SubscriberDouble.php:20
+msgid "Double text"
+msgstr ""

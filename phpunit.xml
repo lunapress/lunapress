@@ -16,5 +16,6 @@
     </source>
     <php>
         <const name="ABSPATH" value="/wordpress" />
+        <ini name="memory_limit" value="-1" />
     </php>
 </phpunit>
