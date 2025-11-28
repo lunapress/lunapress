@@ -100,6 +100,7 @@ final readonly class PotGenerator implements IPotGenerator
     private function collectFiles(string $source): array
     {
         $finder = new Finder();
+        $finder->ignoreVCSIgnored(true);
         $finder->in($source)->files();
 
         $files = [];

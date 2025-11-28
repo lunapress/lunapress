@@ -52,11 +52,15 @@ final class MakePotCommand extends Command
 
     private function normalizeDestination(?string $destination): string
     {
-        return $destination ?? Path::join(getcwd(), 'languages');
+        $path = $destination ?? 'languages';
+
+        return Path::makeAbsolute($path, getcwd());
     }
 
     private function normalizeSource(?string $source): string
     {
-        return $source ?? getcwd();
+        $path = $source ?? '.';
+
+        return Path::makeAbsolute($path, getcwd());
     }
 }
