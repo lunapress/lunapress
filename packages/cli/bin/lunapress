@@ -12,6 +12,10 @@ use Symfony\Component\Filesystem\Filesystem;
 
 include $_composer_autoload_path ?? __DIR__ . '/../../../vendor/autoload.php';
 
+if (!defined('ABSPATH')) {
+    define('ABSPATH', '/');
+}
+
 $app = new Application('LunaPress CLI', '1.0.0');
 
 $app->addCommand(new FrontendInitCommand());
