@@ -27,10 +27,21 @@ it('all command parameters', function () {
 
         ->and($definition->hasOption('ignore-domains'))->toBeTrue()
         ->and($definition->getOption('ignore-domains')->isArray())->toBeTrue()
-        ->and($definition->getOption('ignore-domains')->isValueRequired())->toBeTrue();
+        ->and($definition->getOption('ignore-domains')->isValueRequired())->toBeTrue()
+
+        ->and($definition->hasOption('exclude'))->toBeTrue()
+        ->and($definition->getOption('exclude')->isArray())->toBeTrue()
+        ->and($definition->getOption('exclude')->isValueRequired())->toBeTrue()
+
+        ->and($definition->hasOption('include'))->toBeTrue()
+        ->and($definition->getOption('include')->isArray())->toBeTrue()
+        ->and($definition->getOption('include')->isValueRequired())->toBeTrue();
 });
 
 it('correctly passes arguments combination', function ($input, $expected) {
+    $expected[0] = Path::makeAbsolute($expected[0], getcwd());
+    $expected[1] = Path::makeAbsolute($expected[1], getcwd());
+
     $this->generator->shouldReceive('generate')
         ->once()
         ->with(...$expected);
@@ -39,22 +50,36 @@ it('correctly passes arguments combination', function ($input, $expected) {
 })->with([
     'defaults' => [
         [],
-        [getcwd(), Path::join(getcwd(), 'languages'), [], []]
+        [getcwd(), Path::join(getcwd(), 'languages'), [], [], [], []]
     ],
 
     'only source' => [
         ['source' => './src'],
-        ['./src', Path::join(getcwd(), 'languages'), [], []]
+        ['./src', Path::join(getcwd(), 'languages'), [], [], [], []]
     ],
 
     'source and destination' => [
         ['source' => './src', 'destination' => './languages'],
-        ['./src', './languages', [], []]
+        ['./src', './languages', [], [], [], []]
     ],
 
     'all' => [
-        ['source' => './src', 'destination' => './languages', '--domains' => ['plugin'], '--ignore-domains' => ['default']],
-        ['./src', './languages', ['plugin'], ['default']]
+        [
+            'source' => './src',
+            'destination' => './languages',
+            '--domains' => ['plugin'],
+            '--ignore-domains' => ['default'],
+            '--include' => ['frontend', './plugin.php'],
+            '--exclude' => ['vendor', 'foo-*.php', '/frontend/node_modules'],
+        ],
+        [
+            './src',
+            './languages',
+            ['plugin'],
+            ['default'],
+            ['frontend', './plugin.php'],
+            ['vendor', 'foo-*.php', '/frontend/node_modules']
+        ]
     ],
 ]);
 

@@ -32,13 +32,10 @@ it('generates correct pot for scenario', function (string $projectPath) {
     $expectedDir = Path::join($projectPath, 'languages', 'expected');
     $actualDir   = Path::join($projectPath, 'languages', 'actual');
 
-    if ($this->fs->exists($actualDir)) {
-        $this->fs->remove($actualDir);
-    }
-    $this->fs->mkdir($actualDir);
+    cleanDir($actualDir);
 
     $this->generator->generate(
-        source: $projectPath,
+        sourceDir: $projectPath,
         destinationDir: $actualDir,
     );
 
@@ -68,13 +65,10 @@ it('filters domains based on onlyDomains and ignoreDomains', function (
     $fixturePath = packageFixture(Package::CLI, 'I18n/Pot/Generator/Case01_Default');
     $actualDir   = Path::join($fixturePath, 'languages', 'actual');
 
-    if ($this->fs->exists($actualDir)) {
-        $this->fs->remove($actualDir);
-    }
-    $this->fs->mkdir($actualDir);
+    cleanDir($actualDir);
 
     $this->generator->generate(
-        source: $fixturePath,
+        sourceDir: $fixturePath,
         destinationDir: $actualDir,
         domains: $onlyDomains,
         ignoreDomains: $ignoreDomains
@@ -115,6 +109,40 @@ it('filters domains based on onlyDomains and ignoreDomains', function (
         'shouldNotExist' => [DEFAULT_DOMAIN, OTHER_DOMAIN],
     ],
 ]);
+
+it('excludes paths', function () {
+    $fixtureDir = packageFixture(Package::CLI, 'I18n/Pot/Generator/Case01_Default');
+    $sourceDir  = Path::join($fixtureDir, 'src');
+    $actualDir  = Path::join($fixtureDir, 'languages/actual');
+    $includes   = [
+        Path::join($fixtureDir, 'plugin.php'),
+        Path::join($fixtureDir, 'templates'),
+    ];
+    $excludes   = [
+        'ExcludedFolder',
+        'excluded_file.php',
+        '*_temp.php',
+    ];
+
+    cleanDir($actualDir);
+
+    $this->generator->generate(
+        sourceDir: $sourceDir,
+        destinationDir: $actualDir,
+        include: $includes,
+        exclude: $excludes
+    );
+
+    $potFile = Path::join($actualDir, DEFAULT_DOMAIN . '.pot');
+    expect($potFile)->toBeFile();
+
+    $content = (new SplFileInfo($potFile, '', ''))->getContents();
+
+    expect($content)->toContain('msgid "Plugin"')
+        ->not->toContain('msgid "Ignored via folder"')
+        ->not->toContain('msgid "Ignored via path"')
+        ->not->toContain('msgid "Ignored via wildcard"');
+});
 
 function normalizePot(string $content): string {
     $content = preg_replace('/^"POT-Creation-Date:.*\n/m', '', $content);

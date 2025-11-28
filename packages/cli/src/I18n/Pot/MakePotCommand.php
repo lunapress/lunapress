@@ -36,13 +36,21 @@ final class MakePotCommand extends Command
         array $domains = [],
 
         #[Option(description: 'Ignore domains')]
-        array $ignoreDomains = []
+        array $ignoreDomains = [],
+
+        #[Option(description: 'Scan additional paths (syntax `symfony/finder`)')]
+        array $include = [],
+
+        #[Option(description: 'Ignore paths (syntax `symfony/finder`)')]
+        array $exclude = [],
     ): int {
         $this->generator->generate(
             $this->normalizeSource($source),
             $this->normalizeDestination($destination),
             $domains,
             $ignoreDomains,
+            $include,
+            $exclude,
         );
 
         $io->success('Successfully completed');

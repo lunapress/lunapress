@@ -27,10 +27,16 @@ final readonly class PotGenerator implements IPotGenerator
     /**
      * @inheritDoc
      */
-    public function generate(string $source, string $destinationDir, array $domains = [], array $ignoreDomains = []): void
-    {
-        $allFiles    = $this->collectFiles($source);
-        $allMessages = $this->extractMessages($allFiles, $source);
+    public function generate(
+        string $sourceDir,
+        string $destinationDir,
+        array $domains = [],
+        array $ignoreDomains = [],
+        array $include = [],
+        array $exclude = []
+    ): void {
+        $allFiles    = $this->collectFiles($sourceDir, $include, $exclude);
+        $allMessages = $this->extractMessages($allFiles, $sourceDir);
         /** @var array<string, Translations> $allTranslations */
         $allTranslations = [];
 
@@ -95,19 +101,47 @@ final readonly class PotGenerator implements IPotGenerator
 
     /**
      * @param string $source
+     * @param string[] $include
+     * @param string[] $exclude
      * @return string[]
      */
-    private function collectFiles(string $source): array
-    {
+    private function collectFiles(
+        string $source,
+        array $include = [],
+        array $exclude = []
+    ): array {
         $finder = new Finder();
-        $finder->ignoreVCSIgnored(true);
-        $finder->in($source)->files();
+        $finder
+            ->files()
+            ->name('*.php')
+            ->ignoreVCSIgnored(true)
+            ->sortByName();
 
-        $files = [];
-        foreach ($finder as $file) {
-            $files[] = $file->getPathname();
+        $dirsToScan = [$source];
+        foreach ($include as $path) {
+            $absPath = Path::makeAbsolute($path, getcwd());
+
+            if (is_dir($absPath)) {
+                $dirsToScan[] = $absPath;
+            } elseif (is_file($absPath)) {
+                dump($absPath);
+                $finder->append([$absPath]);
+            }
         }
-        return $files;
+        $finder->in(array_values(array_unique($dirsToScan)));
+
+        $patterns     = preg_grep('/[*?]/', $exclude);
+        $excludePaths = array_diff($exclude, $patterns);
+
+        if (!empty($patterns)) {
+            $finder->notName($patterns);
+        }
+
+        if (!empty($excludePaths)) {
+            $finder->notPath($excludePaths);
+        }
+
+        return array_keys(iterator_to_array($finder));
     }
 
     private function shouldSkipDomain(string $domain, array $only, array $ignore): bool

@@ -3,12 +3,29 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "MIME-Version: 1.0\n"
-"POT-Creation-Date: 2025-11-28T01:38:32+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"POT-Creation-Date: 2025-11-28T19:01:58+00:00\n"
 "Project-Id-Version: default\n"
 "X-Domain: default\n"
 "X-Generator: LunaPress CLI\n"
 
+#: excluded_temp.php:11
+#: templates/excluded_temp.php:11
+msgid "Ignored via wildcard"
+msgstr ""
+
+#: plugin.php:11
+msgid "Plugin"
+msgstr ""
+
 #: src/DefaultSubscriber.php:20
 msgid "Default text"
+msgstr ""
+
+#: src/ExcludedFolder/Exclude.php:15
+msgid "Ignored via folder"
+msgstr ""
+
+#: templates/excluded_file.php:11
+msgid "Ignored via path"
 msgstr ""

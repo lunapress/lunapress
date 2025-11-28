@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 use LunaPress\Test\Package;
 use Pest\TestSuite;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
 
 require __DIR__ . '/../packages/cli/tests/Pest.php';
@@ -83,4 +84,13 @@ function packageFixtureDataset(Package $package, string $fixturePath): array
     }
 
     return $dataset;
+}
+
+function cleanDir(string $path): void
+{
+    $fs = new Filesystem();
+    if ($fs->exists($path)) {
+        $fs->remove($path);
+    }
+    $fs->mkdir($path);
 }
