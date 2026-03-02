@@ -1,6 +1,6 @@
 {
-    "name": "{{name}}",
-    "packageManager": "{{packageManagerVersion}}",
+    "name": "frontend",
+    "packageManager": "pnpm@10.19.0",
     "private": true,
     "version": "0.0.0",
     "type": "module",
@@ -34,9 +34,9 @@
         "typescript": "5.9.3",
         "typescript-eslint": "8.46.2",
         "vite": "7.1.12",
-        "@lunapress/rollup-plugin-wp": "^0.1.5",
-        "@lunapress/config": "^0.1.5"
-    }{{#isPnpm}},
+        "@lunapress/rollup-plugin-wp": "latest",
+        "@lunapress/config": "^0.0.1"
+    },
     "pnpm": {
         "supportedArchitectures": {
             "os": [
@@ -48,5 +48,5 @@
                 "arm64"
             ]
         }
-    }{{/isPnpm}}
+    }
 }

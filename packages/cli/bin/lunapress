@@ -1,12 +1,15 @@
 #!/usr/bin/env php
 <?php
 
+use CuyZ\Valinor\MapperBuilder;
 use Gettext\Generator\PoGenerator;
 use LunaPress\Cli\Frontend\Init\FrontendInitCommand;
+use LunaPress\Cli\I18n\Pot\Extractor\JavascriptExtractor\JavascriptExtractor;
 use LunaPress\Cli\I18n\Pot\Extractor\PhpStanExtractor;
 use LunaPress\Cli\I18n\Pot\Generator\PotGenerator;
 use LunaPress\Cli\I18n\Pot\MakePotCommand;
 use LunaPress\Cli\I18n\Pot\Scanner\PhpStanScanner;
+use LunaPress\Cli\Support\ProcessFactory;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -24,7 +27,11 @@ $app->addCommand(new MakePotCommand(
         [
             new PhpStanExtractor(
                     new PhpStanScanner()
-            )
+            ),
+            new JavascriptExtractor(
+                    new ProcessFactory(),
+                    new MapperBuilder()
+            ),
         ],
         new PoGenerator(),
         new Filesystem()

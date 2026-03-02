@@ -5,6 +5,8 @@ use LunaPress\Test\Package;
 use Pest\TestSuite;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Finder\Finder;
+use Symfony\Component\Process\Exception\ProcessFailedException;
+use Symfony\Component\Process\Process;
 
 require __DIR__ . '/../packages/cli/tests/Pest.php';
 
@@ -93,4 +95,41 @@ function cleanDir(string $path): void
         $fs->remove($path);
     }
     $fs->mkdir($path);
+}
+
+function prepareNodeFixture(string $path): void
+{
+    $install = new Process(['pnpm', 'install'], $path);
+    $install->setTimeout(600);
+    $install->run();
+
+    if (!$install->isSuccessful()) {
+        throw new ProcessFailedException($install);
+    }
+
+    $packageJson = json_decode(file_get_contents($path . '/package.json'), true);
+
+    if (isset($packageJson['scripts']['build'])) {
+        $build = new Process(['pnpm', 'run', 'build'], $path);
+        $build->setTimeout(600);
+        $build->run();
+
+        if (!$build->isSuccessful()) {
+            throw new ProcessFailedException($build);
+        }
+    }
+}
+
+function prepareAllNestedFixtures(string $rootPath): void
+{
+    $finder = new Finder();
+    $finder->files()
+        ->in($rootPath)
+        ->name('package.json')
+        ->exclude('node_modules');
+
+    foreach ($finder as $file) {
+        $configDir = $file->getPath();
+        prepareNodeFixture($configDir);
+    }
 }

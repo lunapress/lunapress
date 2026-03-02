@@ -5,5 +5,5 @@ namespace LunaPress\Cli\I18n;
 
 final readonly class Constants
 {
-    public const DEFAULT_DOMAIN = 'default';
+    public const string DEFAULT_DOMAIN = 'default';
 }
