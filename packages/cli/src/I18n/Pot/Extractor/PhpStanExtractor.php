@@ -23,6 +23,8 @@ use Symfony\Component\Filesystem\Path;
 
 final readonly class PhpStanExtractor implements IExtractor
 {
+    use ExtractorPatternMatchTrait;
+
     /**
      * @var array<string, callable(MethodCall, string): ?ExtractedMessage>
      */
@@ -43,9 +45,9 @@ final readonly class PhpStanExtractor implements IExtractor
         ];
     }
 
-    public function supports(string $filePath): bool
+    public function getPatterns(): array
     {
-        return str_ends_with($filePath, '.php');
+        return ['*.php'];
     }
 
     public function extract(array $files, string $source): array

@@ -67,6 +67,7 @@
         "psr-4": {
             "LunaPress\\": "src/",
             "LunaPress\\Cli\\": "packages/cli/src/",
+            "LunaPress\\Cli\\Test\\": "packages/cli/tests/",
             "LunaPress\\Core\\": "packages/core/src/",
             "LunaPress\\Foundation\\": "packages/foundation/src/",
             "LunaPress\\Frontend\\": "packages/frontend/src/",
@@ -112,6 +113,7 @@
             "@check:phpcs",
             "@check:psalm"
         ],
-        "cli:frontend:preview": "robo --load-from packages/cli/robo/Tasks.php frontend:preview"
+        "cli:frontend:preview": "robo --load-from packages/cli/robo/Tasks.php frontend:preview",
+        "tests": "pest"
     }
 }

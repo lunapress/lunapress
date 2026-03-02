@@ -17,7 +17,8 @@
     ],
     "autoload": {
         "psr-4": {
-            "LunaPress\\Cli\\": "src/"
+            "LunaPress\\Cli\\": "src/",
+            "LunaPress\\Cli\\Test\\": "tests/"
         }
     },
     "autoload-dev": {

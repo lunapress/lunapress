@@ -12,14 +12,16 @@ interface IPotGenerator
      * @param string[] $ignoreDomains
      * @param string[] $include
      * @param string[] $exclude
+     * @param bool $skipFrontend
      * @return void
      */
     public function generate(
         string $sourceDir,
         string $destinationDir,
-        array $domains = [],
-        array $ignoreDomains = [],
-        array $include = [],
-        array $exclude = []
+        array  $domains = [],
+        array  $ignoreDomains = [],
+        array  $include = [],
+        array  $exclude = [],
+        bool   $skipFrontend = false,
     ): void;
 }

@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+namespace LunaPress\Cli\Test\Integration\I18n\Pot\Extractor;
+
 use CuyZ\Valinor\MapperBuilder;
 use LunaPress\Cli\I18n\Pot\Extractor\ExtractedMessage;
 use LunaPress\Cli\I18n\Pot\Extractor\JavascriptExtractor\JavascriptExtractor;
@@ -20,18 +22,7 @@ beforeEach(function () {
 it('javascript extractor gets translation objects from real files', function (string $projectPath) {
     prepareAllNestedFixtures($projectPath);
 
-    /** @var string[] $files */
-    $files = [];
-
-    $this->finder->in($projectPath)
-        ->files()
-        ->name(['*.js', '*.jsx', '*.ts', '*.tsx', '*.vue']);
-
-    foreach ($this->finder as $fileInfo) {
-        $files[] = $fileInfo->getPathname();
-    }
-
-    $messages = $this->extractor->extract($files, $projectPath);
+    $messages = $this->extractor->extract([], $projectPath);
 
     expect($messages)
         ->toBeArray()

@@ -8,6 +8,7 @@ use Gettext\Translation;
 use Gettext\Translations;
 use LunaPress\Cli\I18n\Pot\Extractor\ExtractedMessage;
 use LunaPress\Cli\I18n\Pot\Extractor\IExtractor;
+use LunaPress\Cli\I18n\Pot\Extractor\JavascriptExtractor\JavascriptExtractor;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Path;
 use Symfony\Component\Finder\Finder;
@@ -30,13 +31,14 @@ final readonly class PotGenerator implements IPotGenerator
     public function generate(
         string $sourceDir,
         string $destinationDir,
-        array $domains = [],
-        array $ignoreDomains = [],
-        array $include = [],
-        array $exclude = []
+        array  $domains = [],
+        array  $ignoreDomains = [],
+        array  $include = [],
+        array  $exclude = [],
+        bool   $skipFrontend = false,
     ): void {
-        $allFiles    = $this->collectFiles($sourceDir, $include, $exclude);
-        $allMessages = $this->extractMessages($allFiles, $sourceDir);
+        $allFiles    = $this->collectFiles($sourceDir, $include, $exclude, $skipFrontend);
+        $allMessages = $this->extractMessages($allFiles, $sourceDir, $skipFrontend);
         /** @var array<string, Translations> $allTranslations */
         $allTranslations = [];
 
@@ -64,10 +66,14 @@ final readonly class PotGenerator implements IPotGenerator
      * @param string[] $files
      * @return ExtractedMessage[]
      */
-    private function extractMessages(array $files, string $source): array
+    private function extractMessages(array $files, string $source, bool $skipFrontend = false): array
     {
         $messages = [];
         foreach ($this->extractors as $extractor) {
+            if ($skipFrontend && $extractor instanceof JavascriptExtractor) {
+                continue;
+            }
+
             $batch = array_filter($files, fn($f) => $extractor->supports($f));
             if ($batch) {
                 $messages = array_merge($messages, $extractor->extract($batch, $source));
@@ -103,19 +109,32 @@ final readonly class PotGenerator implements IPotGenerator
      * @param string $source
      * @param string[] $include
      * @param string[] $exclude
+     * @param bool $skipFrontend
      * @return string[]
      */
     private function collectFiles(
         string $source,
         array $include = [],
-        array $exclude = []
+        array $exclude = [],
+        bool $skipFrontend = false,
     ): array {
         $finder = new Finder();
         $finder
             ->files()
-            ->name('*.php')
             ->ignoreVCSIgnored(true)
             ->sortByName();
+
+        $patternsToScan = [];
+        foreach ($this->extractors as $extractor) {
+            if ($skipFrontend && $extractor instanceof JavascriptExtractor) {
+                continue;
+            }
+            array_push($patternsToScan, ...$extractor->getPatterns());
+        }
+
+        if (!empty($patternsToScan)) {
+            $finder->name(array_unique($patternsToScan));
+        }
 
         $dirsToScan = [$source];
         foreach ($include as $path) {
@@ -124,7 +143,6 @@ final readonly class PotGenerator implements IPotGenerator
             if (is_dir($absPath)) {
                 $dirsToScan[] = $absPath;
             } elseif (is_file($absPath)) {
-                dump($absPath);
                 $finder->append([$absPath]);
             }
         }

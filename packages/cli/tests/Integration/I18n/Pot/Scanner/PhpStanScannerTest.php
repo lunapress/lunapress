@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+namespace LunaPress\Cli\Test\Integration\I18n\Pot\Scanner;
+
 use LunaPress\Cli\I18n\Pot\Scanner\PhpStanScanner;
 use LunaPress\Test\Package;
 use PhpParser\Node;

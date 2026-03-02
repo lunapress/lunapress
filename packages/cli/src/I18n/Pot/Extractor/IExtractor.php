@@ -13,4 +13,6 @@ interface IExtractor
     public function extract(array $files, string $source): array;
 
     public function supports(string $filePath): bool;
+
+    public function getPatterns(): array;
 }

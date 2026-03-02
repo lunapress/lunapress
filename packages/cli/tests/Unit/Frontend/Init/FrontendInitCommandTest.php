@@ -1,11 +1,14 @@
 <?php
 declare(strict_types=1);
 
+namespace LunaPress\Cli\Test\Unit\Frontend\Init;
+
 use LunaPress\Cli\Frontend\FrontendFramework;
 use LunaPress\Cli\Frontend\Init\FrontendInitCommand;
 use LunaPress\Cli\Frontend\Init\FrontendInitConfig;
 use LunaPress\Cli\Frontend\Init\IFrontendProjectGenerator;
 use LunaPress\Cli\Frontend\PackageManager;
+use Mockery;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
 

@@ -1,8 +1,11 @@
 <?php
 declare(strict_types=1);
 
+namespace LunaPress\Cli\Test\Unit\I18n\Pot;
+
 use LunaPress\Cli\I18n\Pot\MakePotCommand;
 use LunaPress\Cli\I18n\Pot\Generator\IPotGenerator;
+use Mockery;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Filesystem\Path;
 
@@ -50,17 +53,17 @@ it('correctly passes arguments combination', function ($input, $expected) {
 })->with([
     'defaults' => [
         [],
-        [getcwd(), Path::join(getcwd(), 'languages'), [], [], [], []]
+        [getcwd(), Path::join(getcwd(), 'languages'), [], [], [], [], false]
     ],
 
     'only source' => [
         ['source' => './src'],
-        ['./src', Path::join(getcwd(), 'languages'), [], [], [], []]
+        ['./src', Path::join(getcwd(), 'languages'), [], [], [], [], false]
     ],
 
     'source and destination' => [
         ['source' => './src', 'destination' => './languages'],
-        ['./src', './languages', [], [], [], []]
+        ['./src', './languages', [], [], [], [], false]
     ],
 
     'all' => [
@@ -71,6 +74,7 @@ it('correctly passes arguments combination', function ($input, $expected) {
             '--ignore-domains' => ['default'],
             '--include' => ['frontend', './plugin.php'],
             '--exclude' => ['vendor', 'foo-*.php', '/frontend/node_modules'],
+            '--skip-frontend' => true,
         ],
         [
             './src',
@@ -78,7 +82,8 @@ it('correctly passes arguments combination', function ($input, $expected) {
             ['plugin'],
             ['default'],
             ['frontend', './plugin.php'],
-            ['vendor', 'foo-*.php', '/frontend/node_modules']
+            ['vendor', 'foo-*.php', '/frontend/node_modules'],
+            true
         ]
     ],
 ]);

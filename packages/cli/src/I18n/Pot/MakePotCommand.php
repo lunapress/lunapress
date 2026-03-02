@@ -43,6 +43,9 @@ final class MakePotCommand extends Command
 
         #[Option(description: 'Ignore paths (syntax `symfony/finder`)')]
         array $exclude = [],
+
+        #[Option(description: 'Skips TypeScript string extraction')]
+        bool  $skipFrontend = false,
     ): int {
         $this->generator->generate(
             $this->normalizeSource($source),
@@ -51,6 +54,7 @@ final class MakePotCommand extends Command
             $ignoreDomains,
             $include,
             $exclude,
+            $skipFrontend,
         );
 
         $io->success('Successfully completed');

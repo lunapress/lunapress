@@ -7,6 +7,7 @@ use CuyZ\Valinor\Mapper\MappingError;
 use CuyZ\Valinor\MapperBuilder;
 use Gettext\Translation;
 use LunaPress\Cli\I18n\Pot\Extractor\ExtractedMessage;
+use LunaPress\Cli\I18n\Pot\Extractor\ExtractorPatternMatchTrait;
 use LunaPress\Cli\I18n\Pot\Extractor\IExtractor;
 use LunaPress\Cli\I18n\Pot\Extractor\JavascriptExtractor\DTO\CLIOutputItem;
 use LunaPress\Cli\Support\IProcessFactory;
@@ -14,6 +15,8 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 
 final readonly class JavascriptExtractor implements IExtractor
 {
+    use ExtractorPatternMatchTrait;
+
     public const string JS_CLI_PACKAGE  = '@lunapress/cli';
     public const string DEFAULT_VERSION = '0.1.5';
 
@@ -41,9 +44,9 @@ final readonly class JavascriptExtractor implements IExtractor
         return $this->parseOutput($process->getOutput());
     }
 
-    public function supports(string $filePath): bool
+    public function getPatterns(): array
     {
-        return preg_match('/\.(js|jsx|ts|tsx|vue)$/', $filePath) === 1;
+        return ['*.js', '*.jsx', '*.ts', '*.tsx', '*.vue'];
     }
 
     private function parseOutput(string $json): array

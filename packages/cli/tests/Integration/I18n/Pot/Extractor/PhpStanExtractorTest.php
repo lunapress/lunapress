@@ -1,6 +1,8 @@
 <?php
 declare(strict_types=1);
 
+namespace LunaPress\Cli\Test\Integration\I18n\Pot\Extractor;
+
 use LunaPress\Cli\I18n\Pot\Extractor\ExtractedMessage;
 use LunaPress\Cli\I18n\Pot\Extractor\PhpStanExtractor;
 use LunaPress\Cli\I18n\Pot\Scanner\PhpStanScanner;
