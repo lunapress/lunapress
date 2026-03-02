@@ -38,7 +38,7 @@ final readonly class PotGenerator implements IPotGenerator
         bool   $skipFrontend = false,
     ): void {
         $allFiles    = $this->collectFiles($sourceDir, $include, $exclude, $skipFrontend);
-        $allMessages = $this->extractMessages($allFiles, $sourceDir, $skipFrontend);
+        $allMessages = $this->extractMessages($allFiles, $sourceDir, $domains, $ignoreDomains, $skipFrontend);
         /** @var array<string, Translations> $allTranslations */
         $allTranslations = [];
 
@@ -66,7 +66,7 @@ final readonly class PotGenerator implements IPotGenerator
      * @param string[] $files
      * @return ExtractedMessage[]
      */
-    private function extractMessages(array $files, string $source, bool $skipFrontend = false): array
+    private function extractMessages(array $files, string $source, array $domains = [], array $ignoreDomains = [], bool $skipFrontend = false): array
     {
         $messages = [];
         foreach ($this->extractors as $extractor) {
@@ -76,7 +76,7 @@ final readonly class PotGenerator implements IPotGenerator
 
             $batch = array_filter($files, fn($f) => $extractor->supports($f));
             if ($batch) {
-                $messages = array_merge($messages, $extractor->extract($batch, $source));
+                $messages = array_merge($messages, $extractor->extract($batch, $source, $domains, $ignoreDomains));
             }
         }
         return $messages;

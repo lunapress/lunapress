@@ -50,7 +50,7 @@ final readonly class PhpStanExtractor implements IExtractor
         return ['*.php'];
     }
 
-    public function extract(array $files, string $source): array
+    public function extract(array $files, string $source, array $domains = [], array $ignoreDomains = []): array
     {
         /** @var ExtractedMessage[] $messages */
         $messages = [];

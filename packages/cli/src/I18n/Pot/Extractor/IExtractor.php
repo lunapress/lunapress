@@ -8,9 +8,11 @@ interface IExtractor
     /**
      * @param string[] $files
      * @param string $source
+     * @param string[] $domains
+     * @param string[] $ignoreDomains
      * @return ExtractedMessage[]
      */
-    public function extract(array $files, string $source): array;
+    public function extract(array $files, string $source, array $domains = [], array $ignoreDomains = []): array;
 
     public function supports(string $filePath): bool;
 

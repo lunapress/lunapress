@@ -9,7 +9,10 @@ use LunaPress\Cli\I18n\Pot\Extractor\JavascriptExtractor\JavascriptExtractor;
 use LunaPress\Cli\Support\ProcessFactory;
 use LunaPress\Test\Package;
 use Pest\Expectation;
+use Symfony\Component\Filesystem\Path;
 use Symfony\Component\Finder\Finder;
+
+const FIXTURES_PATH = 'I18n/Pot/Extractor/JavascriptExtractor';
 
 beforeEach(function () {
     $this->finder    = new Finder();
@@ -19,10 +22,11 @@ beforeEach(function () {
     );
 });
 
-it('javascript extractor gets translation objects from real files', function (string $projectPath) {
-    prepareAllNestedFixtures($projectPath);
+it('javascript extractor gets translation objects from real files', function () {
+    $fixtureDir = packageFixture(Package::CLI, Path::join(FIXTURES_PATH, 'Case01_Default'));
+    prepareAllNestedFixtures($fixtureDir);
 
-    $messages = $this->extractor->extract([], $projectPath);
+    $messages = $this->extractor->extract([], $fixtureDir);
 
     expect($messages)
         ->toBeArray()
@@ -61,4 +65,26 @@ it('javascript extractor gets translation objects from real files', function (st
                     ->and($message->value->getTranslation()->getContext())->toBe('context2');
             }
         );
-})->with(packageFixtureDataset(Package::CLI, 'I18n/Pot/Extractor/JavascriptExtractor'));
+});
+
+it('filters messages by domains argument', function () {
+    $fixtureDir = packageFixture(Package::CLI, Path::join(FIXTURES_PATH, 'Case01_Default'));
+    prepareAllNestedFixtures($fixtureDir);
+
+    $messages = $this->extractor->extract([], $fixtureDir, ['core']);
+
+    expect($messages)
+        ->toBeArray()
+        ->toBeEmpty();
+});
+
+it('ignores messages by ignoreDomains argument', function () {
+    $fixtureDir = packageFixture(Package::CLI, Path::join(FIXTURES_PATH, 'Case01_Default'));
+    prepareAllNestedFixtures($fixtureDir);
+
+    $messages = $this->extractor->extract([], $fixtureDir, [], ['plugin']);
+
+    expect($messages)
+        ->toBeArray()
+        ->toBeEmpty();
+});

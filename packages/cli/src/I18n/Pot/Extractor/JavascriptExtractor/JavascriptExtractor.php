@@ -18,7 +18,7 @@ final readonly class JavascriptExtractor implements IExtractor
     use ExtractorPatternMatchTrait;
 
     public const string JS_CLI_PACKAGE  = '@lunapress/cli';
-    public const string DEFAULT_VERSION = '0.1.5';
+    public const string DEFAULT_VERSION = '0.1.6';
 
     public function __construct(
         private IProcessFactory $processFactory,
@@ -28,10 +28,18 @@ final readonly class JavascriptExtractor implements IExtractor
     ) {
     }
 
-    public function extract(array $files, string $source): array
+    public function extract(array $files, string $source, array $domains = [], array $ignoreDomains = []): array
     {
         $packageConstraint = "{$this->packageName}@{$this->version}";
         $command           = ['npx', '-y', $packageConstraint, 'i18n:makePot', $source, '--json'];
+
+        foreach ($domains as $domain) {
+            $command[] = '--domains=' . $domain;
+        }
+
+        foreach ($ignoreDomains as $ignoreDomain) {
+            $command[] = '--ignoreDomains=' . $ignoreDomain;
+        }
 
         $process = $this->processFactory->create($command);
 

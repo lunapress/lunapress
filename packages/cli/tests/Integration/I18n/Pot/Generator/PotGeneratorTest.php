@@ -73,7 +73,7 @@ it('filters domains based on onlyDomains and ignoreDomains', function (
     array $shouldExist,
     array $shouldNotExist
 ) {
-    $fixturePath = packageFixture(Package::CLI, Path::join(FIXTURES_PATH, '/Case01_Default'));
+    $fixturePath = packageFixture(Package::CLI, Path::join(FIXTURES_PATH, 'Case01_Default'));
     $actualDir   = Path::join($fixturePath, 'languages', 'actual');
 
     cleanDir($actualDir);
@@ -122,7 +122,7 @@ it('filters domains based on onlyDomains and ignoreDomains', function (
 ]);
 
 it('excludes paths', function () {
-    $fixtureDir = packageFixture(Package::CLI, Path::join(FIXTURES_PATH . '/Case01_Default'));
+    $fixtureDir = packageFixture(Package::CLI, Path::join(FIXTURES_PATH, 'Case01_Default'));
     $sourceDir  = Path::join($fixtureDir, 'src');
     $actualDir  = Path::join($fixtureDir, 'languages', 'actual');
     $includes   = [
