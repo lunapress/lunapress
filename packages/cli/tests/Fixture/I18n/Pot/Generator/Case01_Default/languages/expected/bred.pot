@@ -1,11 +1,17 @@
+# Copyright (C) 2026 Onepix
+# This file is distributed under the GPLv2 or later.
+#
 msgid ""
 msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Content-Type: text/plain; charset=UTF-8\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "MIME-Version: 1.0\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "POT-Creation-Date: 2025-11-28T19:01:58+00:00\n"
-"Project-Id-Version: bred\n"
+"Project-Id-Version: Test Plugin Data\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/bred\n"
 "X-Domain: bred\n"
 "X-Generator: LunaPress CLI\n"
 

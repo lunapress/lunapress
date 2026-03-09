@@ -7,8 +7,10 @@ use Gettext\Generator\PoGenerator;
 use Gettext\Translation;
 use Gettext\Translations;
 use LunaPress\Cli\I18n\Pot\Extractor\ExtractedMessage;
+use LunaPress\Cli\I18n\Pot\Extractor\FileHeaderExtractor\Dto\FileHeader;
 use LunaPress\Cli\I18n\Pot\Extractor\IExtractor;
 use LunaPress\Cli\I18n\Pot\Extractor\JavascriptExtractor\JavascriptExtractor;
+use LunaPress\Cli\I18n\Pot\Scanner\ProjectMetadataScanner;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Path;
 use Symfony\Component\Finder\Finder;
@@ -21,7 +23,8 @@ final readonly class PotGenerator implements IPotGenerator
     public function __construct(
         private array $extractors,
         private PoGenerator $poGenerator,
-        private Filesystem $fs
+        private Filesystem $fs,
+        private ProjectMetadataScanner $metadataScanner,
     ) {
     }
 
@@ -36,11 +39,14 @@ final readonly class PotGenerator implements IPotGenerator
         array  $include = [],
         array  $exclude = [],
         bool   $skipFrontend = false,
+        ?string $cliVersion = null,
     ): void {
         $allFiles    = $this->collectFiles($sourceDir, $include, $exclude, $skipFrontend);
         $allMessages = $this->extractMessages($allFiles, $sourceDir, $domains, $ignoreDomains, $skipFrontend);
         /** @var array<string, Translations> $allTranslations */
         $allTranslations = [];
+
+        $projectMetadata = $this->metadataScanner->scan($allFiles, $sourceDir);
 
         foreach ($allMessages as $message) {
             $domain = $message->getDomain();
@@ -48,7 +54,7 @@ final readonly class PotGenerator implements IPotGenerator
                 continue;
             }
 
-            $collection = $this->getOrCreateCollection($allTranslations, $domain);
+            $collection = $this->getOrCreateCollection($allTranslations, $domain, $projectMetadata, $cliVersion);
             $this->processMessage($collection, $message);
         }
 
@@ -95,11 +101,11 @@ final readonly class PotGenerator implements IPotGenerator
         }
     }
 
-    private function getOrCreateCollection(array &$registry, string $domain): Translations
+    private function getOrCreateCollection(array &$registry, string $domain, ?FileHeader $metadata, ?string $cliVersion): Translations
     {
         if (!isset($registry[$domain])) {
             $registry[$domain] = Translations::create($domain);
-            $this->setHeaders($registry[$domain], $domain);
+            $this->setHeaders($registry[$domain], $domain, $metadata, $cliVersion);
         }
 
         return $registry[$domain];
@@ -173,16 +179,63 @@ final readonly class PotGenerator implements IPotGenerator
         return false;
     }
 
-    private function setHeaders(Translations $translations, string $domain): void
+    private function setHeaders(Translations $translations, string $domain, ?FileHeader $metadata, ?string $cliVersion): void
     {
         $headers = $translations->getHeaders();
 
-        $headers->set('Project-Id-Version', $domain);
         $headers->set('MIME-Version', '1.0');
         $headers->set('Content-Type', 'text/plain; charset=UTF-8');
         $headers->set('Content-Transfer-Encoding', '8bit');
         $headers->set('POT-Creation-Date', gmdate('Y-m-d\TH:i:s\+00:00'));
         $headers->set('PO-Revision-Date', 'YEAR-MO-DA HO:MI+ZONE');
-        $headers->set('X-Generator', 'LunaPress CLI');
+
+        $generatorHeader = 'LunaPress CLI';
+        if ($cliVersion) {
+            $generatorHeader .= ' ' . $cliVersion;
+        }
+        $headers->set('X-Generator', $generatorHeader);
+
+        $name    = $domain;
+        $version = null;
+        $slug    = $domain;
+        $bugUrl  = null;
+        $author  = null;
+        $license = null;
+
+        if ($metadata !== null) {
+            $version = $metadata->headers[ProjectMetadataScanner::HEADER_VERSION]?->value;
+            $author  = $metadata->headers[ProjectMetadataScanner::HEADER_AUTHOR]?->value;
+            $license = $metadata->headers[ProjectMetadataScanner::HEADER_LICENSE]?->value;
+
+            if ($metadata->isTheme) {
+                $name   = $metadata->headers[ProjectMetadataScanner::HEADER_THEME_NAME]?->value ?: $name;
+                $bugUrl = sprintf('https://wordpress.org/support/theme/%s', $slug);
+            } else {
+                $name   = $metadata->headers[ProjectMetadataScanner::HEADER_PLUGIN_NAME]?->value ?: $name;
+                $bugUrl = sprintf('https://wordpress.org/support/plugin/%s', $slug);
+            }
+        }
+
+        $headers->set('Project-Id-Version', $name . ($version ? ' ' . $version : ''));
+
+        if ($bugUrl !== null) {
+            $headers->set('Report-Msgid-Bugs-To', $bugUrl);
+        }
+
+        $headers->set('Last-Translator', 'FULL NAME <EMAIL@ADDRESS>');
+        $headers->set('Language-Team', 'LANGUAGE <LL@li.org>');
+
+        if ($metadata !== null && $author) {
+            $year = gmdate('Y');
+            $type = $metadata->isTheme ? 'theme' : 'plugin';
+
+            if ($license) {
+                $description = sprintf("Copyright (C) %s %s\nThis file is distributed under the %s.", $year, $author, $license);
+            } else {
+                $description = sprintf("Copyright (C) %s %s\nThis file is distributed under the same license as the %s %s.", $year, $author, $name, $type);
+            }
+
+            $translations->setDescription($description);
+        }
     }
 }

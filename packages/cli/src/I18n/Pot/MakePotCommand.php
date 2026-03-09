@@ -12,8 +12,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Path;
 
 #[AsCommand(
-    name: 'i81n:make-pot',
-    description: 'Generates .pot for translation'
+    name: 'i18n:make-pot',
+    description: 'Generates .pot for translation',
 )]
 final class MakePotCommand extends Command
 {
@@ -55,6 +55,7 @@ final class MakePotCommand extends Command
             $include,
             $exclude,
             $skipFrontend,
+            $this->getApplication()?->getVersion()
         );
 
         $io->success('Successfully completed');

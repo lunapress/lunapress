@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace LunaPress\Cli\I18n\Pot\Extractor\Dto;
+namespace LunaPress\Cli\I18n\Pot\Extractor\FileHeaderExtractor\Dto;
 
 final readonly class FileHeader
 {

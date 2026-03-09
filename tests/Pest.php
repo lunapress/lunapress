@@ -99,7 +99,7 @@ function cleanDir(string $path): void
 
 function prepareNodeFixture(string $path): void
 {
-    $install = new Process(['pnpm', 'install'], $path);
+    $install = new Process(['pnpm', 'install'], $path, ['CI' => 'true']);
     $install->setTimeout(600);
     $install->run();
 

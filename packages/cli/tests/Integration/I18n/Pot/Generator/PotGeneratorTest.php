@@ -9,6 +9,7 @@ use LunaPress\Cli\I18n\Pot\Extractor\JavascriptExtractor\JavascriptExtractor;
 use LunaPress\Cli\I18n\Pot\Extractor\PhpStanExtractor;
 use LunaPress\Cli\I18n\Pot\Generator\PotGenerator;
 use LunaPress\Cli\I18n\Pot\Scanner\PhpStanScanner;
+use LunaPress\Cli\I18n\Pot\Scanner\ProjectMetadataScanner;
 use LunaPress\Cli\Support\ProcessFactory;
 use LunaPress\Test\Package;
 use Symfony\Component\Filesystem\Filesystem;
@@ -34,7 +35,8 @@ beforeEach(function () {
             )
         ],
         new PoGenerator(),
-        $this->fs
+        $this->fs,
+        new ProjectMetadataScanner()
     );
 });
 

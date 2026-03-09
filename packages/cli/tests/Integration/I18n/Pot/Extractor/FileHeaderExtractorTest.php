@@ -4,12 +4,13 @@ declare(strict_types=1);
 namespace LunaPress\Cli\Test\Integration\I18n\Pot\Extractor;
 
 use LunaPress\Cli\I18n\Pot\Extractor\ExtractedMessage;
-use LunaPress\Cli\I18n\Pot\Extractor\FileHeaderExtractor;
+use LunaPress\Cli\I18n\Pot\Extractor\FileHeaderExtractor\FileHeaderExtractor;
+use LunaPress\Cli\I18n\Pot\Scanner\ProjectMetadataScanner;
 use LunaPress\Test\Package;
 use Pest\Expectation;
 
 beforeEach(function () {
-    $this->extractor = new FileHeaderExtractor();
+    $this->extractor = new FileHeaderExtractor(new ProjectMetadataScanner());
 });
 
 it('extracts plugin headers successfully', function () {

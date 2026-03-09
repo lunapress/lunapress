@@ -53,17 +53,17 @@ it('correctly passes arguments combination', function ($input, $expected) {
 })->with([
     'defaults' => [
         [],
-        [getcwd(), Path::join(getcwd(), 'languages'), [], [], [], [], false]
+        [getcwd(), Path::join(getcwd(), 'languages'), [], [], [], [], false, null]
     ],
 
     'only source' => [
         ['source' => './src'],
-        ['./src', Path::join(getcwd(), 'languages'), [], [], [], [], false]
+        ['./src', Path::join(getcwd(), 'languages'), [], [], [], [], false, null]
     ],
 
     'source and destination' => [
         ['source' => './src', 'destination' => './languages'],
-        ['./src', './languages', [], [], [], [], false]
+        ['./src', './languages', [], [], [], [], false, null]
     ],
 
     'all' => [
@@ -83,7 +83,8 @@ it('correctly passes arguments combination', function ($input, $expected) {
             ['default'],
             ['frontend', './plugin.php'],
             ['vendor', 'foo-*.php', '/frontend/node_modules'],
-            true
+            true,
+            null
         ]
     ],
 ]);

@@ -1,18 +1,14 @@
 <?php
 declare(strict_types=1);
 
-namespace LunaPress\Cli\I18n\Pot\Extractor;
+namespace LunaPress\Cli\I18n\Pot\Scanner;
 
-use Gettext\Translation;
-use LunaPress\Cli\I18n\Constants;
-use LunaPress\Cli\I18n\Pot\Extractor\Dto\FileHeader;
-use LunaPress\Cli\I18n\Pot\Extractor\Dto\HeaderField;
+use LunaPress\Cli\I18n\Pot\Extractor\FileHeaderExtractor\Dto\FileHeader;
+use LunaPress\Cli\I18n\Pot\Extractor\FileHeaderExtractor\Dto\HeaderField;
 use Symfony\Component\Filesystem\Path;
 
-final readonly class FileHeaderExtractor implements IExtractor
+final class ProjectMetadataScanner
 {
-    use ExtractorPatternMatchTrait;
-
     public const string HEADER_PLUGIN_NAME = 'Plugin Name';
     public const string HEADER_PLUGIN_URI  = 'Plugin URI';
     public const string HEADER_THEME_NAME  = 'Theme Name';
@@ -47,30 +43,18 @@ final readonly class FileHeaderExtractor implements IExtractor
         ...self::COMMON_HEADERS,
     ];
 
-    public const array EXTRACTABLE_HEADERS = [
-        self::HEADER_PLUGIN_NAME,
-        self::HEADER_PLUGIN_URI,
-        self::HEADER_THEME_NAME,
-        self::HEADER_THEME_URI,
-        self::HEADER_DESCRIPTION,
-        self::HEADER_AUTHOR,
-        self::HEADER_AUTHOR_URI,
-    ];
-
-    public function getPatterns(): array
+    /**
+     * Scan an array of files to find the main plugin file or theme stylesheet.
+     * We don't cache this as it's typically fast and called rarely.
+     *
+     * @param string[] $files
+     * @param string $source
+     * @return FileHeader|null
+     */
+    public function scan(array $files, string $source): ?FileHeader
     {
-        return ['*.php', 'style.css'];
-    }
-
-    public function extract(array $files, string $source, array $domains = [], array $ignoreDomains = []): array
-    {
-        /** @var ExtractedMessage[] $messages */
-        $messages = [];
-
-        /** @var FileHeader|null $pluginData */
         $pluginData = null;
-        /** @var FileHeader|null $themeData */
-        $themeData = null;
+        $themeData  = null;
 
         sort($files);
 
@@ -93,6 +77,7 @@ final readonly class FileHeaderExtractor implements IExtractor
             if ($isCss && basename($file) === 'style.css' && $themeData === null) {
                 $relativePath = Path::makeRelative($file, $source);
 
+                // Only detect style.css files in the root or an immediate subdirectory of the source.
                 if (!str_starts_with($relativePath, '..') && substr_count($relativePath, '/') <= 1) {
                     $themeHeaders = $this->getFileData($file, self::THEME_HEADERS);
                     if (isset($themeHeaders[self::HEADER_THEME_NAME]) && !$themeHeaders[self::HEADER_THEME_NAME]->isEmpty()) {
@@ -102,22 +87,16 @@ final readonly class FileHeaderExtractor implements IExtractor
             }
         }
 
-        if ($pluginData !== null) {
-            $messages = array_merge($messages, $this->createExtractedMessages($pluginData, $source, $domains, $ignoreDomains));
-        }
-
-        if ($themeData !== null) {
-            $messages = array_merge($messages, $this->createExtractedMessages($themeData, $source, $domains, $ignoreDomains));
-        }
-
-        return $messages;
+        // Return theme primarily if both found (as per WP CLI behavior generally, but usually only one applies)
+        // We'll prefer Theme, then Plugin, or ultimately whatever is found.
+        return $themeData ?? $pluginData;
     }
 
     /**
      * @param string[] $headers
      * @return array<string, HeaderField>
      */
-    private function getFileData(string $file, array $headers): array
+    public function getFileData(string $file, array $headers): array
     {
         if (!is_readable($file)) {
             return [];
@@ -138,7 +117,7 @@ final readonly class FileHeaderExtractor implements IExtractor
      * @param string[] $headers
      * @return array<string, HeaderField>
      */
-    private function getFileDataFromString(string $text, array $headers): array
+    public function getFileDataFromString(string $text, array $headers): array
     {
         /**
          * @var array<string, HeaderField> $result
@@ -168,47 +147,5 @@ final readonly class FileHeaderExtractor implements IExtractor
     private function cleanupHeaderComment(string $text): string
     {
         return trim(preg_replace('/\s*(?:\*\/|\?>).*/', '', $text));
-    }
-
-    private function createExtractedMessages(FileHeader $fileHeader, string $source, array $domains, array $ignoreDomains): array
-    {
-        $messages = [];
-        $domain   = Constants::DEFAULT_DOMAIN;
-
-        $textDomainField = $fileHeader->headers[self::HEADER_TEXT_DOMAIN] ?? null;
-
-        if ($textDomainField !== null && !$textDomainField->isEmpty()) {
-            $domain = $textDomainField->value;
-        }
-
-        $relativePath = Path::makeRelative($fileHeader->filePath, $source);
-
-        foreach ($fileHeader->headers as $headerName => $headerField) {
-            if (!in_array($headerName, self::EXTRACTABLE_HEADERS, true)) {
-                continue;
-            }
-
-            if ($headerField->isEmpty()) {
-                continue;
-            }
-
-            $translation = Translation::create(null, $headerField->value);
-
-            if ($fileHeader->isTheme) {
-                $translation->getExtractedComments()->add(sprintf('%s of the theme', $headerName));
-            } else {
-                $translation->getExtractedComments()->add(sprintf('%s of the plugin', $headerName));
-            }
-
-            if ($headerField->line > 0) {
-                $translation->getReferences()->add($relativePath, $headerField->line);
-            } else {
-                $translation->getReferences()->add($relativePath);
-            }
-
-            $messages[] = new ExtractedMessage($translation, $domain);
-        }
-
-        return $messages;
     }
 }

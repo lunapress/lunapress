@@ -1,5 +1,9 @@
 <?php
 /**
+ * Plugin Name: Test Plugin Data
+ * Author: Onepix
+ * License: GPLv2 or later
+ *
  * @var IDefaultTranslator $translator
  * @var ITranslateFactory $translateFactory
  */

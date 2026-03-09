@@ -13,6 +13,7 @@ interface IPotGenerator
      * @param string[] $include
      * @param string[] $exclude
      * @param bool $skipFrontend
+     * @param string|null $cliVersion
      * @return void
      */
     public function generate(
@@ -23,5 +24,6 @@ interface IPotGenerator
         array  $include = [],
         array  $exclude = [],
         bool   $skipFrontend = false,
+        ?string $cliVersion = null,
     ): void;
 }
