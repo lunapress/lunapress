@@ -56,7 +56,7 @@ it('generates correct pot for scenario', function (string $projectPath) {
 
     foreach ($expectedFinder as $expectedFile) {
         $relativePath = $expectedFile->getRelativePathname();
-        $actualFile   = $actualDir . '/' . $relativePath;
+        $actualFile   = Path::join($actualDir, $relativePath);
 
         expect($actualFile)->toBeFile("File '$relativePath' was not generated!");
 
@@ -86,12 +86,12 @@ it('filters domains based on onlyDomains and ignoreDomains', function (
     );
 
     foreach ($shouldExist as $domain) {
-        $file = $actualDir . '/' . $domain . '.pot';
+        $file = Path::join($actualDir, $domain . '.pot');
         expect($file)->toBeFile("Expected domain '$domain' to be generated, but file not found.");
     }
 
     foreach ($shouldNotExist as $domain) {
-        $file = $actualDir . '/' . $domain . '.pot';
+        $file = Path::join($actualDir, $domain . '.pot');
         expect($file)->not->toBeFile("Did not expect domain '$domain' to be generated, but file exists.");
     }
 })->with([

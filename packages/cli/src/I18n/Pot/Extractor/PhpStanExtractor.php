@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace LunaPress\Cli\I18n\Pot\Extractor;
 
+use Generator;
 use Gettext\Translation;
 use LunaPress\Cli\I18n\Constants;
 use LunaPress\Cli\I18n\Pot\Scanner\IScanner;
@@ -14,9 +15,12 @@ use LunaPress\Wp\I18nContracts\Function\RenderTranslate\IRenderTranslateFactory;
 use LunaPress\Wp\I18nContracts\Function\Translate\ITranslateFactory;
 use LunaPress\Wp\I18nContracts\Service\Translator\ITranslator;
 use PhpParser\Node;
+use PhpParser\Node\Expr\CallLike;
+use PhpParser\Node\Expr\FuncCall;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Scalar\String_;
 use PHPStan\Analyser\MutatingScope;
+use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use Symfony\Component\Filesystem\Path;
@@ -30,18 +34,44 @@ final readonly class PhpStanExtractor implements IExtractor
      */
     private array $handlers;
 
+    /**
+     * @var array<string, callable(FuncCall): ?ExtractedMessage>
+     */
+    private array $wpFunctionHandlers;
+
     public function __construct(
         private IScanner $scanner,
-    ) {
+    )
+    {
         $this->handlers = [
             IRenderTranslateFactory::class => $this->extractBasic(...),
-            ITranslateFactory::class       => $this->extractBasic(...),
+            ITranslateFactory::class => $this->extractBasic(...),
 
             IContextTranslateFactory::class => $this->extractContext(...),
 
             IPluralTranslateFactory::class => $this->extractPlural(...),
 
             IContextPluralTranslateFactory::class => $this->extractContextPlural(...),
+        ];
+
+        $this->wpFunctionHandlers = [
+            '__' => $this->extractWpBasic(...),
+            '_e' => $this->extractWpBasic(...),
+            'esc_attr__' => $this->extractWpBasic(...),
+            'esc_attr_e' => $this->extractWpBasic(...),
+            'esc_html__' => $this->extractWpBasic(...),
+            'esc_html_e' => $this->extractWpBasic(...),
+
+            '_x' => $this->extractWpContext(...),
+            '_ex' => $this->extractWpContext(...),
+            'esc_attr_x' => $this->extractWpContext(...),
+            'esc_html_x' => $this->extractWpContext(...),
+
+            '_n' => $this->extractWpPlural(...),
+            '_n_noop' => $this->extractWpNoopPlural(...),
+
+            '_nx' => $this->extractWpContextPlural(...),
+            '_nx_noop' => $this->extractWpNoopContextPlural(...),
         ];
     }
 
@@ -56,18 +86,26 @@ final readonly class PhpStanExtractor implements IExtractor
         $messages = [];
 
         $this->scanner->scan($files, function (Node $node, MutatingScope $scope, string $file) use (&$messages, $source) {
-            $this->processNode($node, $scope, $messages, $file, $source);
+            if ($node instanceof FuncCall) {
+                foreach ($this->processFuncCall($node, $file, $source) as $message) {
+                    $messages[] = $message;
+                }
+            } elseif ($node instanceof MethodCall) {
+                foreach ($this->processMethodCall($node, $scope, $file, $source) as $message) {
+                    $messages[] = $message;
+                }
+            }
         });
 
         return $messages;
     }
 
-    private function processNode(Node $node, MutatingScope $scope, array &$messages, string $file, string $source): void
+    /**
+     * @return Generator<ExtractedMessage>
+     * @throws ShouldNotHappenException
+     */
+    private function processMethodCall(MethodCall $node, MutatingScope $scope, string $file, string $source): Generator
     {
-        if (!$node instanceof MethodCall) {
-            return;
-        }
-
         if (!$node->name instanceof Node\Identifier || $node->name->toString() !== 'run') {
             return;
         }
@@ -78,7 +116,7 @@ final readonly class PhpStanExtractor implements IExtractor
         }
 
         $args = $node->getArgs();
-        if (!isset($args[0])) {
+        if (!isset($args[0]) || !$args[0] instanceof Node\Arg) {
             return;
         }
 
@@ -105,11 +143,38 @@ final readonly class PhpStanExtractor implements IExtractor
 
                     $message->getTranslation()->getReferences()->add($relativePath, $line);
 
-                    $messages[] = $message;
+                    yield $message;
                 }
 
                 return;
             }
+        }
+    }
+
+    /**
+     * @return Generator<ExtractedMessage>
+     */
+    private function processFuncCall(FuncCall $node, string $file, string $source): Generator
+    {
+        if (!$node->name instanceof Node\Name) {
+            return;
+        }
+
+        $funcName = $node->name->toString();
+
+        if (!isset($this->wpFunctionHandlers[$funcName])) {
+            return;
+        }
+
+        $message = $this->wpFunctionHandlers[$funcName]($node);
+
+        if ($message !== null) {
+            $line         = $node->getStartLine();
+            $relativePath = Path::makeRelative($file, $source);
+
+            $message->getTranslation()->getReferences()->add($relativePath, $line);
+
+            yield $message;
         }
     }
 
@@ -177,7 +242,112 @@ final readonly class PhpStanExtractor implements IExtractor
         return new ExtractedMessage($translation, $domain);
     }
 
-    private function getStringArg(MethodCall $node, int $index): ?string
+    private function extractWpBasic(FuncCall $node): ?ExtractedMessage
+    {
+        $original = $this->getStringArg($node, 0);
+        $domain   = $this->getStringArg($node, 1) ?? Constants::DEFAULT_DOMAIN;
+
+        if ($original === null) {
+            return null;
+        }
+
+        return new ExtractedMessage(
+            Translation::create(null, $original),
+            $domain
+        );
+    }
+
+    private function extractWpContext(FuncCall $node): ?ExtractedMessage
+    {
+        $original = $this->getStringArg($node, 0);
+        $context  = $this->getStringArg($node, 1);
+        $domain   = $this->getStringArg($node, 2) ?? Constants::DEFAULT_DOMAIN;
+
+        if ($original === null) {
+            return null;
+        }
+
+        return new ExtractedMessage(
+            Translation::create($context, $original),
+            $domain
+        );
+    }
+
+    private function extractWpPlural(FuncCall $node): ?ExtractedMessage
+    {
+        $original = $this->getStringArg($node, 0);
+        $plural   = $this->getStringArg($node, 1);
+        $domain   = $this->getStringArg($node, 3) ?? Constants::DEFAULT_DOMAIN;
+
+        if ($original === null) {
+            return null;
+        }
+
+        $translation = Translation::create(null, $original);
+        if ($plural !== null) {
+            $translation->setPlural($plural);
+        }
+
+        return new ExtractedMessage($translation, $domain);
+    }
+
+    private function extractWpNoopPlural(FuncCall $node): ?ExtractedMessage
+    {
+        $original = $this->getStringArg($node, 0);
+        $plural   = $this->getStringArg($node, 1);
+        $domain   = $this->getStringArg($node, 2) ?? Constants::DEFAULT_DOMAIN;
+
+        if ($original === null) {
+            return null;
+        }
+
+        $translation = Translation::create(null, $original);
+        if ($plural !== null) {
+            $translation->setPlural($plural);
+        }
+
+        return new ExtractedMessage($translation, $domain);
+    }
+
+    private function extractWpContextPlural(FuncCall $node): ?ExtractedMessage
+    {
+        $original = $this->getStringArg($node, 0);
+        $plural   = $this->getStringArg($node, 1);
+        $context  = $this->getStringArg($node, 3);
+        $domain   = $this->getStringArg($node, 4) ?? Constants::DEFAULT_DOMAIN;
+
+        if ($original === null) {
+            return null;
+        }
+
+        $translation = Translation::create($context, $original);
+        if ($plural !== null) {
+            $translation->setPlural($plural);
+        }
+
+        return new ExtractedMessage($translation, $domain);
+    }
+
+    private function extractWpNoopContextPlural(FuncCall $node): ?ExtractedMessage
+    {
+        $original = $this->getStringArg($node, 0);
+        $plural   = $this->getStringArg($node, 1);
+        $context  = $this->getStringArg($node, 2);
+        $domain   = $this->getStringArg($node, 3) ?? Constants::DEFAULT_DOMAIN;
+
+        if ($original === null) {
+            return null;
+        }
+
+        $translation = Translation::create($context, $original);
+        if ($plural !== null) {
+            $translation->setPlural($plural);
+        }
+
+        return new ExtractedMessage($translation, $domain);
+    }
+
+    private function getStringArg(CallLike $node, int $index): ?string
     {
         $args = $node->getArgs();
 
