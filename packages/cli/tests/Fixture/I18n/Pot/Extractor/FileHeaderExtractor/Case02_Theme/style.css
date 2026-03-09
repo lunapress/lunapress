@@ -1,0 +1,13 @@
+/*
+Theme Name: My Simple Theme
+Theme URI: https://example.com/theme
+Description: A test theme
+Author: Theme Dev
+Author URI: https://example.com/dev
+Version: 2.1
+License: MIT
+Domain Path: /lang
+Text Domain: theme-domain
+*/
+
+body { color: red; }

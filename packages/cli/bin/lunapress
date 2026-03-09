@@ -4,6 +4,7 @@
 use CuyZ\Valinor\MapperBuilder;
 use Gettext\Generator\PoGenerator;
 use LunaPress\Cli\Frontend\Init\FrontendInitCommand;
+use LunaPress\Cli\I18n\Pot\Extractor\FileHeaderExtractor;
 use LunaPress\Cli\I18n\Pot\Extractor\JavascriptExtractor\JavascriptExtractor;
 use LunaPress\Cli\I18n\Pot\Extractor\PhpStanExtractor;
 use LunaPress\Cli\I18n\Pot\Generator\PotGenerator;
@@ -25,6 +26,7 @@ $app->addCommand(new FrontendInitCommand());
 $app->addCommand(new MakePotCommand(
     new PotGenerator(
         [
+            new FileHeaderExtractor(),
             new PhpStanExtractor(
                     new PhpStanScanner()
             ),
