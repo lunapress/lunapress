@@ -39,6 +39,7 @@ msgid "contextPluralTranslateFactory"
 msgid_plural "plurals"
 msgstr[0] ""
 
+#. translators: comment
 #: src/Subscriber.php:20
 #: src/SubscriberDouble.php:20
 msgid "Double text"

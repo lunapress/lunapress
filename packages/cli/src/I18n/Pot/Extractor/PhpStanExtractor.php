@@ -14,11 +14,16 @@ use LunaPress\Wp\I18nContracts\Function\PluralTranslate\IPluralTranslateFactory;
 use LunaPress\Wp\I18nContracts\Function\RenderTranslate\IRenderTranslateFactory;
 use LunaPress\Wp\I18nContracts\Function\Translate\ITranslateFactory;
 use LunaPress\Wp\I18nContracts\Service\Translator\ITranslator;
+use PhpParser\Comment;
 use PhpParser\Node;
+use PhpParser\Node\Arg;
+use PhpParser\Node\Expr\Array_;
 use PhpParser\Node\Expr\CallLike;
 use PhpParser\Node\Expr\FuncCall;
+use PhpParser\Node\Expr\Match_;
 use PhpParser\Node\Expr\MethodCall;
 use PhpParser\Node\Scalar\String_;
+use PhpParser\Node\Stmt;
 use PHPStan\Analyser\MutatingScope;
 use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\ObjectType;
@@ -85,19 +90,85 @@ final readonly class PhpStanExtractor implements IExtractor
         /** @var ExtractedMessage[] $messages */
         $messages = [];
 
-        $this->scanner->scan($files, function (Node $node, MutatingScope $scope, string $file) use (&$messages, $source) {
+        /**
+         * @var Comment[] $lastStmtComments
+         */
+        $lastStmtComments = [];
+        /**
+         * @var array<int, Comment[]> $structuralComments
+         */
+        $structuralComments = [];
+
+        $this->scanner->scan($files, function (Node $node, MutatingScope $scope, string $file) use (&$messages, $source, &$lastStmtComments, &$structuralComments, &$currentFile): void {
+            if ($currentFile !== $file) {
+                $currentFile        = $file;
+                $lastStmtComments   = [];
+                $structuralComments = [];
+            }
+
+            if ($node instanceof Stmt) {
+                $lastStmtComments = $node->getComments();
+            }
+
+            if ($node instanceof Match_) {
+                foreach ($node->arms as $arm) {
+                    if ($arm !== null) {
+                        $structuralComments[$arm->body->getStartLine()] = $arm->getComments();
+                    }
+                }
+            } elseif ($node instanceof Array_) {
+                foreach ($node->items as $item) {
+                    if ($item !== null) {
+                        $structuralComments[$item->value->getStartLine()] = $item->getComments();
+                    }
+                }
+            }
+
             if ($node instanceof FuncCall) {
+                $itemComments = $structuralComments[$node->getStartLine()] ?? [];
                 foreach ($this->processFuncCall($node, $file, $source) as $message) {
+                    $this->applyNodeComment($message, $node, $lastStmtComments, $itemComments);
                     $messages[] = $message;
                 }
             } elseif ($node instanceof MethodCall) {
+                $itemComments = $structuralComments[$node->getStartLine()] ?? [];
                 foreach ($this->processMethodCall($node, $scope, $file, $source) as $message) {
+                    $this->applyNodeComment($message, $node, $lastStmtComments, $itemComments);
                     $messages[] = $message;
                 }
             }
         });
 
         return $messages;
+    }
+
+    /**
+     * @param Comment[] $stmtComments
+     * @param Comment[] $itemComments
+     */
+    private function applyNodeComment(ExtractedMessage $message, Node $node, array $stmtComments = [], array $itemComments = []): void
+    {
+        $nodeComments = $node->getComments();
+
+        if ($node instanceof CallLike) {
+            foreach ($node->getArgs() as $arg) {
+                if ($arg instanceof Arg) {
+                    $nodeComments = array_merge($nodeComments, $arg->getComments(), $arg->value->getComments());
+                }
+            }
+        }
+
+        $comments = array_merge($nodeComments, $itemComments, $stmtComments);
+
+        foreach ($comments as $comment) {
+            $text = $comment->getText();
+
+            if (preg_match('/(translators:\s*.*?)(?:\*\/)?$/is', $text, $matches)) {
+                $cleanText = trim(preg_replace('/^[ \t]*\*[ \t]?/m', '', $matches[1]));
+                $message->getTranslation()->getExtractedComments()->add($cleanText);
+                return;
+            }
+        }
     }
 
     /**
@@ -116,7 +187,7 @@ final readonly class PhpStanExtractor implements IExtractor
         }
 
         $args = $node->getArgs();
-        if (!isset($args[0]) || !$args[0] instanceof Node\Arg) {
+        if (!isset($args[0]) || !$args[0] instanceof Arg) {
             return;
         }
 

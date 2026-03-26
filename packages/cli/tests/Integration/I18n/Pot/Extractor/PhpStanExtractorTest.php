@@ -37,10 +37,9 @@ it('phpstan extractor gets translation objects', function (string $projectPath) 
 
     $messages = $this->extractor->extract($files, $projectPath);
 
-    // @TODO: add `references` check
     expect($messages)
         ->toBeArray()
-        ->toHaveCount(24)
+        ->toHaveCount(43)
         ->sequence(
             // src/AllFactoryService.php
             function ($message) {
@@ -48,7 +47,8 @@ it('phpstan extractor gets translation objects', function (string $projectPath) 
                 $message->toBeInstanceOf(ExtractedMessage::class);
 
                 expect($message->value->getDomain())->toBe(PLUGIN_DOMAIN)
-                    ->and($message->value->getTranslation()->getOriginal())->toBe('renderTranslateFactory');
+                    ->and($message->value->getTranslation()->getOriginal())->toBe('renderTranslateFactory')
+                    ->and($message->value->getTranslation()->getReferences()->toArray())->toHaveKey('src/AllFactoryService.php', [27]);
             },
             function ($message) {
                 /** @var Expectation<ExtractedMessage> $message */
@@ -83,6 +83,103 @@ it('phpstan extractor gets translation objects', function (string $projectPath) 
                     ->and($message->value->getTranslation()->getPlural())->toBe('plurals')
                     ->and($message->value->getTranslation()->getContext())->toBe('context');
             },
+            // src/Comments.php
+            function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
+                $message->toBeInstanceOf(ExtractedMessage::class);
+                expect($message->value->getTranslation()->getExtractedComments()->toArray())->toContain('translators: Basic')
+                ->and($message->value->getTranslation()->getReferences()->toArray())->toHaveKey('src/Comments.php', [12]);
+            },
+            function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
+                $message->toBeInstanceOf(ExtractedMessage::class);
+                expect($message->value->getTranslation()->getExtractedComments()->toArray())->toContain('translators: Array title');
+            },
+            function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
+                $message->toBeInstanceOf(ExtractedMessage::class);
+                expect($message->value->getTranslation()->getExtractedComments()->toArray())->toBeEmpty();
+            },
+            function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
+                $message->toBeInstanceOf(ExtractedMessage::class);
+                expect($message->value->getTranslation()->getExtractedComments()->toArray())->toContain('translators: Variable assignment');
+            },
+            function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
+                $message->toBeInstanceOf(ExtractedMessage::class);
+                expect($message->value->getTranslation()->getExtractedComments()->toArray())->toContain("translators: Multiline comment block\nwith some extra text.");
+            },
+            function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
+                $message->toBeInstanceOf(ExtractedMessage::class);
+                expect($message->value->getTranslation()->getExtractedComments()->toArray())->toContain('translators: Single line slash format');
+            },
+            function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
+                $message->toBeInstanceOf(ExtractedMessage::class);
+                expect($message->value->getTranslation()->getExtractedComments()->toArray())->toContain('translators:No spaces format');
+            },
+            function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
+                $message->toBeInstanceOf(ExtractedMessage::class);
+                expect($message->value->getTranslation()->getExtractedComments()->toArray())->toContain('translators: Shared comment for multiple calls');
+            },
+            function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
+                $message->toBeInstanceOf(ExtractedMessage::class);
+                expect($message->value->getTranslation()->getExtractedComments()->toArray())->toContain('translators: Shared comment for multiple calls');
+            },
+            function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
+                $message->toBeInstanceOf(ExtractedMessage::class);
+                expect($message->value->getTranslation()->getExtractedComments()->toArray())->toContain('translators: Inside if statement');
+            },
+            function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
+                $message->toBeInstanceOf(ExtractedMessage::class);
+                expect($message->value->getTranslation()->getExtractedComments()->toArray())->toContain('translators: Return statement comment');
+            },
+            function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
+                $message->toBeInstanceOf(ExtractedMessage::class);
+                expect($message->value->getTranslation()->getExtractedComments()->toArray())->toContain('translators: Match arm comment');
+            },
+            function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
+                $message->toBeInstanceOf(ExtractedMessage::class);
+                expect($message->value->getTranslation()->getExtractedComments()->toArray())->toBeEmpty();
+            },
+            function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
+                $message->toBeInstanceOf(ExtractedMessage::class);
+                expect($message->value->getTranslation()->getExtractedComments()->toArray())->toContain('translators: Ternary comment');
+            },
+            function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
+                $message->toBeInstanceOf(ExtractedMessage::class);
+                expect($message->value->getTranslation()->getExtractedComments()->toArray())->toContain('translators: Ternary comment');
+            },
+            function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
+                $message->toBeInstanceOf(ExtractedMessage::class);
+                expect($message->value->getTranslation()->getExtractedComments()->toArray())->toContain('translators: Inside closure');
+            },
+            function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
+                $message->toBeInstanceOf(ExtractedMessage::class);
+                expect($message->value->getTranslation()->getExtractedComments()->toArray())->toContain('translators: Translator');
+            },
+            function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
+                $message->toBeInstanceOf(ExtractedMessage::class);
+                expect($message->value->getTranslation()->getExtractedComments()->toArray())->toContain('translators: Inside translator');
+            },
+            function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
+                $message->toBeInstanceOf(ExtractedMessage::class);
+                expect($message->value->getTranslation()->getExtractedComments()->toArray())->toContain('translators: Inside HTML template');
+            },
             // src/DefaultSubscriber.php
             function ($message) {
                 /** @var Expectation<ExtractedMessage> $message */
@@ -115,66 +212,78 @@ it('phpstan extractor gets translation objects', function (string $projectPath) 
             },
             // src/WpFunctions.php
             function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
                 $message->toBeInstanceOf(ExtractedMessage::class);
                 expect($message->value->getDomain())->toBe(PLUGIN_DOMAIN)
                     ->and($message->value->getTranslation()->getOriginal())->toBe('wp text');
             },
             function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
                 $message->toBeInstanceOf(ExtractedMessage::class);
                 expect($message->value->getDomain())->toBe(PLUGIN_DOMAIN)
                     ->and($message->value->getTranslation()->getOriginal())->toBe('wp e_text');
             },
             function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
                 $message->toBeInstanceOf(ExtractedMessage::class);
                 expect($message->value->getDomain())->toBe(PLUGIN_DOMAIN)
                     ->and($message->value->getTranslation()->getOriginal())->toBe('wp esc_attr__');
             },
             function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
                 $message->toBeInstanceOf(ExtractedMessage::class);
                 expect($message->value->getDomain())->toBe(PLUGIN_DOMAIN)
                     ->and($message->value->getTranslation()->getOriginal())->toBe('wp esc_attr_e');
             },
             function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
                 $message->toBeInstanceOf(ExtractedMessage::class);
                 expect($message->value->getDomain())->toBe(PLUGIN_DOMAIN)
                     ->and($message->value->getTranslation()->getOriginal())->toBe('wp esc_html__');
             },
             function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
                 $message->toBeInstanceOf(ExtractedMessage::class);
                 expect($message->value->getDomain())->toBe(PLUGIN_DOMAIN)
                     ->and($message->value->getTranslation()->getOriginal())->toBe('wp esc_html_e');
             },
             function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
                 $message->toBeInstanceOf(ExtractedMessage::class);
                 expect($message->value->getDomain())->toBe(PLUGIN_DOMAIN)
                     ->and($message->value->getTranslation()->getOriginal())->toBe('wp x_text')
                     ->and($message->value->getTranslation()->getContext())->toBe('x_context');
             },
             function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
                 $message->toBeInstanceOf(ExtractedMessage::class);
                 expect($message->value->getDomain())->toBe(PLUGIN_DOMAIN)
                     ->and($message->value->getTranslation()->getOriginal())->toBe('wp ex_text')
                     ->and($message->value->getTranslation()->getContext())->toBe('ex_context');
             },
             function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
                 $message->toBeInstanceOf(ExtractedMessage::class);
                 expect($message->value->getDomain())->toBe(PLUGIN_DOMAIN)
                     ->and($message->value->getTranslation()->getOriginal())->toBe('wp esc_attr_x')
                     ->and($message->value->getTranslation()->getContext())->toBe('esc_attr_x_context');
             },
             function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
                 $message->toBeInstanceOf(ExtractedMessage::class);
                 expect($message->value->getDomain())->toBe(PLUGIN_DOMAIN)
                     ->and($message->value->getTranslation()->getOriginal())->toBe('wp esc_html_x')
                     ->and($message->value->getTranslation()->getContext())->toBe('esc_html_x_context');
             },
             function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
                 $message->toBeInstanceOf(ExtractedMessage::class);
                 expect($message->value->getDomain())->toBe(PLUGIN_DOMAIN)
                     ->and($message->value->getTranslation()->getOriginal())->toBe('wp n_single')
                     ->and($message->value->getTranslation()->getPlural())->toBe('wp n_plural');
             },
             function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
                 $message->toBeInstanceOf(ExtractedMessage::class);
                 expect($message->value->getDomain())->toBe(PLUGIN_DOMAIN)
                     ->and($message->value->getTranslation()->getOriginal())->toBe('wp nx_single')
@@ -182,12 +291,14 @@ it('phpstan extractor gets translation objects', function (string $projectPath) 
                     ->and($message->value->getTranslation()->getContext())->toBe('nx_context');
             },
             function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
                 $message->toBeInstanceOf(ExtractedMessage::class);
                 expect($message->value->getDomain())->toBe(PLUGIN_DOMAIN)
                     ->and($message->value->getTranslation()->getOriginal())->toBe('wp n_noop_single')
                     ->and($message->value->getTranslation()->getPlural())->toBe('wp n_noop_plural');
             },
             function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
                 $message->toBeInstanceOf(ExtractedMessage::class);
                 expect($message->value->getDomain())->toBe(PLUGIN_DOMAIN)
                     ->and($message->value->getTranslation()->getOriginal())->toBe('wp nx_noop_single')

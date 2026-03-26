@@ -18,6 +18,7 @@ final readonly class Subscriber extends AbstractActionSubscriber
     public function __invoke(): void
     {
         $this->translator->run(
+            /* translators: comment */
             $this->renderTranslateFactory->make('Double text')
         );
     }
