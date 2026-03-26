@@ -122,6 +122,15 @@ final readonly class PhpStanExtractor implements IExtractor
                         $structuralComments[$item->value->getStartLine()] = $item->getComments();
                     }
                 }
+            } elseif ($node instanceof CallLike) {
+                foreach ($node->getArgs() as $arg) {
+                    if ($arg instanceof Arg) {
+                        $structuralComments[$arg->value->getStartLine()] = array_merge(
+                            $structuralComments[$arg->value->getStartLine()] ?? [],
+                            $arg->getComments()
+                        );
+                    }
+                }
             }
 
             if ($node instanceof FuncCall) {
@@ -237,6 +246,9 @@ final readonly class PhpStanExtractor implements IExtractor
             return;
         }
 
+        /**
+         * @var ?ExtractedMessage $message
+         */
         $message = $this->wpFunctionHandlers[$funcName]($node);
 
         if ($message !== null) {

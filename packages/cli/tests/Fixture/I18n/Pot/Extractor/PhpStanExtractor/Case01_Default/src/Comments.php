@@ -80,3 +80,11 @@ $translator->run(
         ?>
     </span>
 </div>
+
+<?php
+
+sprintf(
+// translators: %s - sprintf
+    __('%s text', 'bred'),
+    'text'
+);

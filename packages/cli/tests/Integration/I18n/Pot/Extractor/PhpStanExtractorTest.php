@@ -39,7 +39,7 @@ it('phpstan extractor gets translation objects', function (string $projectPath) 
 
     expect($messages)
         ->toBeArray()
-        ->toHaveCount(43)
+        ->toHaveCount(44)
         ->sequence(
             // src/AllFactoryService.php
             function ($message) {
@@ -179,6 +179,11 @@ it('phpstan extractor gets translation objects', function (string $projectPath) 
                 /** @var Expectation<ExtractedMessage> $message */
                 $message->toBeInstanceOf(ExtractedMessage::class);
                 expect($message->value->getTranslation()->getExtractedComments()->toArray())->toContain('translators: Inside HTML template');
+            },
+            function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
+                $message->toBeInstanceOf(ExtractedMessage::class);
+                expect($message->value->getTranslation()->getExtractedComments()->toArray())->toContain('translators: %s - sprintf');
             },
             // src/DefaultSubscriber.php
             function ($message) {
