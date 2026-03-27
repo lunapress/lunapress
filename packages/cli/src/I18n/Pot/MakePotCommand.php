@@ -50,12 +50,13 @@ final class MakePotCommand extends Command
         $this->generator->generate(
             $this->normalizeSource($source),
             $this->normalizeDestination($destination),
+            $io,
             $domains,
             $ignoreDomains,
             $include,
             $exclude,
             $skipFrontend,
-            $this->getApplication()?->getVersion()
+            $this->getApplication()?->getVersion(),
         );
 
         $io->success('Successfully completed');

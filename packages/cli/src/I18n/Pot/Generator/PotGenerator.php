@@ -11,6 +11,7 @@ use LunaPress\Cli\I18n\Pot\Extractor\FileHeaderExtractor\Dto\FileHeader;
 use LunaPress\Cli\I18n\Pot\Extractor\IExtractor;
 use LunaPress\Cli\I18n\Pot\Extractor\JavascriptExtractor\JavascriptExtractor;
 use LunaPress\Cli\I18n\Pot\Scanner\ProjectMetadataScanner;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Path;
 use Symfony\Component\Finder\Finder;
@@ -34,6 +35,7 @@ final readonly class PotGenerator implements IPotGenerator
     public function generate(
         string $sourceDir,
         string $destinationDir,
+        SymfonyStyle $io,
         array  $domains = [],
         array  $ignoreDomains = [],
         array  $include = [],
@@ -41,16 +43,16 @@ final readonly class PotGenerator implements IPotGenerator
         bool   $skipFrontend = false,
         ?string $cliVersion = null,
     ): void {
-        $allFiles    = $this->collectFiles($sourceDir, $include, $exclude, $skipFrontend);
-        $allMessages = $this->extractMessages($allFiles, $sourceDir, $domains, $ignoreDomains, $skipFrontend);
+        $allFiles        = $this->collectFiles($sourceDir, $include, $exclude, $skipFrontend);
+        $projectMetadata = $this->metadataScanner->scan($allFiles, $sourceDir);
+        $resolvedDomains = $this->resolveDomains($io, $domains, $projectMetadata, $ignoreDomains);
+        $allMessages     = $this->extractMessages($allFiles, $sourceDir, $resolvedDomains, $ignoreDomains, $skipFrontend);
         /** @var array<string, Translations> $allTranslations */
         $allTranslations = [];
 
-        $projectMetadata = $this->metadataScanner->scan($allFiles, $sourceDir);
-
         foreach ($allMessages as $message) {
             $domain = $message->getDomain();
-            if ($this->shouldSkipDomain($domain, $domains, $ignoreDomains)) {
+            if ($this->shouldSkipDomain($domain, $resolvedDomains, $ignoreDomains)) {
                 continue;
             }
 
@@ -66,6 +68,34 @@ final readonly class PotGenerator implements IPotGenerator
 
             echo "Generated: $filepath\n";
         }
+    }
+
+    /**
+     * @param string[] $cliDomains
+     * @param string[] $ignoreDomains
+     * @return string[]
+     */
+    private function resolveDomains(SymfonyStyle $io, array $cliDomains, ?FileHeader $projectMetadata, array &$ignoreDomains): array
+    {
+        if (!empty($cliDomains)) {
+            return $cliDomains;
+        }
+
+        if ($projectMetadata !== null) {
+            $textDomainField = $projectMetadata->headers[ProjectMetadataScanner::HEADER_TEXT_DOMAIN] ?? null;
+
+            if ($textDomainField !== null && !$textDomainField->isEmpty()) {
+                return array_filter(array_map('trim', explode(',', $textDomainField->value)));
+            }
+        }
+
+        $ignoreDomains[] = 'default';
+        $ignoreDomains[] = '';
+        $ignoreDomains   = array_unique($ignoreDomains);
+
+        $io->warning('Project headers not found or Text Domain is missing. Extracting all discovered text domains');
+
+        return [];
     }
 
     /**

@@ -6,6 +6,7 @@ namespace LunaPress\Cli\Test\Unit\I18n\Pot;
 use LunaPress\Cli\I18n\Pot\MakePotCommand;
 use LunaPress\Cli\I18n\Pot\Generator\IPotGenerator;
 use Mockery;
+use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Filesystem\Path;
 
@@ -44,6 +45,8 @@ it('all command parameters', function () {
 it('correctly passes arguments combination', function ($input, $expected) {
     $expected[0] = Path::makeAbsolute($expected[0], getcwd());
     $expected[1] = Path::makeAbsolute($expected[1], getcwd());
+
+    array_splice($expected, 2, 0, [Mockery::type(SymfonyStyle::class)]);
 
     $this->generator->shouldReceive('generate')
         ->once()

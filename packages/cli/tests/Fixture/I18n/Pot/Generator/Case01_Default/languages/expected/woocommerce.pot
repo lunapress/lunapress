@@ -11,8 +11,8 @@ msgstr ""
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "POT-Creation-Date: 2025-11-28T19:01:58+00:00\n"
 "Project-Id-Version: Test Plugin Data\n"
-"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/default\n"
-"X-Domain: default\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/woocommerce\n"
+"X-Domain: woocommerce\n"
 "X-Generator: LunaPress CLI\n"
 
 #: excluded_temp.php:11
