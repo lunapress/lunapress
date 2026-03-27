@@ -30,7 +30,7 @@ it('javascript extractor gets translation objects from real files', function () 
 
     expect($messages)
         ->toBeArray()
-        ->toHaveCount(4)
+        ->toHaveCount(5)
         ->sequence(
             function ($message) {
                 /** @var Expectation<ExtractedMessage> $message */
@@ -63,7 +63,15 @@ it('javascript extractor gets translation objects from real files', function () 
                     ->and($message->value->getTranslation()->getOriginal())->toBe('single2')
                     ->and($message->value->getTranslation()->getPlural())->toBe('plural2')
                     ->and($message->value->getTranslation()->getContext())->toBe('context2');
-            }
+            },
+            function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
+                $message->toBeInstanceOf(ExtractedMessage::class);
+
+                expect($message->value->getDomain())->toBe('plugin')
+                    ->and($message->value->getTranslation()->getOriginal())->toBe('From %s')
+                ->and($message->value->getTranslation()->getFlags())->toContain('js-format');
+            },
         );
 });
 

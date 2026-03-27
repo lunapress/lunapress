@@ -183,7 +183,8 @@ it('phpstan extractor gets translation objects', function (string $projectPath) 
             function ($message) {
                 /** @var Expectation<ExtractedMessage> $message */
                 $message->toBeInstanceOf(ExtractedMessage::class);
-                expect($message->value->getTranslation()->getExtractedComments()->toArray())->toContain('translators: %s - sprintf');
+                expect($message->value->getTranslation()->getExtractedComments()->toArray())->toContain('translators: %s - sprintf')
+                ->and($message->value->getTranslation()->getFlags()->toArray())->toContain('php-format');
             },
             // src/DefaultSubscriber.php
             function ($message) {

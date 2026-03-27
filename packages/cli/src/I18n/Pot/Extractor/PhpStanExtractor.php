@@ -33,6 +33,7 @@ use Symfony\Component\Filesystem\Path;
 final readonly class PhpStanExtractor implements IExtractor
 {
     use ExtractorPatternMatchTrait;
+    use FormatFlagTrait;
 
     /**
      * @var array<string, callable(MethodCall, string): ?ExtractedMessage>
@@ -147,6 +148,10 @@ final readonly class PhpStanExtractor implements IExtractor
                 }
             }
         });
+
+        foreach ($messages as $message) {
+            $this->applyFormatFlag($message, 'php-format');
+        }
 
         return $messages;
     }

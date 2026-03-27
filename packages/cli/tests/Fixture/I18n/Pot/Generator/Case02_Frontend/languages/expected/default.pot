@@ -15,6 +15,13 @@ msgstr ""
 msgid "PHP string"
 msgstr ""
 
-#: assets/dist/vite/assets/index-uBEDgXBe.js
+#. translators: 1) min amount, 2) max amount
+#: file.php:16
+#: assets/dist/vite/assets/index-BKFTOo8z.js
+#, js-format,php-format
+msgid "From %1$s to %2$s"
+msgstr ""
+
+#: assets/dist/vite/assets/index-BKFTOo8z.js
 msgid "JS string"
 msgstr ""

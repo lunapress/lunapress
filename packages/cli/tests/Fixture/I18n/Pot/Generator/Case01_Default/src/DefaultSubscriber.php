@@ -20,5 +20,11 @@ final readonly class DefaultSubscriber extends AbstractActionSubscriber
         $this->translator->run(
             $this->renderTranslateFactory->make('Default text')
         );
+
+        sprintf(
+// translators: %s - sprintf
+            __('%s text', 'bred'),
+            ''
+        );
     }
 }

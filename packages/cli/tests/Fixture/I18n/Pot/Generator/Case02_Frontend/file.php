@@ -11,3 +11,6 @@ use LunaPress\Wp\I18nContracts\Function\Translate\ITranslateFactory;
 $translator->run(
     $translateFactory->make('PHP string')
 );
+
+// translators: 1) min amount, 2) max amount
+__('From %1$s to %2$s', 'default');

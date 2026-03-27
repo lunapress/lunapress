@@ -8,6 +8,7 @@ use CuyZ\Valinor\MapperBuilder;
 use Gettext\Translation;
 use LunaPress\Cli\I18n\Pot\Extractor\ExtractedMessage;
 use LunaPress\Cli\I18n\Pot\Extractor\ExtractorPatternMatchTrait;
+use LunaPress\Cli\I18n\Pot\Extractor\FormatFlagTrait;
 use LunaPress\Cli\I18n\Pot\Extractor\IExtractor;
 use LunaPress\Cli\I18n\Pot\Extractor\JavascriptExtractor\DTO\CLIOutputItem;
 use LunaPress\Cli\Support\IProcessFactory;
@@ -16,6 +17,7 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 final readonly class JavascriptExtractor implements IExtractor
 {
     use ExtractorPatternMatchTrait;
+    use FormatFlagTrait;
 
     public const string JS_CLI_PACKAGE  = '@lunapress/cli';
     public const string DEFAULT_VERSION = '0.1.6';
@@ -86,7 +88,11 @@ final readonly class JavascriptExtractor implements IExtractor
 
                     $translation->getReferences()->add($filePath);
 
-                    $messages[] = new ExtractedMessage($translation, $entry->domain);
+                    $message = new ExtractedMessage($translation, $entry->domain);
+
+                    $this->applyFormatFlag($message, 'js-format');
+
+                    $messages[] = $message;
                 }
             }
         }

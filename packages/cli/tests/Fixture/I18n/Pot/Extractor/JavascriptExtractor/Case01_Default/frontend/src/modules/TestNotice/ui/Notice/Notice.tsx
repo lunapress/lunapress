@@ -16,3 +16,5 @@ export const Notice = () => {
 }
 
 _nx('single2', 'plural2', 4, 'context2', DOMAIN)
+
+__(`From %s`, DOMAIN)
