@@ -20,7 +20,7 @@ final readonly class JavascriptExtractor implements IExtractor
     use FormatFlagTrait;
 
     public const string JS_CLI_PACKAGE  = '@lunapress/cli';
-    public const string DEFAULT_VERSION = '0.1.6';
+    public const string DEFAULT_VERSION = '0.1.8';
 
     public function __construct(
         private IProcessFactory $processFactory,
@@ -33,7 +33,15 @@ final readonly class JavascriptExtractor implements IExtractor
     public function extract(array $files, string $source, array $domains = [], array $ignoreDomains = []): array
     {
         $packageConstraint = "{$this->packageName}@{$this->version}";
-        $command           = ['npx', '-y', $packageConstraint, 'i18n:makePot', $source, '--json'];
+        $command           = [
+            'npx',
+            '-y',
+            $packageConstraint,
+            'i18n:makePot',
+            $source,
+            '--base=' . $source,
+            '--json'
+        ];
 
         foreach ($domains as $domain) {
             $command[] = '--domains=' . $domain;
@@ -73,10 +81,10 @@ final readonly class JavascriptExtractor implements IExtractor
         }
 
         foreach ($data as $item) {
-            foreach ($item->files as $chunk) {
-                $filePath = $chunk->chunkPath;
+            foreach ($item->assets as $asset) {
+                $filePath = $asset->assetPath;
 
-                foreach ($chunk->translationEntries as $entry) {
+                foreach ($asset->entries as $entry) {
                     $context  = $entry->context ?? null;
                     $original = $entry->text ?? $entry->single ?? null;
 
@@ -87,6 +95,7 @@ final readonly class JavascriptExtractor implements IExtractor
                     }
 
                     $translation->getReferences()->add($filePath);
+                    $translation->getReferences()->add($entry->sourceFile, $entry->line);
 
                     $message = new ExtractedMessage($translation, $entry->domain);
 

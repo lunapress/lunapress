@@ -9,9 +9,9 @@ final readonly class CLIOutputItem
         public string $project,
         public string $path,
         /**
-         * @var CLIChunkTranslation[] $files
+         * @var CLIAssetTranslations[] $assets
          */
-        public array $files,
+        public array $assets,
     ) {
     }
 }

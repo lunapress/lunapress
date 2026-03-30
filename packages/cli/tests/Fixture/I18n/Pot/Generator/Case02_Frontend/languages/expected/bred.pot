@@ -17,11 +17,13 @@ msgstr ""
 
 #. translators: 1) min amount, 2) max amount
 #: file.php:16
-#: assets/dist/vite/assets/index-BC_xY8qg.js
+#: frontend/assets/dist/vite/assets/index-BC_xY8qg.js
+#: frontend/src/index.ts:5
 #, js-format,php-format
 msgid "From %1$s to %2$s"
 msgstr ""
 
-#: assets/dist/vite/assets/index-BC_xY8qg.js
+#: frontend/assets/dist/vite/assets/index-BC_xY8qg.js
+#: frontend/src/index.ts:3
 msgid "JS string"
 msgstr ""

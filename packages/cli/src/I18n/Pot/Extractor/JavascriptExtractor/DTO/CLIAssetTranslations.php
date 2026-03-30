@@ -3,14 +3,14 @@ declare(strict_types=1);
 
 namespace LunaPress\Cli\I18n\Pot\Extractor\JavascriptExtractor\DTO;
 
-final readonly class CLIChunkTranslation
+final readonly class CLIAssetTranslations
 {
     public function __construct(
-        public string $chunkPath,
+        public string $assetPath,
         /**
-         * @var CLITranslationEntry[] $translationEntries
+         * @var CLITranslationEntry[] $entries
          */
-        public array $translationEntries,
+        public array $entries,
     )
     {
     }
