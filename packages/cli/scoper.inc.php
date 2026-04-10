@@ -1,0 +1,14 @@
+<?php
+
+declare(strict_types=1);
+
+return [
+    'prefix' => 'LunaPress\\Vendor',
+    'exclude-namespaces' => [
+        'LunaPress',
+        'Symfony\Polyfill',
+        'Psr\Container',
+    ],
+    'exclude-classes' => [
+    ],
+];

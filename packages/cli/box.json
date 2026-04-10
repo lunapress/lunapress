@@ -1,0 +1,13 @@
+{
+    "output": "build/lunapress.phar",
+    "compactors": [
+    ],
+    "files": [
+        "bin/lunapress"
+    ],
+    "directories": [
+        "src",
+        "vendor"
+    ],
+    "compression": "GZ"
+}

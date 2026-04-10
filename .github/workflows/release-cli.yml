@@ -1,0 +1,58 @@
+name: Release CLI Phar
+
+on:
+  push:
+    branches:
+      - main
+    tags:
+      - '*'
+
+jobs:
+  build-phar:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: mbstring, intl
+          tools: composer:v2, box
+
+      - name: Set Release Env
+        run: |
+          if [[ $GITHUB_REF == refs/tags/* ]]; then
+            echo "RELEASE_TAG=${GITHUB_REF#refs/tags/}" >> $GITHUB_ENV
+            echo "IS_PRERELEASE=false" >> $GITHUB_ENV
+          else
+            echo "RELEASE_TAG=nightly" >> $GITHUB_ENV
+            echo "IS_PRERELEASE=true" >> $GITHUB_ENV
+          fi
+
+      - name: Use local packages
+        working-directory: packages/cli
+        run: "composer config repositories.local '{\"type\": \"path\", \"url\": \"../*\", \"options\": {\"symlink\": false}}'"
+
+      - name: Install dependencies
+        working-directory: packages/cli
+        run: composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
+
+      - name: Compile Phar
+        working-directory: packages/cli
+        run: box compile
+
+      - name: Upload Phar
+        uses: softprops/action-gh-release@v2
+        with:
+          repository: lunapress/cli
+          tag_name: ${{ env.RELEASE_TAG }}
+          name: ${{ env.RELEASE_TAG == 'nightly' && 'Nightly Build' || env.RELEASE_TAG }}
+          prerelease: ${{ env.IS_PRERELEASE }}
+          files: |
+            packages/cli/build/lunapress.phar
+            packages/cli/build/lunapress.phar.asc
+          make_latest: ${{ env.RELEASE_TAG != 'nightly' }}
