@@ -9,6 +9,8 @@ on:
 
 permissions:
   contents: write
+  id-token: write
+  attestations: write
 
 jobs:
   build-phar:
@@ -52,10 +54,16 @@ jobs:
         id: app-token
         uses: actions/create-github-app-token@v3
         with:
-          app-id: ${{ vars.RELEASER_APP_ID }}
+          client-id: ${{ vars.RELEASER_APP_ID }}
           private-key: ${{ secrets.RELEASER_APP_PRIVATE_KEY }}
           owner: ${{ github.repository_owner }}
-          repositories: cli
+          repositories: cli,lunapress
+
+      - name: Attest
+        uses: actions/attest@v4
+        with:
+          subject-path: packages/cli/build/lunapress.phar
+          github-token: ${{ steps.app-token.outputs.token }}
 
       - name: Upload Phar
         uses: softprops/action-gh-release@v2
@@ -66,7 +74,8 @@ jobs:
           name: ${{ env.RELEASE_TAG == 'nightly' && 'Nightly Build' || env.RELEASE_TAG }}
           prerelease: ${{ env.IS_PRERELEASE }}
           generate_release_notes: true
+          append_body: false
+#          body: ''
           files: |
             packages/cli/build/lunapress.phar
-            packages/cli/build/lunapress.phar.asc
           make_latest: ${{ env.RELEASE_TAG != 'nightly' }}
