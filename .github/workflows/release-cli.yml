@@ -7,12 +7,15 @@ on:
     tags:
       - '*'
 
+permissions:
+  contents: write
+
 jobs:
   build-phar:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
@@ -45,13 +48,24 @@ jobs:
         working-directory: packages/cli
         run: box compile
 
+      - name: Generate GitHub App Token
+        id: app-token
+        uses: actions/create-github-app-token@v3
+        with:
+          app-id: ${{ vars.RELEASER_APP_ID }}
+          private-key: ${{ secrets.RELEASER_APP_PRIVATE_KEY }}
+          owner: ${{ github.repository_owner }}
+          repositories: cli
+
       - name: Upload Phar
         uses: softprops/action-gh-release@v2
         with:
-          repository: lunapress/cli
+          repository: ${{ github.repository_owner }}/cli
+          token: ${{ steps.app-token.outputs.token }}
           tag_name: ${{ env.RELEASE_TAG }}
           name: ${{ env.RELEASE_TAG == 'nightly' && 'Nightly Build' || env.RELEASE_TAG }}
           prerelease: ${{ env.IS_PRERELEASE }}
+          generate_release_notes: true
           files: |
             packages/cli/build/lunapress.phar
             packages/cli/build/lunapress.phar.asc

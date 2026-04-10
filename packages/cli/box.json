@@ -1,6 +1,7 @@
 {
     "output": "build/lunapress.phar",
     "compactors": [
+        "KevinGH\\Box\\Compactor\\PhpScoper"
     ],
     "files": [
         "bin/lunapress"
