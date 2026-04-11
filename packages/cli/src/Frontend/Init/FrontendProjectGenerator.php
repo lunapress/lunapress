@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace LunaPress\Cli\Frontend\Init;
 
 use LunaPress\Cli\Support\IPathResolver;
-use LunaPress\Cli\Support\PathResolver;
 use Override;
 use RuntimeException;
 use Symfony\Component\Filesystem\Filesystem;
@@ -21,7 +20,8 @@ final readonly class FrontendProjectGenerator implements IFrontendProjectGenerat
     public function generate(FrontendInitConfig $config): void
     {
         $targetPath   = $this->pathResolver->frontendInitPath($config);
-        $templatePath = $this->pathResolver->templates("frontend/{$config->framework->value}");
+        $framework    = strtolower($config->framework->value);
+        $templatePath = $this->pathResolver->templates("frontend/$framework");
 
         $this->copyTemplate($templatePath, $targetPath);
 
