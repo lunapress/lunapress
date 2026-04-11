@@ -15,7 +15,17 @@ use LunaPress\Cli\Support\ProcessFactory;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Filesystem\Filesystem;
 
-include $_composer_autoload_path ?? __DIR__ . '/../../../vendor/autoload.php';
+$pharPath = Phar::running();
+
+if ($pharPath !== '') {
+    require_once $pharPath . '/vendor/autoload.php';
+
+    if (isset($_composer_autoload_path) && file_exists($_composer_autoload_path)) {
+        require_once $_composer_autoload_path;
+    }
+} else {
+    require_once $_composer_autoload_path ?? __DIR__ . '/../../../vendor/autoload.php';
+}
 
 if (!defined('ABSPATH')) {
     define('ABSPATH', '/');
