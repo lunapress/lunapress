@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 return [
-    'prefix' => 'LunaPress\\Vendor',
+    'prefix' => 'LunaPressVendor',
     'exclude-namespaces' => [
         'LunaPress',
         'Symfony\Polyfill',
