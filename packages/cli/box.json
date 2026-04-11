@@ -10,5 +10,6 @@
         "src",
         "vendor"
     ],
-    "compression": "GZ"
+    "compression": "GZ",
+    "chmod": "0755"
 }

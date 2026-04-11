@@ -32,8 +32,6 @@ jobs:
             split_repository: 'wp-assets'
           - local_path: 'frontend-kit'
             split_repository: 'frontend-kit'
-          - local_path: 'cli'
-            split_repository: 'cli'
           - local_path: 'wp-i18n'
             split_repository: 'wp-i18n'
 
