@@ -11,19 +11,17 @@ use Symfony\Component\Filesystem\Path;
 
 final readonly class PathResolver implements IPathResolver
 {
-    private string $root;
-
     public function __construct(
+        private string $cliPackageRoot,
         ?string                   $startDir = null,
         private IWorkingDirectory $workingDirectory = new WorkingDirectory(),
     ) {
-        $this->root = $this->findPackageRoot($startDir ?? __DIR__);
     }
 
     #[Override]
     public function templates(string $subpath = ''): string
     {
-        return Path::join($this->root, 'templates', $subpath);
+        return Path::join($this->cliPackageRoot, 'templates', $subpath);
     }
 
     #[Override]
@@ -36,20 +34,5 @@ final readonly class PathResolver implements IPathResolver
     public function frontendInitPath(FrontendInitConfig $config): string
     {
         return Path::join($this->cwd(), $config->directory);
-    }
-
-    private function findPackageRoot(string $dir): string
-    {
-        $filesystem = new Filesystem();
-        $current    = $dir;
-
-        while ($current !== Path::getRoot($current)) {
-            if ($filesystem->exists(Path::join($current, 'composer.json'))) {
-                return $current;
-            }
-            $current = Path::getDirectory($current);
-        }
-
-        throw new RuntimeException('Unable to resolve LunaPress CLI package root.');
     }
 }

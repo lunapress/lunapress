@@ -7,12 +7,13 @@ use LunaPress\Cli\Frontend\Init\FrontendProjectGenerator;
 use LunaPress\Cli\Frontend\PackageManager;
 use LunaPress\Cli\Support\IWorkingDirectory;
 use LunaPress\Cli\Support\PathResolver;
+use LunaPress\Test\Package;
 use org\bovigo\vfs\vfsStream;
 
 beforeEach(function () {
     $this->vfs              = vfsStream::setup();
     $this->workingDirectory = Mockery::mock(IWorkingDirectory::class);
-    $this->pathResolver     = new PathResolver(null, $this->workingDirectory);
+    $this->pathResolver     = new PathResolver(packagePath(Package::CLI), null, $this->workingDirectory);
 
     $this->workingDirectory->shouldReceive('current')->andReturn($this->vfs->url());
 });

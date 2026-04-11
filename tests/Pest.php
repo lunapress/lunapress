@@ -4,6 +4,7 @@ declare(strict_types=1);
 use LunaPress\Test\Package;
 use Pest\TestSuite;
 use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\Filesystem\Path;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use Symfony\Component\Process\Process;
@@ -49,24 +50,23 @@ expect()->extend('toBeOne', function () {
 
 function packageFixture(Package $package, string $fixturePath): string
 {
-    $path = implode(DIRECTORY_SEPARATOR, [
+    return Path::join(
         TestSuite::getInstance()->rootPath,
         'packages',
         $package->value,
         'tests',
         'Fixture',
         str_replace(['/', '\\'], DIRECTORY_SEPARATOR, $fixturePath),
-    ]);
+    );
+}
 
-    $realPath = realpath($path);
-
-    if ($realPath === false) {
-        throw new InvalidArgumentException(
-            'The fixture file [' . $path . '] does not exist.',
-        );
-    }
-
-    return $realPath;
+function packagePath(Package $package)
+{
+    return Path::join(
+        TestSuite::getInstance()->rootPath,
+        'packages',
+        $package->value,
+    );
 }
 
 /**

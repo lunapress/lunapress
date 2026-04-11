@@ -12,7 +12,7 @@ use Symfony\Component\Filesystem\Filesystem;
 final readonly class FrontendProjectGenerator implements IFrontendProjectGenerator
 {
     public function __construct(
-        private IPathResolver $pathResolver = new PathResolver(),
+        private IPathResolver $pathResolver,
         private Filesystem $filesystem = new Filesystem()
     ) {
     }

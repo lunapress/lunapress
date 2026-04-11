@@ -8,6 +8,7 @@
     ],
     "directories": [
         "src",
+        "templates",
         "vendor"
     ],
     "compression": "GZ",

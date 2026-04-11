@@ -4,6 +4,7 @@
 use CuyZ\Valinor\MapperBuilder;
 use Gettext\Generator\PoGenerator;
 use LunaPress\Cli\Frontend\Init\FrontendInitCommand;
+use LunaPress\Cli\Frontend\Init\FrontendProjectGenerator;
 use LunaPress\Cli\I18n\Pot\Extractor\FileHeaderExtractor\FileHeaderExtractor;
 use LunaPress\Cli\I18n\Pot\Extractor\JavascriptExtractor\JavascriptExtractor;
 use LunaPress\Cli\I18n\Pot\Extractor\PhpStanExtractor;
@@ -11,6 +12,7 @@ use LunaPress\Cli\I18n\Pot\Generator\PotGenerator;
 use LunaPress\Cli\I18n\Pot\MakePotCommand;
 use LunaPress\Cli\I18n\Pot\Scanner\PhpStanScanner;
 use LunaPress\Cli\I18n\Pot\Scanner\ProjectMetadataScanner;
+use LunaPress\Cli\Support\PathResolver;
 use LunaPress\Cli\Support\ProcessFactory;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Filesystem\Filesystem;
@@ -31,11 +33,16 @@ if (!defined('ABSPATH')) {
     define('ABSPATH', '/');
 }
 
+$cliPackageRoot = dirname(__DIR__);
+$pathResolver = new PathResolver($cliPackageRoot);
+
 $app = new Application('LunaPress CLI', '1.0.0');
 
 $projectMetadataScanner = new ProjectMetadataScanner();
 
-$app->addCommand(new FrontendInitCommand());
+$app->addCommand(new FrontendInitCommand(
+    new FrontendProjectGenerator($pathResolver),
+));
 $app->addCommand(new MakePotCommand(
     new PotGenerator(
         [

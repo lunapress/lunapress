@@ -22,6 +22,7 @@ final class Tasks extends \Robo\Tasks
         );
 
         $pathResolver = new PathResolver(
+            dirname(__DIR__),
             null,
             new WorkingDirectory()
         );
