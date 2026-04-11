@@ -13,4 +13,13 @@ return [
     ],
     'exclude-classes' => [
     ],
+    'patchers' => [
+        function (string $filePath, string $prefix, string $contents): string {
+            if (str_ends_with($filePath, 'mustache/mustache/src/compat.php')) {
+                return '<?php';
+            }
+
+            return $contents;
+        },
+    ],
 ];
