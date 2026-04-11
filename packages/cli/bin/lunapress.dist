@@ -1,0 +1,8 @@
+#!/usr/bin/env php
+<?php
+
+declare(strict_types=1);
+
+Phar::loadPhar(__DIR__ . '/lunapress.phar', 'lunapress.phar');
+
+require 'phar://lunapress.phar/bin/lunapress';

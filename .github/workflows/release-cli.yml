@@ -80,6 +80,7 @@ jobs:
           mkdir -p ../../cli-dist/bin
           cp build/lunapress.phar ../../cli-dist/bin/lunapress.phar
           cp composer.dist.json ../../cli-dist/composer.json
+          cp bin/lunapress.dist ../../cli-dist/bin/lunapress
 
       - name: Push to Split Repository
         working-directory: cli-dist
