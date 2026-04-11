@@ -44,5 +44,10 @@
         "pestphp/pest": "^v4",
         "mikey179/vfsstream": "^v1.6.12",
         "mockery/mockery": "^1.6.12"
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
+        }
     }
 }

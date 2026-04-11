@@ -15,6 +15,16 @@ return [
     ],
     'patchers' => [
         function (string $filePath, string $prefix, string $contents): string {
+            if (str_ends_with($filePath, 'mustache/mustache/src/Compiler.php')) {
+                $safePrefix = preg_quote($prefix, '/');
+
+                return preg_replace(
+                    '@(?<!' . $safePrefix . ')\\\\+Mustache\\\\+@',
+                    '\\\\' . $prefix . '\\\\Mustache\\\\',
+                    $contents
+                );
+            }
+
             if (str_ends_with($filePath, 'mustache/mustache/src/compat.php')) {
                 return '<?php';
             }
