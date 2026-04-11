@@ -30,7 +30,8 @@
         "psr/container": "^2",
         "symfony/console": "^v7",
         "symfony/filesystem": "^v7.4.8",
-        "symfony/finder": "^v7.3"
+        "symfony/finder": "^v7.3",
+        "symfony/process": "^v7.4.8"
     },
     "require-dev": {
         "consolidation/robo": "^5.1.0",
