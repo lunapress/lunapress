@@ -8,8 +8,15 @@
     ],
     "directories": [
         "src",
-        "templates",
-        "vendor"
+        "templates"
+    ],
+    "finder": [
+        {
+            "in": "vendor",
+            "exclude": [
+                "phpstan/phpstan"
+            ]
+        }
     ],
     "compression": "GZ",
     "chmod": "0755"

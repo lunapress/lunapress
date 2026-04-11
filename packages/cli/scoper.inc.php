@@ -8,6 +8,8 @@ return [
         'LunaPress',
         'Symfony\Polyfill',
         'Psr\Container',
+        'PHPStan',
+        'PhpParser',
     ],
     'exclude-classes' => [
     ],
