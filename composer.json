@@ -29,6 +29,7 @@
         "phpstan/phpstan": "^2.1.32",
         "psr/container": "^2",
         "symfony/console": "^v7",
+        "symfony/filesystem": "^v7.4.8",
         "symfony/finder": "^v7.3"
     },
     "require-dev": {
