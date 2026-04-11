@@ -3,7 +3,7 @@
     "description": "LunaPress CLI binary",
     "type": "library",
     "license": "MIT",
-    "bin": ["bin/lunapress"],
+    "bin": ["bin/lunapress.phar"],
     "require": {
         "php": "^8.3"
     },

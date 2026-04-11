@@ -78,7 +78,7 @@ jobs:
           find ../../cli-dist -mindepth 1 -maxdepth 1 ! -name '.git' -exec rm -rf {} +
 
           mkdir -p ../../cli-dist/bin
-          cp build/lunapress.phar ../../cli-dist/bin/lunapress
+          cp build/lunapress.phar ../../cli-dist/bin/lunapress.phar
           cp composer.dist.json ../../cli-dist/composer.json
 
       - name: Push to Split Repository
