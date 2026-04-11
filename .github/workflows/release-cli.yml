@@ -74,8 +74,7 @@ jobs:
           name: ${{ env.RELEASE_TAG == 'nightly' && 'Nightly Build' || env.RELEASE_TAG }}
           prerelease: ${{ env.IS_PRERELEASE }}
           generate_release_notes: true
-          append_body: false
-#          body: ''
+          body: ${{ env.IS_PRERELEASE && ' ' || '' }}
           files: |
             packages/cli/build/lunapress.phar
           make_latest: ${{ env.RELEASE_TAG != 'nightly' }}
