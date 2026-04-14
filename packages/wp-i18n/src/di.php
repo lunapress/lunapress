@@ -1,21 +1,23 @@
 <?php
 declare(strict_types=1);
 
-use LunaPress\Wp\I18n\Functions\RenderTranslate\RenderTranslate;
-use LunaPress\Wp\I18n\Functions\Translate\Translate;
+use LunaPress\Wp\I18n\Function\RenderContextTranslate\RenderContextTranslate;
+use LunaPress\Wp\I18n\Function\RenderContextTranslate\RenderContextTranslateFactory;
+use LunaPress\Wp\I18n\Function\RenderTranslate\RenderTranslate;
+use LunaPress\Wp\I18n\Function\Translate\Translate;
 use LunaPress\Wp\I18n\Service\Translator\Translator;
-use LunaPress\Wp\I18n\Functions\PluralTranslate\PluralTranslate;
-use LunaPress\Wp\I18n\Functions\ContextPluralTranslate\ContextPluralTranslate;
-use LunaPress\Wp\I18n\Functions\LoadPluginTextDomain\LoadPluginTextDomain;
-use LunaPress\Wp\I18n\Functions\LoadScriptTextDomain\LoadScriptTextDomain;
-use LunaPress\Wp\I18n\Functions\ContextTranslate\ContextTranslate;
-use LunaPress\Wp\I18n\Functions\Translate\TranslateFactory;
-use LunaPress\Wp\I18n\Functions\RenderTranslate\RenderTranslateFactory;
-use LunaPress\Wp\I18n\Functions\PluralTranslate\PluralTranslateFactory;
-use LunaPress\Wp\I18n\Functions\ContextPluralTranslate\ContextPluralTranslateFactory;
-use LunaPress\Wp\I18n\Functions\LoadPluginTextDomain\LoadPluginTextDomainFactory;
-use LunaPress\Wp\I18n\Functions\LoadScriptTextDomain\LoadScriptTextDomainFactory;
-use LunaPress\Wp\I18n\Functions\ContextTranslate\ContextTranslateFactory;
+use LunaPress\Wp\I18n\Function\PluralTranslate\PluralTranslate;
+use LunaPress\Wp\I18n\Function\ContextPluralTranslate\ContextPluralTranslate;
+use LunaPress\Wp\I18n\Function\LoadPluginTextDomain\LoadPluginTextDomain;
+use LunaPress\Wp\I18n\Function\LoadScriptTextDomain\LoadScriptTextDomain;
+use LunaPress\Wp\I18n\Function\ContextTranslate\ContextTranslate;
+use LunaPress\Wp\I18n\Function\Translate\TranslateFactory;
+use LunaPress\Wp\I18n\Function\RenderTranslate\RenderTranslateFactory;
+use LunaPress\Wp\I18n\Function\PluralTranslate\PluralTranslateFactory;
+use LunaPress\Wp\I18n\Function\ContextPluralTranslate\ContextPluralTranslateFactory;
+use LunaPress\Wp\I18n\Function\LoadPluginTextDomain\LoadPluginTextDomainFactory;
+use LunaPress\Wp\I18n\Function\LoadScriptTextDomain\LoadScriptTextDomainFactory;
+use LunaPress\Wp\I18n\Function\ContextTranslate\ContextTranslateFactory;
 use LunaPress\Wp\I18nContracts\Function\ContextPluralTranslate\IContextPluralTranslateFactory;
 use LunaPress\Wp\I18nContracts\Function\ContextPluralTranslate\IContextPluralTranslateFunction;
 use LunaPress\Wp\I18nContracts\Function\ContextTranslate\IContextTranslateFactory;
@@ -26,6 +28,8 @@ use LunaPress\Wp\I18nContracts\Function\LoadScriptTextDomain\ILoadScriptTextDoma
 use LunaPress\Wp\I18nContracts\Function\LoadScriptTextDomain\ILoadScriptTextDomainFunction;
 use LunaPress\Wp\I18nContracts\Function\PluralTranslate\IPluralTranslateFactory;
 use LunaPress\Wp\I18nContracts\Function\PluralTranslate\IPluralTranslateFunction;
+use LunaPress\Wp\I18nContracts\Function\RenderContextTranslate\IRenderContextTranslateFactory;
+use LunaPress\Wp\I18nContracts\Function\RenderContextTranslate\IRenderContextTranslateFunction;
 use LunaPress\Wp\I18nContracts\Function\RenderTranslate\IRenderTranslateFactory;
 use LunaPress\Wp\I18nContracts\Function\RenderTranslate\IRenderTranslateFunction;
 use LunaPress\Wp\I18nContracts\Function\Translate\ITranslateFactory;
@@ -54,6 +58,9 @@ return [
 
     IContextTranslateFunction::class => autowire(ContextTranslate::class),
     IContextTranslateFactory::class => autowire(ContextTranslateFactory::class),
+
+    RenderContextTranslate::class => autowire(IRenderContextTranslateFunction::class),
+    IRenderContextTranslateFactory::class => autowire(RenderContextTranslateFactory::class),
 
     ITranslator::class => autowire(Translator::class),
 ];

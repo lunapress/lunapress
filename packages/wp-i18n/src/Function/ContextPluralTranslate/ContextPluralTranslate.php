@@ -27,7 +27,7 @@ final class ContextPluralTranslate implements IContextPluralTranslateFunction
         ];
     }
 
-    public function executeWithArgs(array $args)
+    public function executeWithArgs(array $args): string
     {
         // phpcs:ignore WordPress.WP.I18n
         return _nx(...$args);

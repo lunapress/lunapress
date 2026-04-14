@@ -25,7 +25,7 @@ final class ContextTranslate implements IContextTranslateFunction
         ];
     }
 
-    public function executeWithArgs(array $args): ?string
+    public function executeWithArgs(array $args): string
     {
         // phpcs:ignore WordPress.WP.I18n
         return _x(...$args);
