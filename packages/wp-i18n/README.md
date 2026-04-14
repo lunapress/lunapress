@@ -19,7 +19,7 @@
 - [x] `translate()` = `Translate`
 - [x] `translate_nooped_plural()` = `TranslateNoopedPlural`
 - [x] `load_textdomain()` = `LoadTextDomain`
-- [ ] `unload_textdomain()` = `UnloadTextDomain`
+- [x] `unload_textdomain()` = `UnloadTextDomain`
 - [x] `load_plugin_textdomain()` = `LoadPluginTextDomain`
 - [ ] `load_muplugin_textdomain()` = `LoadMuPluginTextDomain`
 - [x] `load_script_textdomain()` = `LoadScriptTextDomain`
