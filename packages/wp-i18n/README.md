@@ -26,7 +26,7 @@
 - [x] `load_theme_textdomain()` = `LoadThemeTextDomain`
 - [x] `load_child_theme_textdomain()` = `LoadChildThemeTextDomain`
 - [x] `is_textdomain_loaded()` = `IsTextDomainLoaded`
-- [ ] `get_locale()` = `GetLocale`
+- [x] `get_locale()` = `GetLocale`
 - [ ] `determine_locale()` = `DetermineLocale`
 - [ ] `is_rtl()` = `IsRtl`
 - [ ] `get_available_languages()` = `GetAvailableLanguages`
