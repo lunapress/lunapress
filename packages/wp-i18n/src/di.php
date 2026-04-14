@@ -24,6 +24,8 @@ use LunaPress\Wp\I18n\Function\EscAttrTranslate\EscAttrTranslateFactory;
 use LunaPress\Wp\I18n\Function\LoadPluginTextDomain\LoadPluginTextDomainFactory;
 use LunaPress\Wp\I18n\Function\LoadScriptTextDomain\LoadScriptTextDomainFactory;
 use LunaPress\Wp\I18n\Function\ContextTranslate\ContextTranslateFactory;
+use LunaPress\Wp\I18n\Function\NoopPluralTranslate\NoopPluralTranslate;
+use LunaPress\Wp\I18n\Function\NoopPluralTranslate\NoopPluralTranslateFactory;
 use LunaPress\Wp\I18n\Function\EscHtmlContextTranslate\EscHtmlContextTranslate;
 use LunaPress\Wp\I18n\Function\EscHtmlContextTranslate\EscHtmlContextTranslateFactory;
 use LunaPress\Wp\I18n\Function\EscHtmlRender\EscHtmlRender;
@@ -52,6 +54,8 @@ use LunaPress\Wp\I18nContracts\Function\LoadScriptTextDomain\ILoadScriptTextDoma
 use LunaPress\Wp\I18nContracts\Function\LoadScriptTextDomain\ILoadScriptTextDomainFunction;
 use LunaPress\Wp\I18nContracts\Function\PluralTranslate\IPluralTranslateFactory;
 use LunaPress\Wp\I18nContracts\Function\PluralTranslate\IPluralTranslateFunction;
+use LunaPress\Wp\I18nContracts\Function\NoopPluralTranslate\INoopPluralTranslateFactory;
+use LunaPress\Wp\I18nContracts\Function\NoopPluralTranslate\INoopPluralTranslateFunction;
 use LunaPress\Wp\I18nContracts\Function\RenderContextTranslate\IRenderContextTranslateFactory;
 use LunaPress\Wp\I18nContracts\Function\RenderContextTranslate\IRenderContextTranslateFunction;
 use LunaPress\Wp\I18nContracts\Function\RenderTranslate\IRenderTranslateFactory;
@@ -103,6 +107,9 @@ return [
 
     IRenderContextTranslateFunction::class => autowire(RenderContextTranslate::class),
     IRenderContextTranslateFactory::class => autowire(RenderContextTranslateFactory::class),
+
+    INoopPluralTranslateFunction::class => autowire(NoopPluralTranslate::class),
+    INoopPluralTranslateFactory::class => autowire(NoopPluralTranslateFactory::class),
 
     ITranslator::class => autowire(Translator::class),
 ];

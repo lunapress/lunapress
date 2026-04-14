@@ -14,7 +14,7 @@
 - [x] `esc_attr__()` = `EscAttrTranslate`
 - [x] `esc_attr_e()` = `EscAttrRender`
 - [x] `esc_attr_x()` = `EscAttrContextTranslate`
-- [ ] `_n_noop()` = `NoopPluralTranslate`
+- [x] `_n_noop()` = `NoopPluralTranslate`
 - [ ] `_nx_noop()` = `ContextNoopPluralTranslate`
 - [x] `translate()` = `Translate`
 - [ ] `translate_nooped_plural()` = `TranslateNoopedPlural`

@@ -9,6 +9,7 @@ use LunaPress\FoundationContracts\Support\WpFunction\IWpFunctionExecutor;
 use LunaPress\Wp\I18n\Attribute\Domain;
 use LunaPress\Wp\I18nContracts\Capability\IDomain;
 use LunaPress\Wp\I18nContracts\Capability\IHasDomain;
+use LunaPress\Wp\I18nContracts\Capability\IHasOptionalDomain;
 use LunaPress\Wp\I18nContracts\Entity\INoopedPlural;
 use LunaPress\Wp\I18nContracts\Entity\ITranslatorFunction;
 use LunaPress\Wp\I18nContracts\Function\ContextNoopPluralTranslate\IContextNoopPluralTranslateFactory;
@@ -87,9 +88,10 @@ final readonly class Translator implements ITranslator
 
     public function run(ITranslatorFunction|IExecutableFunction $function)
     {
-        if ($function instanceof IHasDomain) {
+        if ($function instanceof IHasDomain || $function instanceof IHasOptionalDomain) {
             $domain = $this->resolveDomainFromInterface();
-            if ($domain !== null) {
+
+            if ($domain !== null || $function instanceof IHasOptionalDomain) {
                 $function->domain($domain);
             }
         }
@@ -188,7 +190,7 @@ final readonly class Translator implements ITranslator
     public function translateNoopedPlural(INoopedPlural $noopedPlural, int $number): string
     {
         return $this->run(
-            $this->translateNoopedPluralFactory->make($noopedPlural, $number)->domain($this->resolveDomainFromInterface())
+            $this->translateNoopedPluralFactory->make($noopedPlural, $number)
         );
     }
 
