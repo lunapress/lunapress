@@ -24,7 +24,7 @@
 - [x] `load_muplugin_textdomain()` = `LoadMuPluginTextDomain`
 - [x] `load_script_textdomain()` = `LoadScriptTextDomain`
 - [x] `load_theme_textdomain()` = `LoadThemeTextDomain`
-- [ ] `load_child_theme_textdomain()` = `LoadChildThemeTextDomain`
+- [x] `load_child_theme_textdomain()` = `LoadChildThemeTextDomain`
 - [ ] `is_textdomain_loaded()` = `IsTextDomainLoaded`
 - [ ] `get_locale()` = `GetLocale`
 - [ ] `determine_locale()` = `DetermineLocale`
