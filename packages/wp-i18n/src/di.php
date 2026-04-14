@@ -15,6 +15,8 @@ use LunaPress\Wp\I18n\Function\Translate\TranslateFactory;
 use LunaPress\Wp\I18n\Function\RenderTranslate\RenderTranslateFactory;
 use LunaPress\Wp\I18n\Function\PluralTranslate\PluralTranslateFactory;
 use LunaPress\Wp\I18n\Function\ContextPluralTranslate\ContextPluralTranslateFactory;
+use LunaPress\Wp\I18n\Function\LoadTextDomain\LoadTextDomain;
+use LunaPress\Wp\I18n\Function\LoadTextDomain\LoadTextDomainFactory;
 use LunaPress\Wp\I18n\Function\ContextNoopPluralTranslate\ContextNoopPluralTranslate;
 use LunaPress\Wp\I18n\Function\ContextNoopPluralTranslate\ContextNoopPluralTranslateFactory;
 use LunaPress\Wp\I18n\Function\EscAttrContextTranslate\EscAttrContextTranslate;
@@ -56,6 +58,8 @@ use LunaPress\Wp\I18nContracts\Function\EscHtmlContextTranslate\IEscHtmlContextT
 use LunaPress\Wp\I18nContracts\Function\EscHtmlContextTranslate\IEscHtmlContextTranslateFunction;
 use LunaPress\Wp\I18nContracts\Function\LoadPluginTextDomain\ILoadPluginTextDomainFactory;
 use LunaPress\Wp\I18nContracts\Function\LoadPluginTextDomain\ILoadPluginTextDomainFunction;
+use LunaPress\Wp\I18nContracts\Function\LoadTextDomain\ILoadTextDomainFactory;
+use LunaPress\Wp\I18nContracts\Function\LoadTextDomain\ILoadTextDomainFunction;
 use LunaPress\Wp\I18nContracts\Function\LoadScriptTextDomain\ILoadScriptTextDomainFactory;
 use LunaPress\Wp\I18nContracts\Function\LoadScriptTextDomain\ILoadScriptTextDomainFunction;
 use LunaPress\Wp\I18nContracts\Function\PluralTranslate\IPluralTranslateFactory;
@@ -121,6 +125,9 @@ return [
 
     IContextNoopPluralTranslateFunction::class => autowire(ContextNoopPluralTranslate::class),
     IContextNoopPluralTranslateFactory::class => autowire(ContextNoopPluralTranslateFactory::class),
+
+    ILoadTextDomainFunction::class => autowire(LoadTextDomain::class),
+    ILoadTextDomainFactory::class => autowire(LoadTextDomainFactory::class),
 
     ITranslateNoopedPluralFunction::class => autowire(TranslateNoopedPlural::class),
     ITranslateNoopedPluralFactory::class => autowire(TranslateNoopedPluralFactory::class),

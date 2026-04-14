@@ -18,7 +18,7 @@
 - [x] `_nx_noop()` = `ContextNoopPluralTranslate`
 - [x] `translate()` = `Translate`
 - [x] `translate_nooped_plural()` = `TranslateNoopedPlural`
-- [ ] `load_textdomain()` = `LoadTextDomain`
+- [x] `load_textdomain()` = `LoadTextDomain`
 - [ ] `unload_textdomain()` = `UnloadTextDomain`
 - [x] `load_plugin_textdomain()` = `LoadPluginTextDomain`
 - [ ] `load_muplugin_textdomain()` = `LoadMuPluginTextDomain`
