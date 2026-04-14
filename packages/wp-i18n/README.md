@@ -9,7 +9,7 @@
 - [x] `_n()` = `PluralTranslate`
 - [x] `_nx()` = `ContextPluralTranslate`
 - [x] `esc_html__()` = `EscHtmlTranslate`
-- [ ] `esc_html_e()` = `EscHtmlRender`
+- [x] `esc_html_e()` = `EscHtmlRender`
 - [ ] `esc_html_x()` = `EscHtmlContextTranslate`
 - [ ] `esc_attr__()` = `EscAttrTranslate`
 - [ ] `esc_attr_e()` = `EscAttrRender`
