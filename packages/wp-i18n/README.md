@@ -23,7 +23,7 @@
 - [x] `load_plugin_textdomain()` = `LoadPluginTextDomain`
 - [x] `load_muplugin_textdomain()` = `LoadMuPluginTextDomain`
 - [x] `load_script_textdomain()` = `LoadScriptTextDomain`
-- [ ] `load_theme_textdomain()` = `LoadThemeTextDomain`
+- [x] `load_theme_textdomain()` = `LoadThemeTextDomain`
 - [ ] `load_child_theme_textdomain()` = `LoadChildThemeTextDomain`
 - [ ] `is_textdomain_loaded()` = `IsTextDomainLoaded`
 - [ ] `get_locale()` = `GetLocale`
