@@ -11,7 +11,7 @@
 - [x] `esc_html__()` = `EscHtmlTranslate`
 - [x] `esc_html_e()` = `EscHtmlRender`
 - [x] `esc_html_x()` = `EscHtmlContextTranslate`
-- [ ] `esc_attr__()` = `EscAttrTranslate`
+- [x] `esc_attr__()` = `EscAttrTranslate`
 - [ ] `esc_attr_e()` = `EscAttrRender`
 - [ ] `esc_attr_x()` = `EscAttrContextTranslate`
 - [ ] `_n_noop()` = `NoopPluralTranslate`
