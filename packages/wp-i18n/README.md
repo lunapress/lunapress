@@ -8,7 +8,7 @@
 - [x] `_ex()` = `RenderContextTranslate`
 - [x] `_n()` = `PluralTranslate`
 - [x] `_nx()` = `ContextPluralTranslate`
-- [ ] `esc_html__()` = `EscHtmlTranslate`
+- [x] `esc_html__()` = `EscHtmlTranslate`
 - [ ] `esc_html_e()` = `EscHtmlRender`
 - [ ] `esc_html_x()` = `EscHtmlContextTranslate`
 - [ ] `esc_attr__()` = `EscAttrTranslate`
