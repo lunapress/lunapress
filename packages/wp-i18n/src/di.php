@@ -8,6 +8,8 @@ use LunaPress\Wp\I18n\Function\Translate\Translate;
 use LunaPress\Wp\I18n\Service\Translator\Translator;
 use LunaPress\Wp\I18n\Function\PluralTranslate\PluralTranslate;
 use LunaPress\Wp\I18n\Function\ContextPluralTranslate\ContextPluralTranslate;
+use LunaPress\Wp\I18n\Function\IsTextDomainLoaded\IsTextDomainLoaded;
+use LunaPress\Wp\I18n\Function\IsTextDomainLoaded\IsTextDomainLoadedFactory;
 use LunaPress\Wp\I18n\Function\LoadChildThemeTextDomain\LoadChildThemeTextDomain;
 use LunaPress\Wp\I18n\Function\LoadChildThemeTextDomain\LoadChildThemeTextDomainFactory;
 use LunaPress\Wp\I18n\Function\LoadMuPluginTextDomain\LoadMuPluginTextDomain;
@@ -68,6 +70,8 @@ use LunaPress\Wp\I18nContracts\Function\LoadPluginTextDomain\ILoadPluginTextDoma
 use LunaPress\Wp\I18nContracts\Function\LoadPluginTextDomain\ILoadPluginTextDomainFunction;
 use LunaPress\Wp\I18nContracts\Function\LoadChildThemeTextDomain\ILoadChildThemeTextDomainFactory;
 use LunaPress\Wp\I18nContracts\Function\LoadChildThemeTextDomain\ILoadChildThemeTextDomainFunction;
+use LunaPress\Wp\I18nContracts\Function\IsTextDomainLoaded\IIsTextDomainLoadedFactory;
+use LunaPress\Wp\I18nContracts\Function\IsTextDomainLoaded\IIsTextDomainLoadedFunction;
 use LunaPress\Wp\I18nContracts\Function\LoadMuPluginTextDomain\ILoadMuPluginTextDomainFactory;
 use LunaPress\Wp\I18nContracts\Function\LoadMuPluginTextDomain\ILoadMuPluginTextDomainFunction;
 use LunaPress\Wp\I18nContracts\Function\LoadTextDomain\ILoadTextDomainFactory;
@@ -114,6 +118,9 @@ return [
 
     ILoadChildThemeTextDomainFunction::class => autowire(LoadChildThemeTextDomain::class),
     ILoadChildThemeTextDomainFactory::class => autowire(LoadChildThemeTextDomainFactory::class),
+
+    IIsTextDomainLoadedFunction::class => autowire(IsTextDomainLoaded::class),
+    IIsTextDomainLoadedFactory::class => autowire(IsTextDomainLoadedFactory::class),
 
     ILoadScriptTextDomainFunction::class => autowire(LoadScriptTextDomain::class),
     ILoadScriptTextDomainFactory::class => autowire(LoadScriptTextDomainFactory::class),
