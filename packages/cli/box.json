@@ -1,5 +1,6 @@
 {
     "output": "build/lunapress.phar",
+    "git-version": "git-version",
     "compactors": [
         "KevinGH\\Box\\Compactor\\PhpScoper"
     ],

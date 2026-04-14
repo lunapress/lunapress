@@ -1,6 +1,7 @@
 #!/usr/bin/env php
 <?php
 
+use Composer\InstalledVersions;
 use CuyZ\Valinor\MapperBuilder;
 use Gettext\Generator\PoGenerator;
 use LunaPress\Cli\Frontend\Init\FrontendInitCommand;
@@ -36,7 +37,17 @@ if (!defined('ABSPATH')) {
 $cliPackageRoot = dirname(__DIR__);
 $pathResolver = new PathResolver($cliPackageRoot);
 
-$app = new Application('LunaPress CLI', '1.0.0');
+$version = '@git-version@';
+
+if (str_starts_with($version, '@git')) {
+    $version = class_exists(InstalledVersions::class)
+            ? (InstalledVersions::isInstalled('lunapress/cli')
+                    ? InstalledVersions::getPrettyVersion('lunapress/cli')
+                    : InstalledVersions::getRootPackage()['pretty_version'])
+            : 'dev';
+}
+
+$app = new Application('LunaPress CLI', ltrim((string) $version, 'v'));
 
 $projectMetadataScanner = new ProjectMetadataScanner();
 
