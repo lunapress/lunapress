@@ -8,6 +8,8 @@ use LunaPress\Wp\I18n\Function\Translate\Translate;
 use LunaPress\Wp\I18n\Service\Translator\Translator;
 use LunaPress\Wp\I18n\Function\PluralTranslate\PluralTranslate;
 use LunaPress\Wp\I18n\Function\ContextPluralTranslate\ContextPluralTranslate;
+use LunaPress\Wp\I18n\Function\LoadMuPluginTextDomain\LoadMuPluginTextDomain;
+use LunaPress\Wp\I18n\Function\LoadMuPluginTextDomain\LoadMuPluginTextDomainFactory;
 use LunaPress\Wp\I18n\Function\LoadPluginTextDomain\LoadPluginTextDomain;
 use LunaPress\Wp\I18n\Function\LoadScriptTextDomain\LoadScriptTextDomain;
 use LunaPress\Wp\I18n\Function\ContextTranslate\ContextTranslate;
@@ -60,6 +62,8 @@ use LunaPress\Wp\I18nContracts\Function\EscHtmlContextTranslate\IEscHtmlContextT
 use LunaPress\Wp\I18nContracts\Function\EscHtmlContextTranslate\IEscHtmlContextTranslateFunction;
 use LunaPress\Wp\I18nContracts\Function\LoadPluginTextDomain\ILoadPluginTextDomainFactory;
 use LunaPress\Wp\I18nContracts\Function\LoadPluginTextDomain\ILoadPluginTextDomainFunction;
+use LunaPress\Wp\I18nContracts\Function\LoadMuPluginTextDomain\ILoadMuPluginTextDomainFactory;
+use LunaPress\Wp\I18nContracts\Function\LoadMuPluginTextDomain\ILoadMuPluginTextDomainFunction;
 use LunaPress\Wp\I18nContracts\Function\LoadTextDomain\ILoadTextDomainFactory;
 use LunaPress\Wp\I18nContracts\Function\LoadTextDomain\ILoadTextDomainFunction;
 use LunaPress\Wp\I18nContracts\Function\LoadScriptTextDomain\ILoadScriptTextDomainFactory;
@@ -96,6 +100,9 @@ return [
 
     ILoadPluginTextDomainFunction::class => autowire(LoadPluginTextDomain::class),
     ILoadPluginTextDomainFactory::class => autowire(LoadPluginTextDomainFactory::class),
+
+    ILoadMuPluginTextDomainFunction::class => autowire(LoadMuPluginTextDomain::class),
+    ILoadMuPluginTextDomainFactory::class => autowire(LoadMuPluginTextDomainFactory::class),
 
     ILoadScriptTextDomainFunction::class => autowire(LoadScriptTextDomain::class),
     ILoadScriptTextDomainFactory::class => autowire(LoadScriptTextDomainFactory::class),

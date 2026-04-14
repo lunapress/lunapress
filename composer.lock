@@ -522,12 +522,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lunapress/wp-i18n-contracts.git",
-                "reference": "98ca4db0fe1778a4a7e08423c52b4a00edd46c64"
+                "reference": "472f257c96f025ad1a7a832232f6649b887d25e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lunapress/wp-i18n-contracts/zipball/98ca4db0fe1778a4a7e08423c52b4a00edd46c64",
-                "reference": "98ca4db0fe1778a4a7e08423c52b4a00edd46c64",
+                "url": "https://api.github.com/repos/lunapress/wp-i18n-contracts/zipball/472f257c96f025ad1a7a832232f6649b887d25e7",
+                "reference": "472f257c96f025ad1a7a832232f6649b887d25e7",
                 "shasum": ""
             },
             "require": {
@@ -557,7 +557,7 @@
             "support": {
                 "source": "https://github.com/lunapress/wp-i18n-contracts/tree/main"
             },
-            "time": "2026-04-14T15:14:09+00:00"
+            "time": "2026-04-14T15:52:26+00:00"
         },
         {
             "name": "mustache/mustache",
@@ -9842,5 +9842,5 @@
     "platform-overrides": {
         "php": "8.3"
     },
-    "plugin-api-version": "2.9.0"
+    "plugin-api-version": "2.6.0"
 }

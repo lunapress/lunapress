@@ -16,13 +16,12 @@ final readonly class UnloadTextDomainFactory implements IUnloadTextDomainFactory
     ) {
     }
 
-    public function make(string $domain, bool $reloadable = false): IUnloadTextDomainFunction
+    public function make(string $domain): IUnloadTextDomainFunction
     {
         /** @var IUnloadTextDomainFunction $function */
         $function = $this->container->get(IUnloadTextDomainFunction::class);
 
         return $function
-            ->domain($domain)
-            ->reloadable($reloadable);
+            ->domain($domain);
     }
 }
