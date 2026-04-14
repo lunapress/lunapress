@@ -39,7 +39,7 @@ it('phpstan extractor gets translation objects', function (string $projectPath) 
 
     expect($messages)
         ->toBeArray()
-        ->toHaveCount(44)
+        ->toHaveCount(67)
         ->sequence(
             // src/AllFactoryService.php
             function ($message) {
@@ -48,7 +48,7 @@ it('phpstan extractor gets translation objects', function (string $projectPath) 
 
                 expect($message->value->getDomain())->toBe(PLUGIN_DOMAIN)
                     ->and($message->value->getTranslation()->getOriginal())->toBe('renderTranslateFactory')
-                    ->and($message->value->getTranslation()->getReferences()->toArray())->toHaveKey('src/AllFactoryService.php', [27]);
+                    ->and($message->value->getTranslation()->getReferences()->toArray())->toHaveKey('src/AllFactoryService.php', [45]);
             },
             function ($message) {
                 /** @var Expectation<ExtractedMessage> $message */
@@ -81,6 +81,184 @@ it('phpstan extractor gets translation objects', function (string $projectPath) 
                 expect($message->value->getDomain())->toBe(PLUGIN_DOMAIN)
                     ->and($message->value->getTranslation()->getOriginal())->toBe('contextPluralTranslateFactory')
                     ->and($message->value->getTranslation()->getPlural())->toBe('plurals')
+                    ->and($message->value->getTranslation()->getContext())->toBe('context');
+            },
+            function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
+                $message->toBeInstanceOf(ExtractedMessage::class);
+
+                expect($message->value->getDomain())->toBe(PLUGIN_DOMAIN)
+                    ->and($message->value->getTranslation()->getOriginal())->toBe('renderContextTranslateFactory')
+                    ->and($message->value->getTranslation()->getContext())->toBe('context');
+            },
+            function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
+                $message->toBeInstanceOf(ExtractedMessage::class);
+
+                expect($message->value->getDomain())->toBe(PLUGIN_DOMAIN)
+                    ->and($message->value->getTranslation()->getOriginal())->toBe('escHtmlTranslateFactory');
+            },
+            function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
+                $message->toBeInstanceOf(ExtractedMessage::class);
+
+                expect($message->value->getDomain())->toBe(PLUGIN_DOMAIN)
+                    ->and($message->value->getTranslation()->getOriginal())->toBe('escHtmlRenderFactory');
+            },
+            function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
+                $message->toBeInstanceOf(ExtractedMessage::class);
+
+                expect($message->value->getDomain())->toBe(PLUGIN_DOMAIN)
+                    ->and($message->value->getTranslation()->getOriginal())->toBe('escHtmlContextTranslateFactory')
+                    ->and($message->value->getTranslation()->getContext())->toBe('context');
+            },
+            function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
+                $message->toBeInstanceOf(ExtractedMessage::class);
+
+                expect($message->value->getDomain())->toBe(PLUGIN_DOMAIN)
+                    ->and($message->value->getTranslation()->getOriginal())->toBe('escAttrTranslateFactory');
+            },
+            function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
+                $message->toBeInstanceOf(ExtractedMessage::class);
+
+                expect($message->value->getDomain())->toBe(PLUGIN_DOMAIN)
+                    ->and($message->value->getTranslation()->getOriginal())->toBe('escAttrRenderFactory');
+            },
+            function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
+                $message->toBeInstanceOf(ExtractedMessage::class);
+
+                expect($message->value->getDomain())->toBe(PLUGIN_DOMAIN)
+                    ->and($message->value->getTranslation()->getOriginal())->toBe('escAttrContextTranslateFactory')
+                    ->and($message->value->getTranslation()->getContext())->toBe('context');
+            },
+            function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
+                $message->toBeInstanceOf(ExtractedMessage::class);
+
+                expect($message->value->getDomain())->toBe(PLUGIN_DOMAIN)
+                    ->and($message->value->getTranslation()->getOriginal())->toBe('noopPluralTranslateFactory')
+                    ->and($message->value->getTranslation()->getPlural())->toBe('plurals');
+            },
+            function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
+                $message->toBeInstanceOf(ExtractedMessage::class);
+
+                expect($message->value->getDomain())->toBe(PLUGIN_DOMAIN)
+                    ->and($message->value->getTranslation()->getOriginal())->toBe('contextNoopPluralTranslateFactory')
+                    ->and($message->value->getTranslation()->getPlural())->toBe('plurals')
+                    ->and($message->value->getTranslation()->getContext())->toBe('context');
+            },
+            // src/AllTranslatorMethods.php
+            function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
+                $message->toBeInstanceOf(ExtractedMessage::class);
+
+                expect($message->value->getDomain())->toBe(DEFAULT_DOMAIN)
+                    ->and($message->value->getTranslation()->getOriginal())->toBe('service translate');
+            },
+            function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
+                $message->toBeInstanceOf(ExtractedMessage::class);
+
+                expect($message->value->getDomain())->toBe(DEFAULT_DOMAIN)
+                    ->and($message->value->getTranslation()->getOriginal())->toBe('service render');
+            },
+            function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
+                $message->toBeInstanceOf(ExtractedMessage::class);
+
+                expect($message->value->getDomain())->toBe(DEFAULT_DOMAIN)
+                    ->and($message->value->getTranslation()->getOriginal())->toBe('service context')
+                    ->and($message->value->getTranslation()->getContext())->toBe('context');
+            },
+            function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
+                $message->toBeInstanceOf(ExtractedMessage::class);
+
+                expect($message->value->getDomain())->toBe(DEFAULT_DOMAIN)
+                    ->and($message->value->getTranslation()->getOriginal())->toBe('service plural')
+                    ->and($message->value->getTranslation()->getPlural())->toBe('service plurals');
+            },
+            function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
+                $message->toBeInstanceOf(ExtractedMessage::class);
+
+                expect($message->value->getDomain())->toBe(DEFAULT_DOMAIN)
+                    ->and($message->value->getTranslation()->getOriginal())->toBe('service context plural')
+                    ->and($message->value->getTranslation()->getPlural())->toBe('service context plurals')
+                    ->and($message->value->getTranslation()->getContext())->toBe('context');
+            },
+            function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
+                $message->toBeInstanceOf(ExtractedMessage::class);
+
+                expect($message->value->getDomain())->toBe(DEFAULT_DOMAIN)
+                    ->and($message->value->getTranslation()->getOriginal())->toBe('service render context')
+                    ->and($message->value->getTranslation()->getContext())->toBe('context');
+            },
+            function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
+                $message->toBeInstanceOf(ExtractedMessage::class);
+
+                expect($message->value->getDomain())->toBe(DEFAULT_DOMAIN)
+                    ->and($message->value->getTranslation()->getOriginal())->toBe('service translate esc html');
+            },
+            function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
+                $message->toBeInstanceOf(ExtractedMessage::class);
+
+                expect($message->value->getDomain())->toBe(DEFAULT_DOMAIN)
+                    ->and($message->value->getTranslation()->getOriginal())->toBe('service render esc html');
+            },
+            function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
+                $message->toBeInstanceOf(ExtractedMessage::class);
+
+                expect($message->value->getDomain())->toBe(DEFAULT_DOMAIN)
+                    ->and($message->value->getTranslation()->getOriginal())->toBe('service translate esc html context')
+                    ->and($message->value->getTranslation()->getContext())->toBe('context');
+            },
+            function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
+                $message->toBeInstanceOf(ExtractedMessage::class);
+
+                expect($message->value->getDomain())->toBe(DEFAULT_DOMAIN)
+                    ->and($message->value->getTranslation()->getOriginal())->toBe('service translate esc attr');
+            },
+            function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
+                $message->toBeInstanceOf(ExtractedMessage::class);
+
+                expect($message->value->getDomain())->toBe(DEFAULT_DOMAIN)
+                    ->and($message->value->getTranslation()->getOriginal())->toBe('service render esc attr');
+            },
+            function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
+                $message->toBeInstanceOf(ExtractedMessage::class);
+
+                expect($message->value->getDomain())->toBe(DEFAULT_DOMAIN)
+                    ->and($message->value->getTranslation()->getOriginal())->toBe('service translate esc attr context')
+                    ->and($message->value->getTranslation()->getContext())->toBe('context');
+            },
+            function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
+                $message->toBeInstanceOf(ExtractedMessage::class);
+
+                expect($message->value->getDomain())->toBe(DEFAULT_DOMAIN)
+                    ->and($message->value->getTranslation()->getOriginal())->toBe('service noop plural')
+                    ->and($message->value->getTranslation()->getPlural())->toBe('service noop plurals');
+            },
+            function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
+                $message->toBeInstanceOf(ExtractedMessage::class);
+
+                expect($message->value->getDomain())->toBe(DEFAULT_DOMAIN)
+                    ->and($message->value->getTranslation()->getOriginal())->toBe('service context noop plural')
+                    ->and($message->value->getTranslation()->getPlural())->toBe('service context noop plurals')
                     ->and($message->value->getTranslation()->getContext())->toBe('context');
             },
             // src/Comments.php
@@ -186,14 +364,6 @@ it('phpstan extractor gets translation objects', function (string $projectPath) 
                 expect($message->value->getTranslation()->getExtractedComments()->toArray())->toContain('translators: %s - sprintf')
                 ->and($message->value->getTranslation()->getFlags()->toArray())->toContain('php-format');
             },
-            // src/DefaultSubscriber.php
-            function ($message) {
-                /** @var Expectation<ExtractedMessage> $message */
-                $message->toBeInstanceOf(ExtractedMessage::class);
-
-                expect($message->value->getDomain())->toBe(DEFAULT_DOMAIN)
-                    ->and($message->value->getTranslation()->getOriginal())->toBe('Default text');
-            },
             // src/PluginSubscriber.php
             function ($message) {
                 /** @var Expectation<ExtractedMessage> $message */
@@ -252,6 +422,12 @@ it('phpstan extractor gets translation objects', function (string $projectPath) 
                 $message->toBeInstanceOf(ExtractedMessage::class);
                 expect($message->value->getDomain())->toBe(PLUGIN_DOMAIN)
                     ->and($message->value->getTranslation()->getOriginal())->toBe('wp esc_html_e');
+            },
+            function ($message) {
+                /** @var Expectation<ExtractedMessage> $message */
+                $message->toBeInstanceOf(ExtractedMessage::class);
+                expect($message->value->getDomain())->toBe(PLUGIN_DOMAIN)
+                    ->and($message->value->getTranslation()->getOriginal())->toBe('wp translate');
             },
             function ($message) {
                 /** @var Expectation<ExtractedMessage> $message */

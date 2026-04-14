@@ -8,9 +8,18 @@ use Gettext\Translation;
 use LunaPress\Cli\I18n\Constants;
 use LunaPress\Cli\I18n\Pot\Scanner\IScanner;
 use LunaPress\Wp\I18n\Attribute\Domain;
+use LunaPress\Wp\I18nContracts\Function\ContextNoopPluralTranslate\IContextNoopPluralTranslateFactory;
 use LunaPress\Wp\I18nContracts\Function\ContextPluralTranslate\IContextPluralTranslateFactory;
 use LunaPress\Wp\I18nContracts\Function\ContextTranslate\IContextTranslateFactory;
+use LunaPress\Wp\I18nContracts\Function\EscAttrContextTranslate\IEscAttrContextTranslateFactory;
+use LunaPress\Wp\I18nContracts\Function\EscAttrRender\IEscAttrRenderFactory;
+use LunaPress\Wp\I18nContracts\Function\EscAttrTranslate\IEscAttrTranslateFactory;
+use LunaPress\Wp\I18nContracts\Function\EscHtmlContextTranslate\IEscHtmlContextTranslateFactory;
+use LunaPress\Wp\I18nContracts\Function\EscHtmlRender\IEscHtmlRenderFactory;
+use LunaPress\Wp\I18nContracts\Function\EscHtmlTranslate\IEscHtmlTranslateFactory;
+use LunaPress\Wp\I18nContracts\Function\NoopPluralTranslate\INoopPluralTranslateFactory;
 use LunaPress\Wp\I18nContracts\Function\PluralTranslate\IPluralTranslateFactory;
+use LunaPress\Wp\I18nContracts\Function\RenderContextTranslate\IRenderContextTranslateFactory;
 use LunaPress\Wp\I18nContracts\Function\RenderTranslate\IRenderTranslateFactory;
 use LunaPress\Wp\I18nContracts\Function\Translate\ITranslateFactory;
 use LunaPress\Wp\I18nContracts\Service\Translator\ITranslator;
@@ -52,16 +61,26 @@ final readonly class PhpStanExtractor implements IExtractor
         $this->handlers = [
             IRenderTranslateFactory::class => $this->extractBasic(...),
             ITranslateFactory::class => $this->extractBasic(...),
+            IEscHtmlTranslateFactory::class => $this->extractBasic(...),
+            IEscHtmlRenderFactory::class => $this->extractBasic(...),
+            IEscAttrTranslateFactory::class => $this->extractBasic(...),
+            IEscAttrRenderFactory::class => $this->extractBasic(...),
 
             IContextTranslateFactory::class => $this->extractContext(...),
+            IRenderContextTranslateFactory::class => $this->extractContext(...),
+            IEscHtmlContextTranslateFactory::class => $this->extractContext(...),
+            IEscAttrContextTranslateFactory::class => $this->extractContext(...),
 
             IPluralTranslateFactory::class => $this->extractPlural(...),
+            INoopPluralTranslateFactory::class => $this->extractPlural(...),
 
             IContextPluralTranslateFactory::class => $this->extractContextPlural(...),
+            IContextNoopPluralTranslateFactory::class => $this->extractContextNoopPlural(...),
         ];
 
         $this->wpFunctionHandlers = [
             '__' => $this->extractWpBasic(...),
+            'translate' => $this->extractWpBasic(...),
             '_e' => $this->extractWpBasic(...),
             'esc_attr__' => $this->extractWpBasic(...),
             'esc_attr_e' => $this->extractWpBasic(...),
@@ -191,7 +210,7 @@ final readonly class PhpStanExtractor implements IExtractor
      */
     private function processMethodCall(MethodCall $node, MutatingScope $scope, string $file, string $source): Generator
     {
-        if (!$node->name instanceof Node\Identifier || $node->name->toString() !== 'run') {
+        if (!$node->name instanceof Node\Identifier) {
             return;
         }
 
@@ -200,6 +219,21 @@ final readonly class PhpStanExtractor implements IExtractor
             return;
         }
 
+        $methodName = $node->name->toString();
+
+        if ($methodName === 'run') {
+            yield from $this->processTranslatorRunCall($node, $scope, $callerType, $file, $source);
+        } else {
+            yield from $this->processTranslatorDirectCall($node, $methodName, $callerType, $file, $source);
+        }
+    }
+
+    /**
+     * @return Generator<ExtractedMessage>
+     * @throws ShouldNotHappenException
+     */
+    private function processTranslatorRunCall(MethodCall $node, MutatingScope $scope, Type $callerType, string $file, string $source): Generator
+    {
         $args = $node->getArgs();
         if (!isset($args[0]) || !$args[0] instanceof Arg) {
             return;
@@ -222,18 +256,30 @@ final readonly class PhpStanExtractor implements IExtractor
                 /** @var ?ExtractedMessage $message */
                 $message = $handler($factoryCall, $domain);
 
-                if (!is_null($message)) {
-                    $line         = $node->getStartLine();
-                    $relativePath = Path::makeRelative($file, $source);
-
-                    $message->getTranslation()->getReferences()->add($relativePath, $line);
-
-                    yield $message;
-                }
+                yield from $this->yieldMessage($message, $node, $file, $source);
 
                 return;
             }
         }
+    }
+
+    /**
+     * @return Generator<ExtractedMessage>
+     */
+    private function processTranslatorDirectCall(MethodCall $node, string $methodName, Type $callerType, string $file, string $source): Generator
+    {
+        $domain = $this->resolveDomain($callerType) ?? Constants::DEFAULT_DOMAIN;
+
+        $message = match ($methodName) {
+            'translate', 'render', 'translateEscHtml', 'renderEscHtml', 'translateEscAttr', 'renderEscAttr' => $this->extractBasic($node, $domain),
+            'context', 'renderContext', 'translateEscHtmlContext', 'translateEscAttrContext' => $this->extractContext($node, $domain),
+            'plural', 'noopPlural' => $this->extractPlural($node, $domain),
+            'contextPlural' => $this->extractContextPlural($node, $domain),
+            'contextNoopPlural' => $this->extractContextNoopPlural($node, $domain),
+            default => null,
+        };
+
+        yield from $this->yieldMessage($message, $node, $file, $source);
     }
 
     /**
@@ -256,6 +302,14 @@ final readonly class PhpStanExtractor implements IExtractor
          */
         $message = $this->wpFunctionHandlers[$funcName]($node);
 
+        yield from $this->yieldMessage($message, $node, $file, $source);
+    }
+
+    /**
+     * @return Generator<ExtractedMessage>
+     */
+    private function yieldMessage(?ExtractedMessage $message, Node $node, string $file, string $source): Generator
+    {
         if ($message !== null) {
             $line         = $node->getStartLine();
             $relativePath = Path::makeRelative($file, $source);
@@ -317,6 +371,24 @@ final readonly class PhpStanExtractor implements IExtractor
         $original = $this->getStringArg($node, 0);
         $plural   = $this->getStringArg($node, 1);
         $context  = $this->getStringArg($node, 3);
+
+        if ($original === null) {
+            return null;
+        }
+
+        $translation = Translation::create($context, $original);
+        if ($plural !== null) {
+            $translation->setPlural($plural);
+        }
+
+        return new ExtractedMessage($translation, $domain);
+    }
+
+    private function extractContextNoopPlural(MethodCall $node, string $domain): ?ExtractedMessage
+    {
+        $original = $this->getStringArg($node, 0);
+        $plural   = $this->getStringArg($node, 1);
+        $context  = $this->getStringArg($node, 2);
 
         if ($original === null) {
             return null;

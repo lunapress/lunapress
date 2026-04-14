@@ -15,6 +15,6 @@ msgstr ""
 "X-Domain: other\n"
 "X-Generator: LunaPress CLI\n"
 
-#: src/OtherSubscriber.php:21
+#: src/OtherSubscriber.php:20
 msgid "Other text"
 msgstr ""

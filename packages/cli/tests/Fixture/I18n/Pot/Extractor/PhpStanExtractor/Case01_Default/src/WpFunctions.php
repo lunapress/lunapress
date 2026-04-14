@@ -10,6 +10,7 @@ esc_attr__('wp esc_attr__', 'bred');
 esc_attr_e('wp esc_attr_e', 'bred');
 esc_html__('wp esc_html__', 'bred');
 esc_html_e('wp esc_html_e', 'bred');
+translate('wp translate', 'bred');
 
 // Context translation functions
 _x('wp x_text', 'x_context', 'bred');
