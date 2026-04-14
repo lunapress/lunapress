@@ -28,7 +28,7 @@
 - [x] `is_textdomain_loaded()` = `IsTextDomainLoaded`
 - [x] `get_locale()` = `GetLocale`
 - [x] `determine_locale()` = `DetermineLocale`
-- [ ] `is_rtl()` = `IsRtl`
+- [x] `is_rtl()` = `IsRtl`
 - [ ] `get_available_languages()` = `GetAvailableLanguages`
 - [ ] `get_user_locale()` = `GetUserLocale`
 - [ ] `switch_to_locale()` = `SwitchToLocale`

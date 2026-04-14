@@ -10,6 +10,8 @@ use LunaPress\Wp\I18n\Function\PluralTranslate\PluralTranslate;
 use LunaPress\Wp\I18n\Function\ContextPluralTranslate\ContextPluralTranslate;
 use LunaPress\Wp\I18n\Function\IsTextDomainLoaded\IsTextDomainLoaded;
 use LunaPress\Wp\I18n\Function\IsTextDomainLoaded\IsTextDomainLoadedFactory;
+use LunaPress\Wp\I18n\Function\IsRtl\IsRtl;
+use LunaPress\Wp\I18n\Function\IsRtl\IsRtlFactory;
 use LunaPress\Wp\I18n\Function\DetermineLocale\DetermineLocale;
 use LunaPress\Wp\I18n\Function\DetermineLocale\DetermineLocaleFactory;
 use LunaPress\Wp\I18n\Function\GetLocale\GetLocale;
@@ -78,6 +80,8 @@ use LunaPress\Wp\I18nContracts\Function\GetLocale\IGetLocaleFactory;
 use LunaPress\Wp\I18nContracts\Function\GetLocale\IGetLocaleFunction;
 use LunaPress\Wp\I18nContracts\Function\DetermineLocale\IDetermineLocaleFactory;
 use LunaPress\Wp\I18nContracts\Function\DetermineLocale\IDetermineLocaleFunction;
+use LunaPress\Wp\I18nContracts\Function\IsRtl\IIsRtlFactory;
+use LunaPress\Wp\I18nContracts\Function\IsRtl\IIsRtlFunction;
 use LunaPress\Wp\I18nContracts\Function\IsTextDomainLoaded\IIsTextDomainLoadedFactory;
 use LunaPress\Wp\I18nContracts\Function\IsTextDomainLoaded\IIsTextDomainLoadedFunction;
 use LunaPress\Wp\I18nContracts\Function\LoadMuPluginTextDomain\ILoadMuPluginTextDomainFactory;
@@ -135,6 +139,9 @@ return [
 
     IDetermineLocaleFunction::class => autowire(DetermineLocale::class),
     IDetermineLocaleFactory::class => autowire(DetermineLocaleFactory::class),
+
+    IIsRtlFunction::class => autowire(IsRtl::class),
+    IIsRtlFactory::class => autowire(IsRtlFactory::class),
 
     ILoadScriptTextDomainFunction::class => autowire(LoadScriptTextDomain::class),
     ILoadScriptTextDomainFactory::class => autowire(LoadScriptTextDomainFactory::class),
