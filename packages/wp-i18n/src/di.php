@@ -10,6 +10,8 @@ use LunaPress\Wp\I18n\Function\PluralTranslate\PluralTranslate;
 use LunaPress\Wp\I18n\Function\ContextPluralTranslate\ContextPluralTranslate;
 use LunaPress\Wp\I18n\Function\IsTextDomainLoaded\IsTextDomainLoaded;
 use LunaPress\Wp\I18n\Function\IsTextDomainLoaded\IsTextDomainLoadedFactory;
+use LunaPress\Wp\I18n\Function\RestorePreviousLocale\RestorePreviousLocale;
+use LunaPress\Wp\I18n\Function\RestorePreviousLocale\RestorePreviousLocaleFactory;
 use LunaPress\Wp\I18n\Function\SwitchToLocale\SwitchToLocale;
 use LunaPress\Wp\I18n\Function\SwitchToLocale\SwitchToLocaleFactory;
 use LunaPress\Wp\I18n\Function\GetUserLocale\GetUserLocale;
@@ -86,6 +88,8 @@ use LunaPress\Wp\I18nContracts\Function\GetLocale\IGetLocaleFactory;
 use LunaPress\Wp\I18nContracts\Function\GetLocale\IGetLocaleFunction;
 use LunaPress\Wp\I18nContracts\Function\SwitchToLocale\ISwitchToLocaleFactory;
 use LunaPress\Wp\I18nContracts\Function\SwitchToLocale\ISwitchToLocaleFunction;
+use LunaPress\Wp\I18nContracts\Function\RestorePreviousLocale\IRestorePreviousLocaleFactory;
+use LunaPress\Wp\I18nContracts\Function\RestorePreviousLocale\IRestorePreviousLocaleFunction;
 use LunaPress\Wp\I18nContracts\Function\GetUserLocale\IGetUserLocaleFactory;
 use LunaPress\Wp\I18nContracts\Function\GetUserLocale\IGetUserLocaleFunction;
 use LunaPress\Wp\I18nContracts\Function\GetAvailableLanguages\IGetAvailableLanguagesFactory;
@@ -154,6 +158,9 @@ return [
 
     ISwitchToLocaleFunction::class => autowire(SwitchToLocale::class),
     ISwitchToLocaleFactory::class => autowire(SwitchToLocaleFactory::class),
+
+    IRestorePreviousLocaleFunction::class => autowire(RestorePreviousLocale::class),
+    IRestorePreviousLocaleFactory::class => autowire(RestorePreviousLocaleFactory::class),
 
     IGetAvailableLanguagesFunction::class => autowire(GetAvailableLanguages::class),
     IGetAvailableLanguagesFactory::class => autowire(GetAvailableLanguagesFactory::class),

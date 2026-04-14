@@ -32,5 +32,5 @@
 - [x] `get_available_languages()` = `GetAvailableLanguages`
 - [x] `get_user_locale()` = `GetUserLocale`
 - [x] `switch_to_locale()` = `SwitchToLocale`
-- [ ] `restore_previous_locale()` = `RestorePreviousLocale`
+- [x] `restore_previous_locale()` = `RestorePreviousLocale`
 - [ ] `number_format_i18n()` = `NumberFormatI18n`
