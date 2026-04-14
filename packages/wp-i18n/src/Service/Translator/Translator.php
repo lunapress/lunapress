@@ -15,40 +15,24 @@ use LunaPress\Wp\I18nContracts\Entity\ITranslatorFunction;
 use LunaPress\Wp\I18nContracts\Function\ContextNoopPluralTranslate\IContextNoopPluralTranslateFactory;
 use LunaPress\Wp\I18nContracts\Function\ContextPluralTranslate\IContextPluralTranslateFactory;
 use LunaPress\Wp\I18nContracts\Function\ContextTranslate\IContextTranslateFactory;
-use LunaPress\Wp\I18nContracts\Function\DetermineLocale\IDetermineLocaleFactory;
 use LunaPress\Wp\I18nContracts\Function\EscAttrContextTranslate\IEscAttrContextTranslateFactory;
 use LunaPress\Wp\I18nContracts\Function\EscAttrRender\IEscAttrRenderFactory;
 use LunaPress\Wp\I18nContracts\Function\EscAttrTranslate\IEscAttrTranslateFactory;
 use LunaPress\Wp\I18nContracts\Function\EscHtmlContextTranslate\IEscHtmlContextTranslateFactory;
 use LunaPress\Wp\I18nContracts\Function\EscHtmlRender\IEscHtmlRenderFactory;
 use LunaPress\Wp\I18nContracts\Function\EscHtmlTranslate\IEscHtmlTranslateFactory;
-use LunaPress\Wp\I18nContracts\Function\GetAvailableLanguages\IGetAvailableLanguagesFactory;
-use LunaPress\Wp\I18nContracts\Function\GetLocale\IGetLocaleFactory;
-use LunaPress\Wp\I18nContracts\Function\GetUserLocale\IGetUserLocaleFactory;
-use LunaPress\Wp\I18nContracts\Function\IsRtl\IIsRtlFactory;
-use LunaPress\Wp\I18nContracts\Function\IsTextDomainLoaded\IIsTextDomainLoadedFactory;
-use LunaPress\Wp\I18nContracts\Function\LoadChildThemeTextDomain\ILoadChildThemeTextDomainFactory;
-use LunaPress\Wp\I18nContracts\Function\LoadMuPluginTextDomain\ILoadMuPluginTextDomainFactory;
-use LunaPress\Wp\I18nContracts\Function\LoadPluginTextDomain\ILoadPluginTextDomainFactory;
-use LunaPress\Wp\I18nContracts\Function\LoadScriptTextDomain\ILoadScriptTextDomainFactory;
-use LunaPress\Wp\I18nContracts\Function\LoadTextDomain\ILoadTextDomainFactory;
-use LunaPress\Wp\I18nContracts\Function\LoadThemeTextDomain\ILoadThemeTextDomainFactory;
 use LunaPress\Wp\I18nContracts\Function\NoopPluralTranslate\INoopPluralTranslateFactory;
-use LunaPress\Wp\I18nContracts\Function\NumberFormatI18n\INumberFormatI18nFactory;
 use LunaPress\Wp\I18nContracts\Function\PluralTranslate\IPluralTranslateFactory;
 use LunaPress\Wp\I18nContracts\Function\RenderContextTranslate\IRenderContextTranslateFactory;
 use LunaPress\Wp\I18nContracts\Function\RenderTranslate\IRenderTranslateFactory;
-use LunaPress\Wp\I18nContracts\Function\RestorePreviousLocale\IRestorePreviousLocaleFactory;
-use LunaPress\Wp\I18nContracts\Function\SwitchToLocale\ISwitchToLocaleFactory;
 use LunaPress\Wp\I18nContracts\Function\Translate\ITranslateFactory;
 use LunaPress\Wp\I18nContracts\Function\TranslateNoopedPlural\ITranslateNoopedPluralFactory;
-use LunaPress\Wp\I18nContracts\Function\UnloadTextDomain\IUnloadTextDomainFactory;
 use LunaPress\Wp\I18nContracts\Service\Translator\ITranslator;
 use ReflectionClass;
 
 defined('ABSPATH') || exit;
 
-final readonly class Translator implements ITranslator
+readonly class Translator implements ITranslator
 {
     public function __construct(
         private IWpFunctionExecutor $wpFunctionExecutor,
@@ -67,22 +51,6 @@ final readonly class Translator implements ITranslator
         private INoopPluralTranslateFactory $noopPluralTranslateFactory,
         private IContextNoopPluralTranslateFactory $contextNoopPluralTranslateFactory,
         private ITranslateNoopedPluralFactory $translateNoopedPluralFactory,
-        private ILoadTextDomainFactory $loadTextDomainFactory,
-        private IUnloadTextDomainFactory $unloadTextDomainFactory,
-        private ILoadPluginTextDomainFactory $loadPluginTextDomainFactory,
-        private ILoadMuPluginTextDomainFactory $loadMuPluginTextDomainFactory,
-        private ILoadThemeTextDomainFactory $loadThemeTextDomainFactory,
-        private ILoadChildThemeTextDomainFactory $loadChildThemeTextDomainFactory,
-        private ILoadScriptTextDomainFactory $loadScriptTextDomainFactory,
-        private IIsTextDomainLoadedFactory $isTextDomainLoadedFactory,
-        private IGetLocaleFactory $getLocaleFactory,
-        private IDetermineLocaleFactory $determineLocaleFactory,
-        private IGetUserLocaleFactory $getUserLocaleFactory,
-        private IGetAvailableLanguagesFactory $getAvailableLanguagesFactory,
-        private IIsRtlFactory $isRtlFactory,
-        private ISwitchToLocaleFactory $switchToLocaleFactory,
-        private IRestorePreviousLocaleFactory $restorePreviousLocaleFactory,
-        private INumberFormatI18nFactory $numberFormatI18nFactory,
     ) {
     }
 
@@ -191,118 +159,6 @@ final readonly class Translator implements ITranslator
     {
         return $this->run(
             $this->translateNoopedPluralFactory->make($noopedPlural, $number)
-        );
-    }
-
-    public function loadTextDomain(string $moFile, ?string $locale = null): bool
-    {
-        return $this->run(
-            $this->loadTextDomainFactory->make($this->getStrictDomain(), $moFile)->locale($locale)
-        );
-    }
-
-    public function unloadTextDomain(bool $reloadable = false): bool
-    {
-        return $this->run(
-            $this->unloadTextDomainFactory->make($this->getStrictDomain(), $reloadable)
-        );
-    }
-
-    public function loadPluginTextDomain(string|false $pluginRelPath = false): bool
-    {
-        return $this->run(
-            $this->loadPluginTextDomainFactory->make($this->getStrictDomain())->pluginRelPath($pluginRelPath)
-        );
-    }
-
-    public function loadMuPluginTextDomain(string $muPluginRelPath = ''): bool
-    {
-        return $this->run(
-            $this->loadMuPluginTextDomainFactory->make($this->getStrictDomain())->muPluginRelPath($muPluginRelPath)
-        );
-    }
-
-    public function loadThemeTextDomain(string|false $path = false): bool
-    {
-        return $this->run(
-            $this->loadThemeTextDomainFactory->make($this->getStrictDomain())->path($path)
-        );
-    }
-
-    public function loadChildThemeTextDomain(string|false $path = false): bool
-    {
-        return $this->run(
-            $this->loadChildThemeTextDomainFactory->make($this->getStrictDomain())->path($path)
-        );
-    }
-
-    public function loadScriptTextDomain(string $handle, string $path): bool
-    {
-        return $this->run(
-            $this->loadScriptTextDomainFactory->make($handle)->path($path)
-        );
-    }
-
-    public function isTextDomainLoaded(): bool
-    {
-        return $this->run(
-            $this->isTextDomainLoadedFactory->make($this->getStrictDomain())
-        );
-    }
-
-    public function getLocale(): string
-    {
-        return $this->run(
-            $this->getLocaleFactory->make()
-        );
-    }
-
-    public function determineLocale(): string
-    {
-        return $this->run(
-            $this->determineLocaleFactory->make()
-        );
-    }
-
-    public function getUserLocale(int $userId = 0): string
-    {
-        return $this->run(
-            $this->getUserLocaleFactory->make($userId)
-        );
-    }
-
-    public function getAvailableLanguages(?string $dir = null): array
-    {
-        return $this->run(
-            $this->getAvailableLanguagesFactory->make($dir)
-        );
-    }
-
-    public function isRtl(): bool
-    {
-        return $this->run(
-            $this->isRtlFactory->make()
-        );
-    }
-
-    public function switchToLocale(string $locale): bool
-    {
-        return $this->run(
-            $this->switchToLocaleFactory->make($locale)
-        );
-    }
-
-    public function restorePreviousLocale(): bool
-    {
-        return $this->run(
-            $this->restorePreviousLocaleFactory->make()
-        );
-    }
-
-    public function formatNumber(float $number, int $decimals = 0): string
-    {
-        return $this->run(
-            $this->numberFormatI18nFactory->make($number, $decimals)
         );
     }
 
