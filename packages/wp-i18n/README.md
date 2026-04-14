@@ -33,4 +33,4 @@
 - [x] `get_user_locale()` = `GetUserLocale`
 - [x] `switch_to_locale()` = `SwitchToLocale`
 - [x] `restore_previous_locale()` = `RestorePreviousLocale`
-- [ ] `number_format_i18n()` = `NumberFormatI18n`
+- [x] `number_format_i18n()` = `NumberFormatI18n`

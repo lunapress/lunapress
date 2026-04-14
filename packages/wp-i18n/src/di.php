@@ -16,6 +16,8 @@ use LunaPress\Wp\I18n\Function\SwitchToLocale\SwitchToLocale;
 use LunaPress\Wp\I18n\Function\SwitchToLocale\SwitchToLocaleFactory;
 use LunaPress\Wp\I18n\Function\GetUserLocale\GetUserLocale;
 use LunaPress\Wp\I18n\Function\GetUserLocale\GetUserLocaleFactory;
+use LunaPress\Wp\I18n\Function\NumberFormatI18n\NumberFormatI18n;
+use LunaPress\Wp\I18n\Function\NumberFormatI18n\NumberFormatI18nFactory;
 use LunaPress\Wp\I18n\Function\GetAvailableLanguages\GetAvailableLanguages;
 use LunaPress\Wp\I18n\Function\GetAvailableLanguages\GetAvailableLanguagesFactory;
 use LunaPress\Wp\I18n\Function\IsRtl\IsRtl;
@@ -100,6 +102,8 @@ use LunaPress\Wp\I18nContracts\Function\IsRtl\IIsRtlFactory;
 use LunaPress\Wp\I18nContracts\Function\IsRtl\IIsRtlFunction;
 use LunaPress\Wp\I18nContracts\Function\IsTextDomainLoaded\IIsTextDomainLoadedFactory;
 use LunaPress\Wp\I18nContracts\Function\IsTextDomainLoaded\IIsTextDomainLoadedFunction;
+use LunaPress\Wp\I18nContracts\Function\NumberFormatI18n\INumberFormatI18nFactory;
+use LunaPress\Wp\I18nContracts\Function\NumberFormatI18n\INumberFormatI18nFunction;
 use LunaPress\Wp\I18nContracts\Function\LoadMuPluginTextDomain\ILoadMuPluginTextDomainFactory;
 use LunaPress\Wp\I18nContracts\Function\LoadMuPluginTextDomain\ILoadMuPluginTextDomainFunction;
 use LunaPress\Wp\I18nContracts\Function\LoadTextDomain\ILoadTextDomainFactory;
@@ -149,6 +153,9 @@ return [
 
     IIsTextDomainLoadedFunction::class => autowire(IsTextDomainLoaded::class),
     IIsTextDomainLoadedFactory::class => autowire(IsTextDomainLoadedFactory::class),
+
+    INumberFormatI18nFunction::class => autowire(NumberFormatI18n::class),
+    INumberFormatI18nFactory::class => autowire(NumberFormatI18nFactory::class),
 
     IGetLocaleFunction::class => autowire(GetLocale::class),
     IGetLocaleFactory::class => autowire(GetLocaleFactory::class),
