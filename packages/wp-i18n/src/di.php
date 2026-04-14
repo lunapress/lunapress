@@ -15,6 +15,8 @@ use LunaPress\Wp\I18n\Function\Translate\TranslateFactory;
 use LunaPress\Wp\I18n\Function\RenderTranslate\RenderTranslateFactory;
 use LunaPress\Wp\I18n\Function\PluralTranslate\PluralTranslateFactory;
 use LunaPress\Wp\I18n\Function\ContextPluralTranslate\ContextPluralTranslateFactory;
+use LunaPress\Wp\I18n\Function\ContextNoopPluralTranslate\ContextNoopPluralTranslate;
+use LunaPress\Wp\I18n\Function\ContextNoopPluralTranslate\ContextNoopPluralTranslateFactory;
 use LunaPress\Wp\I18n\Function\EscAttrContextTranslate\EscAttrContextTranslate;
 use LunaPress\Wp\I18n\Function\EscAttrContextTranslate\EscAttrContextTranslateFactory;
 use LunaPress\Wp\I18n\Function\EscAttrRender\EscAttrRender;
@@ -34,6 +36,8 @@ use LunaPress\Wp\I18n\Function\EscHtmlTranslate\EscHtmlTranslate;
 use LunaPress\Wp\I18n\Function\EscHtmlTranslate\EscHtmlTranslateFactory;
 use LunaPress\Wp\I18nContracts\Function\ContextPluralTranslate\IContextPluralTranslateFactory;
 use LunaPress\Wp\I18nContracts\Function\ContextPluralTranslate\IContextPluralTranslateFunction;
+use LunaPress\Wp\I18nContracts\Function\ContextNoopPluralTranslate\IContextNoopPluralTranslateFactory;
+use LunaPress\Wp\I18nContracts\Function\ContextNoopPluralTranslate\IContextNoopPluralTranslateFunction;
 use LunaPress\Wp\I18nContracts\Function\ContextTranslate\IContextTranslateFactory;
 use LunaPress\Wp\I18nContracts\Function\ContextTranslate\IContextTranslateFunction;
 use LunaPress\Wp\I18nContracts\Function\EscAttrTranslate\IEscAttrTranslateFactory;
@@ -110,6 +114,9 @@ return [
 
     INoopPluralTranslateFunction::class => autowire(NoopPluralTranslate::class),
     INoopPluralTranslateFactory::class => autowire(NoopPluralTranslateFactory::class),
+
+    IContextNoopPluralTranslateFunction::class => autowire(ContextNoopPluralTranslate::class),
+    IContextNoopPluralTranslateFactory::class => autowire(ContextNoopPluralTranslateFactory::class),
 
     ITranslator::class => autowire(Translator::class),
 ];
