@@ -13,7 +13,7 @@ final readonly class PathResolver implements IPathResolver
 {
     public function __construct(
         private string $cliPackageRoot,
-        ?string                   $startDir = null,
+        ?string $startDir = null,
         private IWorkingDirectory $workingDirectory = new WorkingDirectory(),
     ) {
     }
