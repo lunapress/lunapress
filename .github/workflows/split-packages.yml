@@ -43,7 +43,7 @@ jobs:
         with:
           app_id: ${{ vars.RELEASER_APP_ID }}
           private_key: ${{ secrets.RELEASER_APP_PRIVATE_KEY }}
-          repositories: ${{ github.event.repository.name }},foundation,core,php-di-adapter,frontend,wp-core,wp-assets,frontend-kit,wp-i18n
+          repositories: ${{ github.event.repository.name }},foundation,core,php-di-adapter,frontend,wp-core,wp-assets,frontend-kit,wp-i18n,config
 
       - name: Determine Ref
         id: info
@@ -67,4 +67,4 @@ jobs:
           user_name: ${{ steps.setup-app.outputs.bot_name }}
           user_email: ${{ steps.setup-app.outputs.bot_email }}
         env:
-          GITHUB_TOKEN: ${{ steps.setup-app.outputs.token }}
+          GITHUB_TOKEN: x-access-token:${{ steps.setup-app.outputs.token }}

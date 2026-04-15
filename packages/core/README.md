@@ -1,1 +1,1 @@
-# LunaPress Config
+# LunaPress Core
