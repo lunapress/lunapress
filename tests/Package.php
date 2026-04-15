@@ -5,5 +5,6 @@ namespace LunaPress\Test;
 
 enum Package: string
 {
-    case CLI = 'cli';
+    case CLI    = 'cli';
+    case CONFIG = 'config';
 }

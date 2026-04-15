@@ -19,6 +19,11 @@
             "LunaPress\\Config\\": "src/"
         }
     },
+    "autoload-dev": {
+        "psr-4": {
+            "LunaPress\\Config\\Test\\": "tests/"
+        }
+    },
     "require": {
         "php": "^8.3"
     }

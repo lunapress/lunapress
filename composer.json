@@ -45,6 +45,7 @@
     },
     "replace": {
         "lunapress/cli": "self.version",
+        "lunapress/config": "self.version",
         "lunapress/core": "self.version",
         "lunapress/foundation": "self.version",
         "lunapress/frontend": "self.version",
@@ -53,8 +54,7 @@
         "lunapress/wp-assets": "self.version",
         "lunapress/wp-core": "self.version",
         "lunapress/wp-i18n": "self.version",
-        "symfony/polyfill-php83": "*",
-        "lunapress/config": "self.version"
+        "symfony/polyfill-php83": "*"
     },
     "repositories": [
         {
@@ -90,6 +90,7 @@
         "psr-4": {
             "LunaPress\\Cli\\Robo\\": "packages/cli/robo/",
             "LunaPress\\Cli\\Test\\": "packages/cli/tests/",
+            "LunaPress\\Config\\Test\\": "packages/config/tests/",
             "LunaPress\\Test\\": "tests/"
         }
     },
