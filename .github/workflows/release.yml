@@ -1,0 +1,39 @@
+name: Release
+
+on:
+  push:
+    branches:
+      - release
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          token: ${{ steps.setup-app.outputs.token }}
+
+      - name: Generate GitHub App Token
+        id: setup-app
+        uses: ./.github/actions/setup-github-app
+        with:
+          app_id: ${{ vars.RELEASER_APP_ID }}
+          private_key: ${{ secrets.RELEASER_APP_PRIVATE_KEY }}
+          repositories: ${{ github.event.repository.name }}
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+
+      - uses: pnpm/action-setup@v6
+        with:
+          cache: true
+
+      - name: Install dependencies
+        run: pnpm ci
+
+      - name: Run Semantic Release
+        run: semantic-release
+        env:
+          GITHUB_TOKEN: ${{ steps.setup-app.outputs.token }}

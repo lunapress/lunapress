@@ -5,10 +5,7 @@ on:
     branches:
       - main
     tags:
-      - '*'
-
-env:
-  GITHUB_TOKEN: ${{ secrets.BOT_TOKEN }}
+      - 'v*'
 
 jobs:
   packages_split:
@@ -38,22 +35,34 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
-      - name: Determine tag (if exists)
-        id: tag
+      - name: Setup GitHub App
+        id: setup-app
+        uses: ./.github/actions/setup-github-app
+        with:
+          app_id: ${{ vars.RELEASER_APP_ID }}
+          private_key: ${{ secrets.RELEASER_APP_PRIVATE_KEY }}
+          repositories: ${{ github.event.repository.name }},foundation,core,php-di-adapter,frontend,wp-core,wp-assets,frontend-kit,wp-i18n
+
+      - name: Determine Ref
+        id: info
         run: |
           if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
-            echo "tag_name=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
+            echo "type=tag" >> $GITHUB_OUTPUT
+            echo "ref=${GITHUB_REF#refs/tags/}" >> $GITHUB_OUTPUT
           else
-            echo "tag_name=" >> $GITHUB_OUTPUT
+            echo "type=branch" >> $GITHUB_OUTPUT
+            echo "ref=${GITHUB_REF#refs/heads/}" >> $GITHUB_OUTPUT
           fi
 
       - name: Split package
         uses: danharrin/monorepo-split-github-action@v2.4.4
         with:
-          tag: ${{ steps.tag.outputs.tag_name }}
+          tag: ${{ steps.info.outputs.type == 'tag' && steps.info.outputs.ref || '' }}
+          branch: ${{ steps.info.outputs.type == 'branch' && steps.info.outputs.ref || '' }}
           package_directory: packages/${{ matrix.package.local_path }}
-          repository_organization: lunapress
+          repository_organization: ${{ github.repository_owner }}
           repository_name: ${{ matrix.package.split_repository }}
-          user_name: "github-actions[bot]"
-          user_email: "github-actions[bot]@users.noreply.github.com"
-
+          user_name: ${{ steps.setup-app.outputs.bot_name }}
+          user_email: ${{ steps.setup-app.outputs.bot_email }}
+        env:
+          GITHUB_TOKEN: ${{ steps.setup-app.outputs.token }}

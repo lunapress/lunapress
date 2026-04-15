@@ -19,3 +19,4 @@ wordpress
 .phpunit.result.cache
 
 .pnpm-store
+node_modules

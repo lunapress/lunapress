@@ -5,7 +5,7 @@ on:
     branches:
       - main
     tags:
-      - '*'
+      - 'v*'
 
 permissions:
   contents: write
@@ -16,34 +16,32 @@ jobs:
   build-phar:
     runs-on: ubuntu-latest
     steps:
-      - name: Generate GitHub App Token
-        id: app-token
-        uses: actions/create-github-app-token@v3
-        with:
-          client-id: ${{ vars.RELEASER_APP_ID }}
-          private-key: ${{ secrets.RELEASER_APP_PRIVATE_KEY }}
-          owner: ${{ github.repository_owner }}
-          repositories: cli,lunapress
-
-      - name: Configure Git Author
-        env:
-          GH_TOKEN: ${{ steps.app-token.outputs.token }}
-          APP_SLUG: ${{ steps.app-token.outputs.app-slug }}
-        run: |
-          BOT_USER_ID=$(curl -s -H "Authorization: Bearer $GH_TOKEN" "https://api.github.com/users/${APP_SLUG}%5Bbot%5D" | jq -r .id)
-          git config --global user.name "${APP_SLUG}"
-          git config --global user.email "${BOT_USER_ID}+${APP_SLUG}[bot]@users.noreply.github.com"
-
       - name: Checkout Monorepo
         uses: actions/checkout@v6
         with:
           fetch-depth: 0
 
+      - name: Generate GitHub App Token
+        id: setup-app
+        uses: ./.github/actions/setup-github-app
+        with:
+          app_id: ${{ vars.RELEASER_APP_ID }}
+          private_key: ${{ secrets.RELEASER_APP_PRIVATE_KEY }}
+          repositories: ${{ github.event.repository.name }},cli
+
+      - name: Configure Git Author
+        env:
+          BOT_NAME: ${{ steps.setup-app.outputs.bot_name }}
+          BOT_EMAIL: ${{ steps.setup-app.outputs.bot_email }}
+        run: |
+          git config --global user.name "${BOT_NAME}"
+          git config --global user.email "${BOT_EMAIL}"
+
       - name: Checkout CLI Repo
         uses: actions/checkout@v6
         with:
           repository: ${{ github.repository_owner }}/cli
-          token: ${{ steps.app-token.outputs.token }}
+          token: ${{ steps.setup-app.outputs.token }}
           path: cli-dist
           fetch-depth: 0
 
@@ -81,7 +79,7 @@ jobs:
       - name: Push to Split Repository
         working-directory: cli-dist
         env:
-          GITHUB_TOKEN: ${{ steps.app-token.outputs.token }}
+          GITHUB_TOKEN: ${{ steps.setup-app.outputs.token }}
         run: |
           git add -A .
 
@@ -92,6 +90,7 @@ jobs:
             git tag -f nightly
             git push origin refs/tags/nightly --force
           else
+            git checkout main
             git commit -m "Release ${{ env.RELEASE_TAG }}"
             git tag "${{ env.RELEASE_TAG }}"
             git push origin main "${{ env.RELEASE_TAG }}"
@@ -101,13 +100,13 @@ jobs:
         uses: actions/attest@v4
         with:
           subject-path: packages/cli/build/lunapress.phar
-          github-token: ${{ steps.app-token.outputs.token }}
+          github-token: ${{ steps.setup-app.outputs.token }}
 
       - name: Upload Phar
         uses: softprops/action-gh-release@v2
         with:
           repository: ${{ github.repository_owner }}/cli
-          token: ${{ steps.app-token.outputs.token }}
+          token: ${{ steps.setup-app.outputs.token }}
           tag_name: ${{ env.RELEASE_TAG }}
           name: ${{ env.IS_PRERELEASE == 'true' && 'Nightly Build' || env.RELEASE_TAG }}
           prerelease: ${{ env.IS_PRERELEASE == 'true' }}
