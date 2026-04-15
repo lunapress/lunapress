@@ -53,6 +53,7 @@
         "gettext/gettext": "^v5.7.3",
         "lunapress/wp-i18n-contracts": "@dev",
         "lunapress/foundation-contracts": "@dev",
+        "lunapress/config": "@dev",
         "phpstan/phpstan": "^2.1.32",
         "cuyz/valinor": "^2.3.2",
         "brianhenryie/strauss-phar": "0.27.0"
