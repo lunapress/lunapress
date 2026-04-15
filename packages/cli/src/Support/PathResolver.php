@@ -35,4 +35,16 @@ final readonly class PathResolver implements IPathResolver
     {
         return Path::join($this->cwd(), $config->directory);
     }
+
+    #[Override]
+    public function languages(?string $subpath = null): string
+    {
+        return $this->projectPath($subpath ?? 'languages');
+    }
+
+    #[Override]
+    public function projectPath(?string $subpath = null): string
+    {
+        return Path::makeAbsolute($subpath ?? '.', $this->cwd());
+    }
 }

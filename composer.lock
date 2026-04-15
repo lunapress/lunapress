@@ -4,8 +4,21 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "cec1d6815db94bfa1c47866982092186",
+    "content-hash": "59ef196cb34d1c9b93f635ee5ccf960a",
     "packages": [
+        {
+            "name": "brianhenryie/strauss-phar",
+            "version": "0.27.0",
+            "dist": {
+                "type": "file",
+                "url": "https://github.com/BrianHenryIE/strauss/releases/download/0.27.0/strauss.phar",
+                "shasum": "437c9a43cafbd60eeb22d09f83d1fcd939140c00"
+            },
+            "bin": [
+                "strauss.phar"
+            ],
+            "type": "library"
+        },
         {
             "name": "cuyz/valinor",
             "version": "2.4.0",
@@ -4298,12 +4311,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/lunapress/coding-standards.git",
-                "reference": "03df443ac70d012d3a4532246d702b5689625239"
+                "reference": "28f40f73048dd6160cb8fcd2d02eb49d0de6b91c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/lunapress/coding-standards/zipball/03df443ac70d012d3a4532246d702b5689625239",
-                "reference": "03df443ac70d012d3a4532246d702b5689625239",
+                "url": "https://api.github.com/repos/lunapress/coding-standards/zipball/28f40f73048dd6160cb8fcd2d02eb49d0de6b91c",
+                "reference": "28f40f73048dd6160cb8fcd2d02eb49d0de6b91c",
                 "shasum": ""
             },
             "require": {
@@ -4350,7 +4363,7 @@
                 "issues": "https://github.com/lunapress/coding-standards/issues",
                 "source": "https://github.com/lunapress/coding-standards/tree/main"
             },
-            "time": "2025-11-20T20:04:28+00:00"
+            "time": "2026-04-15T13:48:28+00:00"
         },
         {
             "name": "lunapress/static-analysis",
@@ -7486,16 +7499,16 @@
         },
         {
             "name": "sebastian/environment",
-            "version": "8.0.4",
+            "version": "8.1.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sebastianbergmann/environment.git",
-                "reference": "7b8842c2d8e85d0c3a5831236bf5869af6ab2a11"
+                "reference": "b121608b28a13f721e76ffbbd386d08eff58f3f6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/7b8842c2d8e85d0c3a5831236bf5869af6ab2a11",
-                "reference": "7b8842c2d8e85d0c3a5831236bf5869af6ab2a11",
+                "url": "https://api.github.com/repos/sebastianbergmann/environment/zipball/b121608b28a13f721e76ffbbd386d08eff58f3f6",
+                "reference": "b121608b28a13f721e76ffbbd386d08eff58f3f6",
                 "shasum": ""
             },
             "require": {
@@ -7510,7 +7523,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-main": "8.0-dev"
+                    "dev-main": "8.1-dev"
                 }
             },
             "autoload": {
@@ -7538,7 +7551,7 @@
             "support": {
                 "issues": "https://github.com/sebastianbergmann/environment/issues",
                 "security": "https://github.com/sebastianbergmann/environment/security/policy",
-                "source": "https://github.com/sebastianbergmann/environment/tree/8.0.4"
+                "source": "https://github.com/sebastianbergmann/environment/tree/8.1.0"
             },
             "funding": [
                 {
@@ -7558,7 +7571,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2026-03-15T07:05:40+00:00"
+            "time": "2026-04-15T12:13:01+00:00"
         },
         {
             "name": "sebastian/exporter",

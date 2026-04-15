@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace LunaPress\Cli\I18n\Pot;
 
 use LunaPress\Cli\I18n\Pot\Generator\IPotGenerator;
+use LunaPress\Cli\Support\IPathResolver;
 use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Attribute\Option;
@@ -18,7 +19,8 @@ use Symfony\Component\Filesystem\Path;
 final class MakePotCommand extends Command
 {
     public function __construct(
-        private readonly IPotGenerator $generator
+        private readonly IPotGenerator $generator,
+        private readonly IPathResolver $pathResolver,
     ) {
         parent::__construct();
     }
@@ -48,8 +50,8 @@ final class MakePotCommand extends Command
         bool  $skipFrontend = false,
     ): int {
         $this->generator->generate(
-            $this->normalizeSource($source),
-            $this->normalizeDestination($destination),
+            $this->pathResolver->projectPath($source),
+            $this->pathResolver->languages($destination),
             $io,
             $domains,
             $ignoreDomains,
@@ -62,19 +64,5 @@ final class MakePotCommand extends Command
         $io->success('Successfully completed');
 
         return Command::SUCCESS;
-    }
-
-    private function normalizeDestination(?string $destination): string
-    {
-        $path = $destination ?? 'languages';
-
-        return Path::makeAbsolute($path, getcwd());
-    }
-
-    private function normalizeSource(?string $source): string
-    {
-        $path = $source ?? '.';
-
-        return Path::makeAbsolute($path, getcwd());
     }
 }

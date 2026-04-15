@@ -15,6 +15,7 @@
         }
     ],
     "require": {
+        "brianhenryie/strauss-phar": "0.27.0",
         "cuyz/valinor": "^2.3.2",
         "gettext/gettext": "^v5.7.3",
         "lunapress/core-contracts": "@dev",
@@ -57,6 +58,21 @@
         "symfony/polyfill-php83": "*"
     },
     "repositories": [
+        {
+            "package": {
+                "bin": [
+                    "strauss.phar"
+                ],
+                "dist": {
+                    "shasum": "437c9a43cafbd60eeb22d09f83d1fcd939140c00",
+                    "type": "file",
+                    "url": "https://github.com/BrianHenryIE/strauss/releases/download/0.27.0/strauss.phar"
+                },
+                "name": "brianhenryie/strauss-phar",
+                "version": "0.27.0"
+            },
+            "type": "package"
+        },
         {
             "options": {
                 "symlink": true
@@ -106,8 +122,9 @@
         }
     },
     "extra": {
-        "lunapress": {
-            "di": "src/di.php"
+        "bamarni-bin": {
+            "bin-links": false,
+            "forward-command": true
         }
     },
     "scripts": {

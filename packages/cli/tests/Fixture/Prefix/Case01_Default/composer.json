@@ -1,0 +1,6 @@
+{
+    "name": "lunapress/test-fixture",
+    "require": {
+        "some-vendor/some-pkg": "^1.0"
+    }
+}

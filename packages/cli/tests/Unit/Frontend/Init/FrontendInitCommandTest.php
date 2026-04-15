@@ -16,8 +16,8 @@ beforeEach(function () {
     $this->generator = Mockery::mock(IFrontendProjectGenerator::class);
     $this->generator->shouldReceive('generate')->andReturnNull();
 
-    $this->command = new FrontendInitCommand($this->generator);
-    $this->tester  = new CommandTester($this->command);
+    $this->testCommand = new FrontendInitCommand($this->generator);
+    $this->tester  = new CommandTester($this->testCommand);
 });
 
 it('sets defaults when no input provided', function () {
@@ -26,7 +26,7 @@ it('sets defaults when no input provided', function () {
 
     expect($code)->toBe(Command::SUCCESS);
 
-    $config = $this->command->getConfig();
+    $config = $this->testCommand->getConfig();
 
     expect($config)->toBeInstanceOf(FrontendInitConfig::class)
         ->and($config->framework)->toBe(FrontendFramework::React)
@@ -41,7 +41,7 @@ it('sets options from input', function () {
 
     expect($code)->toBe(Command::SUCCESS);
 
-    $config = $this->command->getConfig();
+    $config = $this->testCommand->getConfig();
 
     expect($config->framework)->toBe(FrontendFramework::React)
         ->and($config->useTailwind)->toBeFalse()

@@ -7,9 +7,27 @@
         "bin/lunapress.phar",
         "bin/lunapress"
     ],
+    "repositories": [
+        {
+            "type": "package",
+            "package": {
+                "name": "brianhenryie/strauss-phar",
+                "version": "0.27.0",
+                "dist": {
+                    "url": "https://github.com/BrianHenryIE/strauss/releases/download/0.27.0/strauss.phar",
+                    "type": "file",
+                    "shasum": "437c9a43cafbd60eeb22d09f83d1fcd939140c00"
+                },
+                "bin": [
+                    "strauss.phar"
+                ]
+            }
+        }
+    ],
     "require": {
         "php": "^8.3",
-        "phpstan/phpstan": "^2.1.32"
+        "phpstan/phpstan": "^2.1.32",
+        "brianhenryie/strauss-phar": "0.27.0"
     },
     "authors": [
         {

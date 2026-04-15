@@ -7,7 +7,7 @@ use LunaPress\Config\Exceptions\InvalidConfigurationException;
 
 defined('ABSPATH') || exit;
 
-final readonly class ConfigResolver
+final readonly class ConfigResolver implements IConfigResolver
 {
     private const array ALLOWED_PATHS = [
         '.config/.lunapress.php',

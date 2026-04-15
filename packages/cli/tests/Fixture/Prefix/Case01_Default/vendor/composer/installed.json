@@ -1,0 +1,11 @@
+{
+    "packages": [
+        {
+            "name": "some-vendor/some-pkg",
+            "version": "1.0.0",
+            "type": "library",
+            "install-path": "../some-vendor/some-pkg"
+        }
+    ],
+    "dev": true
+}

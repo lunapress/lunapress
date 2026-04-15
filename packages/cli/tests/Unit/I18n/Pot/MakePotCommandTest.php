@@ -3,21 +3,23 @@ declare(strict_types=1);
 
 namespace LunaPress\Cli\Test\Unit\I18n\Pot;
 
-use LunaPress\Cli\I18n\Pot\MakePotCommand;
 use LunaPress\Cli\I18n\Pot\Generator\IPotGenerator;
+use LunaPress\Cli\I18n\Pot\MakePotCommand;
+use LunaPress\Cli\Support\IPathResolver;
 use Mockery;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Filesystem\Path;
 
 beforeEach(function () {
-    $this->generator = Mockery::mock(IPotGenerator::class);
-    $this->command   = new MakePotCommand($this->generator);
-    $this->tester    = new CommandTester($this->command);
+    $this->generator    = Mockery::mock(IPotGenerator::class);
+    $this->pathResolver = Mockery::mock(IPathResolver::class);
+    $this->testCommand      = new MakePotCommand($this->generator, $this->pathResolver);
+    $this->tester       = new CommandTester($this->testCommand);
 });
 
 it('all command parameters', function () {
-    $definition = $this->command->getDefinition();
+    $definition = $this->testCommand->getDefinition();
 
     expect($definition->hasArgument('source'))->toBeTrue()
         ->and($definition->getArgument('source')->isRequired())->toBeFalse()
@@ -43,14 +45,28 @@ it('all command parameters', function () {
 });
 
 it('correctly passes arguments combination', function ($input, $expected) {
-    $expected[0] = Path::makeAbsolute($expected[0], getcwd());
-    $expected[1] = Path::makeAbsolute($expected[1], getcwd());
+    $sourcePath      = Path::makeAbsolute($expected[0], getcwd());
+    $destinationPath = Path::makeAbsolute($expected[1], getcwd());
 
-    array_splice($expected, 2, 0, [Mockery::type(SymfonyStyle::class)]);
+    $this->pathResolver->shouldReceive('projectPath')
+        ->once()
+        ->with($input['source'] ?? null)
+        ->andReturn($sourcePath);
+
+    $this->pathResolver->shouldReceive('languages')
+        ->once()
+        ->with($input['destination'] ?? null)
+        ->andReturn($destinationPath);
+
+    $generatorArgs    = $expected;
+    $generatorArgs[0] = $sourcePath;
+    $generatorArgs[1] = $destinationPath;
+
+    array_splice($generatorArgs, 2, 0, [Mockery::type(SymfonyStyle::class)]);
 
     $this->generator->shouldReceive('generate')
         ->once()
-        ->with(...$expected);
+        ->with(...$generatorArgs);
 
     $this->tester->execute($input);
 })->with([
@@ -93,7 +109,11 @@ it('correctly passes arguments combination', function ($input, $expected) {
 ]);
 
 it('outputs success message', function () {
+    $this->pathResolver->shouldReceive('projectPath')->andReturn(getcwd());
+    $this->pathResolver->shouldReceive('languages')->andReturn(Path::join(getcwd(), 'languages'));
     $this->generator->shouldReceive('generate')->once();
+
     $this->tester->execute([]);
+
     expect($this->tester->getDisplay())->toContain('Successfully completed');
 });

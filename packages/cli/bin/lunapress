@@ -13,8 +13,11 @@ use LunaPress\Cli\I18n\Pot\Generator\PotGenerator;
 use LunaPress\Cli\I18n\Pot\MakePotCommand;
 use LunaPress\Cli\I18n\Pot\Scanner\PhpStanScanner;
 use LunaPress\Cli\I18n\Pot\Scanner\ProjectMetadataScanner;
+use LunaPress\Cli\Prefix\PrefixCommand;
+use LunaPress\Cli\Prefix\StraussPrefixer;
 use LunaPress\Cli\Support\PathResolver;
 use LunaPress\Cli\Support\ProcessFactory;
+use LunaPress\Config\ConfigResolver;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -34,9 +37,6 @@ if (!defined('ABSPATH')) {
     define('ABSPATH', '/');
 }
 
-$cliPackageRoot = dirname(__DIR__);
-$pathResolver = new PathResolver($cliPackageRoot);
-
 $version = '@git-version@';
 
 if (str_starts_with($version, '@git')) {
@@ -47,10 +47,17 @@ if (str_starts_with($version, '@git')) {
             : 'dev';
 }
 
+$cliPackageRoot = dirname(__DIR__);
+
 $app = new Application('LunaPress CLI', ltrim((string) $version, 'v'));
-
 $projectMetadataScanner = new ProjectMetadataScanner();
+$pathResolver = new PathResolver($cliPackageRoot);
 
+$app->addCommand(new PrefixCommand(
+        new StraussPrefixer(),
+        new ConfigResolver(),
+        $pathResolver
+));
 $app->addCommand(new FrontendInitCommand(
     new FrontendProjectGenerator($pathResolver),
 ));
@@ -69,6 +76,7 @@ $app->addCommand(new MakePotCommand(
         new PoGenerator(),
         new Filesystem(),
         $projectMetadataScanner,
-    )
+    ),
+    $pathResolver
 ));
 $app->run();

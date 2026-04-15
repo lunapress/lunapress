@@ -9,5 +9,7 @@ interface IPathResolver
 {
     public function cwd(): string;
     public function templates(string $subpath = ''): string;
+    public function languages(?string $subpath = null): string;
     public function frontendInitPath(FrontendInitConfig $config): string;
+    public function projectPath(?string $subpath = null): string;
 }

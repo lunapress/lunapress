@@ -1,0 +1,8 @@
+{
+    "name": "some-vendor/some-pkg",
+    "autoload": {
+        "psr-4": {
+            "SomeVendor\\SomePkg\\": "src/"
+        }
+    }
+}
