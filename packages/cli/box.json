@@ -15,7 +15,8 @@
         {
             "in": "vendor",
             "exclude": [
-                "phpstan/phpstan"
+                "phpstan/phpstan",
+                "brianhenryie/strauss-phar"
             ]
         }
     ],
