@@ -98,3 +98,30 @@ it('throws exception if output path is not writable', function () {
 
     $this->archiver->archive($this->sourcePath, $this->outputPath, $this->baseDirectory, $this->io);
 })->throws(ArchiveException::class);
+
+it('excludes the output file and its parent directory from the archive when located inside source', function () {
+    $buildDir = Path::join($this->sourcePath, 'build-artifacts');
+    $this->fs->mkdir($buildDir);
+    $this->fs->dumpFile(Path::join($buildDir, 'garbage.txt'), '');
+
+    $absoluteOutputPath = Path::join($buildDir, 'release.zip');
+
+    $this->fs->dumpFile(Path::join($this->sourcePath, 'root-file.php'), '');
+
+    $this->archiver->archive(
+        $this->sourcePath,
+        $absoluteOutputPath,
+        $this->baseDirectory,
+        $this->io
+    );
+
+    $zip = new ZipArchive();
+    $zip->open($absoluteOutputPath);
+
+    expect($zip->getFromName("{$this->baseDirectory}/root-file.php"))->not->toBeFalse()
+        ->and($zip->locateName("{$this->baseDirectory}/build-artifacts/"))->toBeFalse()
+        ->and($zip->locateName("{$this->baseDirectory}/build-artifacts/garbage.txt"))->toBeFalse()
+        ->and($zip->locateName("{$this->baseDirectory}/build-artifacts/release.zip"))->toBeFalse();
+
+    $zip->close();
+});

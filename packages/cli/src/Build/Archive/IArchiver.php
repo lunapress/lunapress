@@ -11,5 +11,5 @@ interface IArchiver
     /**
      * @throws ArchiveException
      */
-    public function archive(string $sourcePath, string $outputPath, string $baseDirectory, SymfonyStyle $io): void;
+    public function archive(string $absoluteSourcePath, string $absoluteOutputPath, string $baseDirectory, SymfonyStyle $io): void;
 }

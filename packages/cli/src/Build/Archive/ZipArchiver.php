@@ -22,36 +22,37 @@ final readonly class ZipArchiver implements IArchiver
     ) {
     }
 
-    public function archive(string $sourcePath, string $outputPath, string $baseDirectory, SymfonyStyle $io): void
+    public function archive(string $absoluteSourcePath, string $absoluteOutputPath, string $baseDirectory, SymfonyStyle $io): void
     {
-        if (!$this->fs->exists($sourcePath)) {
-            throw SourcePathNotFoundException::forPath($sourcePath);
+        if (!$this->fs->exists($absoluteSourcePath)) {
+            throw SourcePathNotFoundException::forPath($absoluteSourcePath);
         }
 
-        $outputDir = dirname($outputPath);
+        $outputDir = dirname($absoluteOutputPath);
 
         if (!$this->fs->exists($outputDir)) {
             $this->fs->mkdir($outputDir);
         }
 
-        if (!is_writable($outputDir) || ($this->fs->exists($outputPath) && !is_writable($outputPath))) {
-            throw OutputPathNotWritableException::forPath($outputPath);
+        if (!is_writable($outputDir) || ($this->fs->exists($absoluteOutputPath) && !is_writable($absoluteOutputPath))) {
+            throw OutputPathNotWritableException::forPath($absoluteOutputPath);
         }
 
         $zip = new ZipArchive();
-        $status = $zip->open($outputPath, ZipArchive::CREATE | ZipArchive::OVERWRITE);
+        $status = $zip->open($absoluteOutputPath, ZipArchive::CREATE | ZipArchive::OVERWRITE);
 
         if ($status !== true) {
             throw ZipOperationException::fromFailure('open', $status);
         }
 
         $finder = new Finder();
-        $finder->in($sourcePath)
+        $finder->in($absoluteSourcePath)
             ->ignoreVCS(true)
             ->ignoreDotFiles(false)
             ->files();
 
-        $this->applyIgnoreRules($finder, $sourcePath, $io);
+        $this->applyInternalExclusions($finder, $absoluteSourcePath, $absoluteOutputPath);
+        $this->applyIgnoreRules($finder, $absoluteSourcePath, $io);
 
         if (!$finder->hasResults()) {
             $zip->close();
@@ -114,6 +115,27 @@ final readonly class ZipArchiver implements IArchiver
             }
 
             return !$isIgnored;
+        });
+    }
+
+    private function applyInternalExclusions(Finder $finder, string $sourcePath, string $outputPath): void
+    {
+        $outputDir = dirname($outputPath);
+
+        $finder->filter(static function (SplFileInfo $file) use ($sourcePath, $outputPath, $outputDir): bool {
+            $realPath = $file->getRealPath();
+
+            if ($realPath === false || $realPath === $outputPath) {
+                return false;
+            }
+
+            if ($outputDir !== $sourcePath && Path::isBasePath($sourcePath, $outputDir)) {
+                if (Path::isBasePath($outputDir, $realPath)) {
+                    return false;
+                }
+            }
+
+            return true;
         });
     }
 }
