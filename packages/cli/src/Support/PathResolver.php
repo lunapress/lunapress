@@ -47,4 +47,9 @@ final readonly class PathResolver implements IPathResolver
     {
         return Path::makeAbsolute($subpath ?? '.', $this->cwd());
     }
+
+    public function buildPath(?string $subpath = null): string
+    {
+        return Path::makeAbsolute($subpath ?? '.', Path::join($this->cwd(), 'build'));
+    }
 }

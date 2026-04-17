@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace LunaPress\Config;
 
+use LunaPress\Config\DTO\BuildConfig;
+
 defined('ABSPATH') || exit;
 
 final class ProjectConfig
@@ -12,6 +14,7 @@ final class ProjectConfig
      */
     private array $ignores       = [];
     private array $straussConfig = [];
+    private ?BuildConfig $buildConfig = null;
 
     public static function createDefault(): self
     {
@@ -38,6 +41,12 @@ final class ProjectConfig
         return $this;
     }
 
+    public function withBuild(BuildConfig $config): self
+    {
+        $this->buildConfig = $config;
+        return $this;
+    }
+
     public function getIgnores(): array
     {
         return $this->ignores;
@@ -46,5 +55,10 @@ final class ProjectConfig
     public function getStraussConfig(): array
     {
         return $this->straussConfig;
+    }
+
+    public function getBuildConfig(): ?BuildConfig
+    {
+        return $this->buildConfig;
     }
 }

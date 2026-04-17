@@ -17,6 +17,7 @@
     "require": {
         "brianhenryie/strauss-phar": "0.27.0",
         "cuyz/valinor": "^2.3.2",
+        "ext-zip": "*",
         "gettext/gettext": "^v5.7.3",
         "lunapress/core-contracts": "@dev",
         "lunapress/foundation-contracts": "@dev",
@@ -87,7 +88,6 @@
         "psr-4": {
             "LunaPress\\": "src/",
             "LunaPress\\Cli\\": "packages/cli/src/",
-            "LunaPress\\Cli\\Test\\": "packages/cli/tests/",
             "LunaPress\\Config\\": "packages/config/src/",
             "LunaPress\\Core\\": "packages/core/src/",
             "LunaPress\\Foundation\\": "packages/foundation/src/",
@@ -125,6 +125,9 @@
         "bamarni-bin": {
             "bin-links": false,
             "forward-command": true
+        },
+        "lunapress": {
+            "di": "src/di.php"
         }
     },
     "scripts": {

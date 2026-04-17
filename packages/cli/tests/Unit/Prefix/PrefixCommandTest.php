@@ -3,7 +3,6 @@ declare(strict_types=1);
 
 namespace LunaPress\Cli\Test\Unit\Pefix;
 
-use Exception;
 use LunaPress\Cli\Prefix\Exceptions\PrefixException;
 use LunaPress\Cli\Prefix\IPrefixer;
 use LunaPress\Cli\Prefix\PrefixCommand;

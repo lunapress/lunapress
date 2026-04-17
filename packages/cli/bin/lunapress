@@ -4,6 +4,8 @@
 use Composer\InstalledVersions;
 use CuyZ\Valinor\MapperBuilder;
 use Gettext\Generator\PoGenerator;
+use LunaPress\Cli\Build\Archive\ArchiveCommand;
+use LunaPress\Cli\Build\Archive\ZipArchiver;
 use LunaPress\Cli\Frontend\Init\FrontendInitCommand;
 use LunaPress\Cli\Frontend\Init\FrontendProjectGenerator;
 use LunaPress\Cli\I18n\Pot\Extractor\FileHeaderExtractor\FileHeaderExtractor;
@@ -53,6 +55,11 @@ $app = new Application('LunaPress CLI', ltrim((string) $version, 'v'));
 $projectMetadataScanner = new ProjectMetadataScanner();
 $pathResolver = new PathResolver($cliPackageRoot);
 
+$app->addCommand(new ArchiveCommand(
+        new ZipArchiver(),
+        new ConfigResolver(),
+        $pathResolver
+));
 $app->addCommand(new PrefixCommand(
         new StraussPrefixer(),
         new ConfigResolver(),

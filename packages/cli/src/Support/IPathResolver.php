@@ -12,4 +12,5 @@ interface IPathResolver
     public function languages(?string $subpath = null): string;
     public function frontendInitPath(FrontendInitConfig $config): string;
     public function projectPath(?string $subpath = null): string;
+    public function buildPath(?string $subpath = null): string;
 }

@@ -1,0 +1,13 @@
+# Exclude tests
+tests/
+
+# Exclude specific files
+*.md
+.env
+
+# Exclude .github but keep FUNDING.yml
+.github/
+!.github/FUNDING.yml
+
+# Exclude itself
+.distignore
