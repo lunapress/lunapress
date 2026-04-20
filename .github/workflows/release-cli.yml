@@ -72,6 +72,10 @@ jobs:
           find ../../cli-dist -mindepth 1 -maxdepth 1 ! -name '.git' -exec rm -rf {} +
 
           mkdir -p ../../cli-dist/bin
+          
+          cp vendor/brianhenryie/strauss-phar/strauss.phar ../../cli-dist/bin/strauss.phar
+          chmod +x ../../cli-dist/bin/strauss.phar
+
           cp build/lunapress.phar ../../cli-dist/bin/lunapress.phar
           cp composer.dist.json ../../cli-dist/composer.json
           cp bin/lunapress.dist ../../cli-dist/bin/lunapress

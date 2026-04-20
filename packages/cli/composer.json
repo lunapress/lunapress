@@ -2,7 +2,9 @@
     "name": "lunapress/cli",
     "description": "CLI for development",
     "type": "library",
-    "bin": ["bin/lunapress"],
+    "bin": [
+        "bin/lunapress"
+    ],
     "authors": [
         {
             "name": "Onepix",
@@ -46,6 +48,7 @@
     "require": {
         "php": "^8.3",
         "ext-zip": "*",
+        "ext-json": "*",
         "symfony/console": "^v7",
         "symfony/finder": "^v7.3",
         "symfony/filesystem": "^v7.4.8",

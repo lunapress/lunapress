@@ -90,9 +90,9 @@ final class StraussPrefixer implements IPrefixer
 
         $process->run(function (string $type, string $buffer) use ($io): void {
             if ($type === Process::ERR) {
-                $io->text('<error>' . trim($buffer) . '</error>');
+                $io->error($buffer);
             } else {
-                $io->text('<info>' . trim($buffer) . '</info>');
+                $io->info($buffer);
             }
         });
 
@@ -107,6 +107,18 @@ final class StraussPrefixer implements IPrefixer
 
     private function getStraussExecutablePath(): string
     {
+        $pharPath = Phar::running(false);
+
+        if ($pharPath !== '') {
+            $binDir = dirname($pharPath);
+
+            $executablePath = Path::join($binDir, self::PACKAGE_PHAR);
+
+            if ($this->fs->exists($executablePath)) {
+                return $executablePath;
+            }
+        }
+
         if (class_exists(InstalledVersions::class) && InstalledVersions::isInstalled(self::PACKAGE_NAME)) {
             $installPath = InstalledVersions::getInstallPath(self::PACKAGE_NAME);
 
@@ -116,18 +128,6 @@ final class StraussPrefixer implements IPrefixer
                 if ($this->fs->exists($executablePath)) {
                     return $executablePath;
                 }
-            }
-        }
-
-        $pharPath = Phar::running(false);
-
-        if ($pharPath !== '') {
-            $vendorDir = dirname($pharPath, 4);
-
-            $executablePath = Path::join($vendorDir, self::VENDOR, self::PACKAGE, self::PACKAGE_PHAR);
-
-            if ($this->fs->exists($executablePath)) {
-                return $executablePath;
             }
         }
 
