@@ -43,6 +43,19 @@
                     "strauss.phar"
                 ]
             }
+        },
+        {
+            "type": "package",
+            "package": {
+                "name": "wp-cli/wp-cli-bundle",
+                "version": "2.12.0",
+                "dist": {
+                    "url": "https://github.com/wp-cli/wp-cli/releases/download/v2.12.0/wp-cli-2.12.0.phar",
+                    "type": "file",
+                    "shasum": "c09ac2b55995bbc81a745e85f236eeccf140d312"
+                },
+                "bin": ["wp-cli-2.12.0.phar"]
+            }
         }
     ],
     "require": {
@@ -60,7 +73,8 @@
         "lunapress/config": "@dev",
         "phpstan/phpstan": "^2.1.32",
         "cuyz/valinor": "^2.3.2",
-        "brianhenryie/strauss-phar": "0.27.0"
+        "brianhenryie/strauss-phar": "0.27.0",
+        "wp-cli/wp-cli-bundle": "2.12.0"
     },
     "require-dev": {
         "pestphp/pest": "^v4",

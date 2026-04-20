@@ -16,7 +16,8 @@
             "in": "vendor",
             "exclude": [
                 "phpstan/phpstan",
-                "brianhenryie/strauss-phar"
+                "brianhenryie/strauss-phar",
+                "wp-cli/wp-cli-bundle"
             ]
         }
     ],

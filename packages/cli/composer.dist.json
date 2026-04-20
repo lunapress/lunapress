@@ -4,6 +4,7 @@
     "type": "library",
     "license": "MIT",
     "bin": [
+        "bin/wp-cli.phar",
         "bin/strauss.phar",
         "bin/lunapress.phar",
         "bin/lunapress"

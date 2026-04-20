@@ -74,8 +74,9 @@ jobs:
           mkdir -p ../../cli-dist/bin
           
           cp vendor/brianhenryie/strauss-phar/strauss.phar ../../cli-dist/bin/strauss.phar
-          chmod +x ../../cli-dist/bin/strauss.phar
-
+          cp vendor/wp-cli/wp-cli-bundle/*.phar ../../cli-dist/bin/wp-cli.phar
+          chmod +x ../../cli-dist/bin/*.phar
+          
           cp build/lunapress.phar ../../cli-dist/bin/lunapress.phar
           cp composer.dist.json ../../cli-dist/composer.json
           cp bin/lunapress.dist ../../cli-dist/bin/lunapress
