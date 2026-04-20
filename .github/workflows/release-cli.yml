@@ -95,9 +95,10 @@ jobs:
             git push origin refs/tags/nightly --force
           else
             git checkout main
-            git commit -m "Release ${{ env.RELEASE_TAG }}"
+            git commit --amend --reset-author -m "Release ${{ env.RELEASE_TAG }}" || git commit -m "Release ${{ env.RELEASE_TAG }}"
             git tag "${{ env.RELEASE_TAG }}"
-            git push origin main "${{ env.RELEASE_TAG }}"
+            git push origin main --force 
+            git push origin "${{ env.RELEASE_TAG }}"
           fi
 
       - name: Attest
