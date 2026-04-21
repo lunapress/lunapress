@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Cli\I18n\Pot\Extractor\FileHeaderExtractor\Dto;
@@ -6,9 +7,7 @@ namespace LunaPress\Cli\I18n\Pot\Extractor\FileHeaderExtractor\Dto;
 final readonly class FileHeader
 {
     /**
-     * @param string $filePath
      * @param array<string, HeaderField> $headers
-     * @param bool $isTheme
      */
     public function __construct(
         public string $filePath,

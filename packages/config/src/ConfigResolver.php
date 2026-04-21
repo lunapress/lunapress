@@ -1,11 +1,15 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Config;
 
 use LunaPress\Config\Exceptions\InvalidConfigurationException;
-
-defined('ABSPATH') || exit;
+use function is_file;
+use function is_readable;
+use function rtrim;
+use function sprintf;
+use const DIRECTORY_SEPARATOR;
 
 final readonly class ConfigResolver implements IConfigResolver
 {
@@ -17,8 +21,6 @@ final readonly class ConfigResolver implements IConfigResolver
     ];
 
     /**
-     * @param string $workingDirectory
-     * @return ProjectConfig
      * @throws InvalidConfigurationException
      */
     public function resolve(string $workingDirectory): ProjectConfig
@@ -32,10 +34,6 @@ final readonly class ConfigResolver implements IConfigResolver
         return $this->loadConfig($configPath);
     }
 
-    /**
-     * @param string $basePath
-     * @return string|null
-     */
     private function findConfigPath(string $basePath): ?string
     {
         foreach (self::ALLOWED_PATHS as $path) {
@@ -50,8 +48,6 @@ final readonly class ConfigResolver implements IConfigResolver
     }
 
     /**
-     * @param string $filePath
-     * @return ProjectConfig
      * @throws InvalidConfigurationException
      */
     private function loadConfig(string $filePath): ProjectConfig

@@ -1,10 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Cli\Frontend\Init;
 
 use LunaPress\Cli\Frontend\FrontendFramework;
 use LunaPress\Cli\Frontend\PackageManager;
+use function preg_replace;
+use function strtolower;
 
 final readonly class FrontendInitConfig
 {

@@ -1,12 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Wp\I18n\Function\LoadChildThemeTextDomain;
 
 use LunaPress\Wp\I18n\Trait\HasDomain;
 use LunaPress\Wp\I18nContracts\Function\LoadChildThemeTextDomain\ILoadChildThemeTextDomainFunction;
-
-defined('ABSPATH') || exit;
 
 final class LoadChildThemeTextDomain implements ILoadChildThemeTextDomainFunction
 {
@@ -29,7 +28,7 @@ final class LoadChildThemeTextDomain implements ILoadChildThemeTextDomainFunctio
     {
         return [
             $this->getDomain(),
-            $this->getPath()
+            $this->getPath(),
         ];
     }
 

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Foundation\PackageMeta;
@@ -6,13 +7,15 @@ namespace LunaPress\Foundation\PackageMeta;
 use LunaPress\Foundation\Composer\ComposerManager;
 use LunaPress\Foundation\ServicePackage\ServicePackageMeta;
 use LunaPress\FoundationContracts\Composer\IComposerManager;
-use LunaPress\FoundationContracts\PackageMeta\IPackageMetaFactory;
 use LunaPress\FoundationContracts\PackageMeta\IPackageMeta;
+use LunaPress\FoundationContracts\PackageMeta\IPackageMetaFactory;
 use LunaPress\FoundationContracts\PackageMeta\PackageType;
 use Override;
 use ReflectionException;
-
-defined('ABSPATH') || exit;
+use function is_file;
+use function preg_replace;
+use function realpath;
+use const DIRECTORY_SEPARATOR;
 
 final readonly class PackageMetaFactory implements IPackageMetaFactory
 {
@@ -41,15 +44,15 @@ final readonly class PackageMetaFactory implements IPackageMetaFactory
         $packages = $this->composerManager->getInstalledPackages();
         foreach ($packages as $name => $info) {
             $meta = $this->build($name, $info);
-            if ($meta) {
-                yield $meta;
-            }
+            if (!$meta) {
+				continue;
+			}
+
+			yield $meta;
         }
     }
 
     /**
-     * @param string $packageName
-     * @return IPackageMeta|null
      * @throws ReflectionException
      */
     #[Override]
@@ -69,9 +72,6 @@ final readonly class PackageMetaFactory implements IPackageMetaFactory
     }
 
     /**
-     * @param string $name
-     * @param array $info
-     * @return IPackageMeta|null
      * @throws ReflectionException
      */
     private function makeServicePackage(string $name, array $info): ?IPackageMeta

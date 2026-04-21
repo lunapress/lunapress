@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Wp\I18n\Function\RenderTranslate;
@@ -6,8 +7,6 @@ namespace LunaPress\Wp\I18n\Function\RenderTranslate;
 use LunaPress\Wp\I18nContracts\Function\RenderTranslate\IRenderTranslateFactory;
 use LunaPress\Wp\I18nContracts\Function\RenderTranslate\IRenderTranslateFunction;
 use Psr\Container\ContainerInterface;
-
-defined('ABSPATH') || exit;
 
 final readonly class RenderTranslateFactory implements IRenderTranslateFactory
 {

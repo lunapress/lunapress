@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Wp\I18n\Function\IsTextDomainLoaded;
@@ -6,8 +7,6 @@ namespace LunaPress\Wp\I18n\Function\IsTextDomainLoaded;
 use LunaPress\Wp\I18nContracts\Function\IsTextDomainLoaded\IIsTextDomainLoadedFactory;
 use LunaPress\Wp\I18nContracts\Function\IsTextDomainLoaded\IIsTextDomainLoadedFunction;
 use Psr\Container\ContainerInterface;
-
-defined('ABSPATH') || exit;
 
 final readonly class IsTextDomainLoadedFactory implements IIsTextDomainLoadedFactory
 {

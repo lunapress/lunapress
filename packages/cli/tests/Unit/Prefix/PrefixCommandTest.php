@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Cli\Test\Unit\Pefix;
@@ -12,10 +13,13 @@ use LunaPress\Config\ProjectConfig;
 use Mockery;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
+use function beforeEach;
+use function expect;
+use function it;
 
 const VALID_STRAUSS_CONFIG = ['namespace_prefix' => 'Test\\'];
 
-beforeEach(function () {
+beforeEach(function (): void {
     $this->prefixer = Mockery::mock(IPrefixer::class);
     $this->pathResolver = Mockery::mock(IPathResolver::class);
     $this->configResolver = Mockery::mock(IConfigResolver::class);
@@ -34,7 +38,7 @@ beforeEach(function () {
     };
 });
 
-it('executes successfully', function () {
+it('executes successfully', function (): void {
     ($this->projectConfig)(VALID_STRAUSS_CONFIG);
     $this->prefixer->shouldReceive('prefix');
 
@@ -44,7 +48,7 @@ it('executes successfully', function () {
         ->and($this->tester->getDisplay())->toContain('Successfully completed');
 });
 
-it('returns failure when strauss configuration is empty', function () {
+it('returns failure when strauss configuration is empty', function (): void {
     ($this->projectConfig)([]);
 
     $exitCode = $this->tester->execute([]);
@@ -55,7 +59,7 @@ it('returns failure when strauss configuration is empty', function () {
     $this->prefixer->shouldNotReceive('prefix');
 });
 
-it('returns failure and displays error message on PrefixException', function () {
+it('returns failure and displays error message on PrefixException', function (): void {
     ($this->projectConfig)(VALID_STRAUSS_CONFIG);
 
     $errorMessage = 'Binary not found or execution failed';

@@ -1,9 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Cli\Build\Archive\Exceptions;
 
 use Throwable;
+use function sprintf;
 
 final class ZipOperationException extends ArchiveException
 {

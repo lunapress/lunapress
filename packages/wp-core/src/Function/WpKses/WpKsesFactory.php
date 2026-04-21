@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Wp\Core\Function\WpKses;
@@ -8,8 +9,6 @@ use LunaPress\Wp\CoreContracts\Function\WpKses\IWpKsesFunction;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
-
-defined('ABSPATH') || exit;
 
 final readonly class WpKsesFactory implements IWpKsesFactory
 {

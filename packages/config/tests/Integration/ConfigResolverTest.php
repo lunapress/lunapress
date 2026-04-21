@@ -8,12 +8,15 @@ use LunaPress\Config\ConfigResolver;
 use LunaPress\Config\Exceptions\InvalidConfigurationException;
 use LunaPress\Config\ProjectConfig;
 use LunaPress\Test\Package;
+use function beforeEach;
+use function expect;
+use function it;
 
-beforeEach(function () {
+beforeEach(function (): void {
     $this->resolver = new ConfigResolver();
 });
 
-it('resolves config from .config directory', function () {
+it('resolves config from .config directory', function (): void {
     $config = $this->resolver->resolve(packageFixture(Package::CONFIG, 'Case01_Default'));
 
     expect($config->getStraussConfig())
@@ -21,7 +24,7 @@ it('resolves config from .config directory', function () {
         ->toHaveKey('namespace_prefix', 'MyApp\\Vendor\\');
 });
 
-it('resolves default config when no file exists', function () {
+it('resolves default config when no file exists', function (): void {
     $config = $this->resolver->resolve(packageFixture(Package::CONFIG, 'Case02_Empty'));
 
     expect($config)
@@ -30,11 +33,11 @@ it('resolves default config when no file exists', function () {
         ->and($config->getStraussConfig())->toBeEmpty();
 });
 
-it('throws exception on invalid return type', function () {
+it('throws exception on invalid return type', function (): void {
     $this->resolver->resolve(packageFixture(Package::CONFIG, 'Case03_InvalidConfig'));
 })->throws(InvalidConfigurationException::class);
 
-it('resolves config from root directory', function () {
+it('resolves config from root directory', function (): void {
     $config = $this->resolver->resolve(packageFixture(Package::CONFIG, 'Case04_RootConfig'));
 
     expect($config->getIgnores())->toBe(['tests', '.github']);

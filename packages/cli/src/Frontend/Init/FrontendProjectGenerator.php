@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Cli\Frontend\Init;
@@ -7,6 +8,7 @@ use LunaPress\Cli\Support\IPathResolver;
 use Override;
 use RuntimeException;
 use Symfony\Component\Filesystem\Filesystem;
+use function strtolower;
 
 final readonly class FrontendProjectGenerator implements IFrontendProjectGenerator
 {

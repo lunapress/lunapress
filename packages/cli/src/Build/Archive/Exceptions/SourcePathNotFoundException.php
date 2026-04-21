@@ -1,7 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Cli\Build\Archive\Exceptions;
+
+use function sprintf;
 
 final class SourcePathNotFoundException extends ArchiveException
 {

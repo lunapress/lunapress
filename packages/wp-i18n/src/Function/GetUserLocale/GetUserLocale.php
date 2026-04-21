@@ -1,11 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Wp\I18n\Function\GetUserLocale;
 
 use LunaPress\Wp\I18nContracts\Function\GetUserLocale\IGetUserLocaleFunction;
-
-defined('ABSPATH') || exit;
 
 final class GetUserLocale implements IGetUserLocaleFunction
 {
@@ -25,7 +24,7 @@ final class GetUserLocale implements IGetUserLocaleFunction
     public function rawArgs(): array
     {
         return [
-            $this->getUserId()
+            $this->getUserId(),
         ];
     }
 

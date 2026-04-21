@@ -1,11 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Core\Plugin;
 
 use LunaPress\CoreContracts\Plugin\IConfig;
-
-defined('ABSPATH') || exit;
 
 final readonly class PluginConfig implements IConfig
 {

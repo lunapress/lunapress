@@ -1,5 +1,8 @@
 <?php
+
 declare(strict_types=1);
+
+defined('ABSPATH') || exit;
 
 use LunaPress\Cli\Frontend\FrontendFramework;
 use LunaPress\Cli\Frontend\Init\FrontendInitConfig;
@@ -10,7 +13,7 @@ use LunaPress\Cli\Support\PathResolver;
 use LunaPress\Test\Package;
 use org\bovigo\vfs\vfsStream;
 
-beforeEach(function () {
+beforeEach(function (): void {
     $this->vfs              = vfsStream::setup();
     $this->workingDirectory = Mockery::mock(IWorkingDirectory::class);
     $this->pathResolver     = new PathResolver(packagePath(Package::CLI), null, $this->workingDirectory);
@@ -18,7 +21,7 @@ beforeEach(function () {
     $this->workingDirectory->shouldReceive('current')->andReturn($this->vfs->url());
 });
 
-it('copies real templates into virtual filesystem', function () {
+it('copies real templates into virtual filesystem', function (): void {
     $generator = new FrontendProjectGenerator($this->pathResolver);
     $generator->generate(new FrontendInitConfig(
         FrontendFramework::React,

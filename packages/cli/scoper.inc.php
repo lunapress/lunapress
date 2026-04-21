@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+defined('ABSPATH') || exit;
+
 return [
     'prefix' => 'LunaPressVendor',
     'exclude-namespaces' => [

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Wp\I18n\Function\EscAttrRender;
@@ -6,8 +7,6 @@ namespace LunaPress\Wp\I18n\Function\EscAttrRender;
 use LunaPress\Wp\I18nContracts\Function\EscAttrRender\IEscAttrRenderFactory;
 use LunaPress\Wp\I18nContracts\Function\EscAttrRender\IEscAttrRenderFunction;
 use Psr\Container\ContainerInterface;
-
-defined('ABSPATH') || exit;
 
 final readonly class EscAttrRenderFactory implements IEscAttrRenderFactory
 {

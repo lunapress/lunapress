@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Wp\I18n\Function\EscHtmlRender;
@@ -6,8 +7,6 @@ namespace LunaPress\Wp\I18n\Function\EscHtmlRender;
 use LunaPress\Wp\I18n\Trait\HasDomain;
 use LunaPress\Wp\I18n\Trait\HasText;
 use LunaPress\Wp\I18nContracts\Function\EscHtmlRender\IEscHtmlRenderFunction;
-
-defined('ABSPATH') || exit;
 
 final class EscHtmlRender implements IEscHtmlRenderFunction
 {
@@ -18,7 +17,7 @@ final class EscHtmlRender implements IEscHtmlRenderFunction
     {
         return [
             $this->getText(),
-            $this->getDomain()
+            $this->getDomain(),
         ];
     }
 

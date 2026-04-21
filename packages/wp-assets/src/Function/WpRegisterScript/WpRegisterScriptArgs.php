@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Wp\Assets\Function\WpRegisterScript;
@@ -6,8 +7,6 @@ namespace LunaPress\Wp\Assets\Function\WpRegisterScript;
 use LunaPress\FoundationContracts\Support\WpFunction\WpUnset;
 use LunaPress\Wp\AssetsContracts\Enum\ScriptStrategy;
 use LunaPress\Wp\AssetsContracts\Function\WpRegisterScript\IWpRegisterScriptArgs;
-
-defined('ABSPATH') || exit;
 
 final class WpRegisterScriptArgs implements IWpRegisterScriptArgs
 {

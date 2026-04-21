@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Wp\I18n\Function\LoadMuPluginTextDomain;
@@ -6,8 +7,6 @@ namespace LunaPress\Wp\I18n\Function\LoadMuPluginTextDomain;
 use LunaPress\Wp\I18nContracts\Function\LoadMuPluginTextDomain\ILoadMuPluginTextDomainFactory;
 use LunaPress\Wp\I18nContracts\Function\LoadMuPluginTextDomain\ILoadMuPluginTextDomainFunction;
 use Psr\Container\ContainerInterface;
-
-defined('ABSPATH') || exit;
 
 final readonly class LoadMuPluginTextDomainFactory implements ILoadMuPluginTextDomainFactory
 {

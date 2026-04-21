@@ -1,14 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Core\Plugin;
 
+use LunaPress\CoreContracts\Plugin\IPlugin;
 use LunaPress\CoreContracts\Plugin\IPluginContext;
 use LunaPress\CoreContracts\Plugin\IPluginContextFactory;
-use LunaPress\CoreContracts\Plugin\IPlugin;
 use ReflectionClass;
-
-defined('ABSPATH') || exit;
 
 final class PluginContextFactory implements IPluginContextFactory
 {

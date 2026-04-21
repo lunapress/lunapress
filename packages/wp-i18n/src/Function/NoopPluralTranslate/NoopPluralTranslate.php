@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Wp\I18n\Function\NoopPluralTranslate;
@@ -8,8 +9,6 @@ use LunaPress\Wp\I18n\Trait\HasNoopPlural;
 use LunaPress\Wp\I18n\Trait\HasOptionalDomain;
 use LunaPress\Wp\I18nContracts\Entity\INoopedPlural;
 use LunaPress\Wp\I18nContracts\Function\NoopPluralTranslate\INoopPluralTranslateFunction;
-
-defined('ABSPATH') || exit;
 
 final class NoopPluralTranslate implements INoopPluralTranslateFunction
 {
@@ -21,7 +20,7 @@ final class NoopPluralTranslate implements INoopPluralTranslateFunction
         return [
             $this->getSingle(),
             $this->getPlural(),
-            $this->getDomain()
+            $this->getDomain(),
         ];
     }
 

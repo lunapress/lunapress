@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Frontend\Modules\Vite\Service;
@@ -10,8 +11,14 @@ use LunaPress\FrontendContracts\Vite\IViteEntry;
 use LunaPress\FrontendContracts\Vite\IViteManifest;
 use LunaPress\FrontendContracts\Vite\IViteManifestReader;
 use RuntimeException;
-
-defined('ABSPATH') || exit;
+use function file_exists;
+use function file_get_contents;
+use function json_decode;
+use function json_last_error;
+use function json_last_error_msg;
+use function rtrim;
+use function sprintf;
+use const JSON_ERROR_NONE;
 
 final readonly class WpViteManifestReader implements IViteManifestReader
 {

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Cli\I18n\Pot\Extractor\JavascriptExtractor;
@@ -13,6 +14,7 @@ use LunaPress\Cli\I18n\Pot\Extractor\IExtractor;
 use LunaPress\Cli\I18n\Pot\Extractor\JavascriptExtractor\DTO\CLIOutputItem;
 use LunaPress\Cli\Support\IProcessFactory;
 use Symfony\Component\Process\Exception\ProcessFailedException;
+use function json_decode;
 
 final readonly class JavascriptExtractor implements IExtractor
 {
@@ -40,7 +42,7 @@ final readonly class JavascriptExtractor implements IExtractor
             'i18n:makePot',
             $source,
             '--base=' . $source,
-            '--json'
+            '--json',
         ];
 
         foreach ($domains as $domain) {

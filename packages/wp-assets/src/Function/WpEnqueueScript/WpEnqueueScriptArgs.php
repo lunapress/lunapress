@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Wp\Assets\Function\WpEnqueueScript;
@@ -6,8 +7,6 @@ namespace LunaPress\Wp\Assets\Function\WpEnqueueScript;
 use LunaPress\FoundationContracts\Support\WpFunction\WpUnset;
 use LunaPress\Wp\AssetsContracts\Enum\ScriptStrategy;
 use LunaPress\Wp\AssetsContracts\Function\WpEnqueueScript\IWpEnqueueScriptArgs;
-
-defined('ABSPATH') || exit;
 
 final class WpEnqueueScriptArgs implements IWpEnqueueScriptArgs
 {

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Core\View;
@@ -8,8 +9,19 @@ use LunaPress\FoundationContracts\View\ITemplateContextProvider;
 use LunaPress\FoundationContracts\View\ITemplateManager;
 use Override;
 use RuntimeException;
-
-defined('ABSPATH') || exit;
+use function array_map;
+use function array_replace_recursive;
+use function extract;
+use function get_debug_type;
+use function is_array;
+use function is_file;
+use function ob_get_clean;
+use function ob_start;
+use function rtrim;
+use function sprintf;
+use function str_replace;
+use function trim;
+use const EXTR_SKIP;
 
 final class TemplateManager implements ITemplateManager
 {

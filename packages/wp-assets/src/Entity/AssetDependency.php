@@ -1,11 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Wp\Assets\Entity;
 
 use LunaPress\Wp\AssetsContracts\Entity\IAssetDependency;
-
-defined('ABSPATH') || exit;
 
 final class AssetDependency implements IAssetDependency
 {

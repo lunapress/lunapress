@@ -1,7 +1,7 @@
 <?php
+
 declare(strict_types=1);
 
-// @phpcs:ignore LunaPressStandard.WP.AbspathAfterNamespace
 namespace LunaPress\Foundation\Container;
 
 function autowire(string $class): AutowireDefinition

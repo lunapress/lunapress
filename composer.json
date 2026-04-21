@@ -115,7 +115,6 @@
             "LunaPress\\Wp\\I18n\\": "packages/wp-i18n/src/"
         },
         "files": [
-            "bootstrap/abspath.php",
             "packages/foundation/src/Container/functions.php"
         ]
     },

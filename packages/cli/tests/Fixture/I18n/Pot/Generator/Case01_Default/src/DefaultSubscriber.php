@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Cli\Test\Fixture\I18n\Pot\Generator\Case01_Default\src;
@@ -6,6 +7,7 @@ namespace LunaPress\Cli\Test\Fixture\I18n\Pot\Generator\Case01_Default\src;
 use LunaPress\Cli\Test\Fixture\I18n\Pot\Generator\Case01_Default\src\Core\Translator\IWCTranslator;
 use LunaPress\Foundation\Subscriber\AbstractActionSubscriber;
 use LunaPress\Wp\I18nContracts\Function\RenderTranslate\IRenderTranslateFactory;
+use function sprintf;
 
 final readonly class DefaultSubscriber extends AbstractActionSubscriber
 {

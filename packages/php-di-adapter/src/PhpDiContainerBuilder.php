@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\PhpDiAdapter;
@@ -16,8 +17,10 @@ use Override;
 use Psr\Container\ContainerInterface;
 use function DI\autowire;
 use function DI\factory;
-
-defined('ABSPATH') || exit;
+use function file_exists;
+use function is_array;
+use function is_null;
+use function is_string;
 
 final class PhpDiContainerBuilder implements IContainerBuilder
 {
@@ -40,9 +43,11 @@ final class PhpDiContainerBuilder implements IContainerBuilder
 
         if (is_array($definitions)) {
             foreach ($definitions as $key => $definition) {
-                if ($definition instanceof IDefinition) {
-                    $definitions[$key] = $this->convertDefinition($definition);
-                }
+                if (!($definition instanceof IDefinition)) {
+					continue;
+				}
+
+				$definitions[$key] = $this->convertDefinition($definition);
             }
         }
 
@@ -50,7 +55,6 @@ final class PhpDiContainerBuilder implements IContainerBuilder
     }
 
     /**
-     * @return ContainerInterface
      * @throws Exception
      */
     #[Override]

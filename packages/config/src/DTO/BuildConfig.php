@@ -1,9 +1,8 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Config\DTO;
-
-defined('ABSPATH') || exit;
 
 final readonly class BuildConfig
 {

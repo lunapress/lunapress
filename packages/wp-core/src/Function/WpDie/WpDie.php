@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Wp\Core\Function\WpDie;
@@ -7,8 +8,6 @@ use LunaPress\FoundationContracts\Support\WpFunction\WpArray;
 use LunaPress\Wp\CoreContracts\Entity\WpError\IWpError;
 use LunaPress\Wp\CoreContracts\Function\WpDie\IWpDieArgs;
 use LunaPress\Wp\CoreContracts\Function\WpDie\IWpDieFunction;
-
-defined('ABSPATH') || exit;
 
 final class WpDie implements IWpDieFunction
 {
@@ -42,7 +41,7 @@ final class WpDie implements IWpDieFunction
         return [
             $this->getMessage(),
             $this->getTitle(),
-            $this->getArgs()
+            $this->getArgs(),
         ];
     }
 

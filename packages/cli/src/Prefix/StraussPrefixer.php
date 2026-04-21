@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Cli\Prefix;
@@ -13,6 +14,16 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Path;
 use Symfony\Component\Process\Process;
+use function class_exists;
+use function dirname;
+use function json_decode;
+use function json_encode;
+use function sprintf;
+use function trim;
+use const JSON_PRETTY_PRINT;
+use const JSON_THROW_ON_ERROR;
+use const JSON_UNESCAPED_SLASHES;
+use const PHP_BINARY;
 
 final class StraussPrefixer implements IPrefixer
 {
@@ -27,10 +38,6 @@ final class StraussPrefixer implements IPrefixer
     }
 
     /**
-     * @param string $targetPath
-     * @param array $config
-     * @param SymfonyStyle $io
-     * @return void
      * @throws ComposerJsonNotFoundException
      * @throws StraussBinaryMissingException
      * @throws StraussExecutionException
@@ -59,10 +66,6 @@ final class StraussPrefixer implements IPrefixer
     }
 
     /**
-     * @param string $path
-     * @param string $content
-     * @param array $config
-     * @return void
      * @throws JsonException
      */
     private function injectConfig(string $path, string $content, array $config): void
@@ -77,9 +80,6 @@ final class StraussPrefixer implements IPrefixer
     }
 
     /**
-     * @param string $workingDir
-     * @param SymfonyStyle $io
-     * @return void
      * @throws StraussBinaryMissingException
      * @throws StraussExecutionException
      */

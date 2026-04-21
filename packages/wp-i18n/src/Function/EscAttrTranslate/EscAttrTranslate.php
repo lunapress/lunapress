@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Wp\I18n\Function\EscAttrTranslate;
@@ -6,8 +7,6 @@ namespace LunaPress\Wp\I18n\Function\EscAttrTranslate;
 use LunaPress\Wp\I18n\Trait\HasDomain;
 use LunaPress\Wp\I18n\Trait\HasText;
 use LunaPress\Wp\I18nContracts\Function\EscAttrTranslate\IEscAttrTranslateFunction;
-
-defined('ABSPATH') || exit;
 
 final class EscAttrTranslate implements IEscAttrTranslateFunction
 {
@@ -18,7 +17,7 @@ final class EscAttrTranslate implements IEscAttrTranslateFunction
     {
         return [
             $this->getText(),
-            $this->getDomain()
+            $this->getDomain(),
         ];
     }
 

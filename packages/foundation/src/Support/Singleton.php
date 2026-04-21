@@ -1,11 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Foundation\Support;
 
 use Exception;
-
-defined('ABSPATH') || exit;
 
 abstract class Singleton
 {

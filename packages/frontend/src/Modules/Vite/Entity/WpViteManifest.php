@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Frontend\Modules\Vite\Entity;
@@ -6,8 +7,9 @@ namespace LunaPress\Frontend\Modules\Vite\Entity;
 use LunaPress\FrontendContracts\Vite\IViteEntry;
 use LunaPress\FrontendContracts\Vite\IViteManifest;
 use RuntimeException;
-
-defined('ABSPATH') || exit;
+use function array_values;
+use function is_array;
+use function is_string;
 
 final readonly class WpViteManifest implements IViteManifest
 {

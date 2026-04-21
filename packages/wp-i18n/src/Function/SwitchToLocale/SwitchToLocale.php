@@ -1,11 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Wp\I18n\Function\SwitchToLocale;
 
 use LunaPress\Wp\I18nContracts\Function\SwitchToLocale\ISwitchToLocaleFunction;
-
-defined('ABSPATH') || exit;
 
 final class SwitchToLocale implements ISwitchToLocaleFunction
 {
@@ -25,7 +24,7 @@ final class SwitchToLocale implements ISwitchToLocaleFunction
     public function rawArgs(): array
     {
         return [
-            $this->getLocale()
+            $this->getLocale(),
         ];
     }
 

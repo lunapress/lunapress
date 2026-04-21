@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Core\Support\WpFunction;
@@ -10,8 +11,9 @@ use LunaPress\FoundationContracts\Support\WpFunction\IWpFunctionExecutor;
 use LunaPress\FoundationContracts\Support\WpFunction\WpArray;
 use LunaPress\FoundationContracts\Support\WpFunction\WpUnset;
 use Stringable;
-
-defined('ABSPATH') || exit;
+use function array_filter;
+use function array_map;
+use function is_array;
 
 /**
  * @template TResult
@@ -35,8 +37,6 @@ final readonly class WpFunctionExecutor implements IWpFunctionExecutor
      * Top level of WP function arguments
      * Here we must not violate the order of arguments
      *
-     * @param array $args
-     * @return array
      */
     private function normalizeArgs(array $args): array
     {
@@ -50,8 +50,6 @@ final readonly class WpFunctionExecutor implements IWpFunctionExecutor
      * Processing the WP argument of the top-level function
      * Must return some value
      *
-     * @param mixed $arg
-     * @return mixed
      */
     private function normalizeArg(mixed $arg): mixed
     {
@@ -84,8 +82,6 @@ final readonly class WpFunctionExecutor implements IWpFunctionExecutor
      * Processing the WP function argument, which is an array
      * There are optional values that you need to be able to not pass at all
      *
-     * @param array $data
-     * @return array
      */
     private function normalizeArray(array $data): array
     {

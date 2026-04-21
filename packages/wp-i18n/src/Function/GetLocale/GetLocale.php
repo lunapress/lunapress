@@ -1,11 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Wp\I18n\Function\GetLocale;
 
 use LunaPress\Wp\I18nContracts\Function\GetLocale\IGetLocaleFunction;
-
-defined('ABSPATH') || exit;
 
 final class GetLocale implements IGetLocaleFunction
 {

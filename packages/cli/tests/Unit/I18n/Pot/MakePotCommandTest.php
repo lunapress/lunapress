@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Cli\Test\Unit\I18n\Pot;
@@ -10,15 +11,20 @@ use Mockery;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Tester\CommandTester;
 use Symfony\Component\Filesystem\Path;
+use function array_splice;
+use function beforeEach;
+use function expect;
+use function getcwd;
+use function it;
 
-beforeEach(function () {
+beforeEach(function (): void {
     $this->generator    = Mockery::mock(IPotGenerator::class);
     $this->pathResolver = Mockery::mock(IPathResolver::class);
     $this->testCommand      = new MakePotCommand($this->generator, $this->pathResolver);
     $this->tester       = new CommandTester($this->testCommand);
 });
 
-it('all command parameters', function () {
+it('all command parameters', function (): void {
     $definition = $this->testCommand->getDefinition();
 
     expect($definition->hasArgument('source'))->toBeTrue()
@@ -44,7 +50,7 @@ it('all command parameters', function () {
         ->and($definition->getOption('include')->isValueRequired())->toBeTrue();
 });
 
-it('correctly passes arguments combination', function ($input, $expected) {
+it('correctly passes arguments combination', function ($input, $expected): void {
     $sourcePath      = Path::makeAbsolute($expected[0], getcwd());
     $destinationPath = Path::makeAbsolute($expected[1], getcwd());
 
@@ -72,17 +78,17 @@ it('correctly passes arguments combination', function ($input, $expected) {
 })->with([
     'defaults' => [
         [],
-        [getcwd(), Path::join(getcwd(), 'languages'), [], [], [], [], false, null]
+        [getcwd(), Path::join(getcwd(), 'languages'), [], [], [], [], false, null],
     ],
 
     'only source' => [
         ['source' => './src'],
-        ['./src', Path::join(getcwd(), 'languages'), [], [], [], [], false, null]
+        ['./src', Path::join(getcwd(), 'languages'), [], [], [], [], false, null],
     ],
 
     'source and destination' => [
         ['source' => './src', 'destination' => './languages'],
-        ['./src', './languages', [], [], [], [], false, null]
+        ['./src', './languages', [], [], [], [], false, null],
     ],
 
     'all' => [
@@ -103,12 +109,12 @@ it('correctly passes arguments combination', function ($input, $expected) {
             ['frontend', './plugin.php'],
             ['vendor', 'foo-*.php', '/frontend/node_modules'],
             true,
-            null
-        ]
+            null,
+        ],
     ],
 ]);
 
-it('outputs success message', function () {
+it('outputs success message', function (): void {
     $this->pathResolver->shouldReceive('projectPath')->andReturn(getcwd());
     $this->pathResolver->shouldReceive('languages')->andReturn(Path::join(getcwd(), 'languages'));
     $this->generator->shouldReceive('generate')->once();

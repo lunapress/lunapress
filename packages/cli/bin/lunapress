@@ -1,5 +1,6 @@
 #!/usr/bin/env php
 <?php
+declare(strict_types=1);
 
 use Composer\InstalledVersions;
 use CuyZ\Valinor\MapperBuilder;
@@ -23,6 +24,11 @@ use LunaPress\Config\ConfigResolver;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Filesystem\Filesystem;
 
+if (!in_array(PHP_SAPI, ['cli', 'phpdbg', 'embed'], true)) {
+    echo 'This application must be run from the command line.' . PHP_EOL;
+    exit(1);
+}
+
 $pharPath = Phar::running();
 
 if ($pharPath !== '') {
@@ -33,10 +39,6 @@ if ($pharPath !== '') {
     }
 } else {
     require_once $_composer_autoload_path ?? __DIR__ . '/../../../vendor/autoload.php';
-}
-
-if (!defined('ABSPATH')) {
-    define('ABSPATH', '/');
 }
 
 $version = '@git-version@';

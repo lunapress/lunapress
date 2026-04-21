@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Cli\Robo;
@@ -9,6 +10,8 @@ use LunaPress\Cli\Frontend\Init\FrontendProjectGenerator;
 use LunaPress\Cli\Frontend\PackageManager;
 use LunaPress\Cli\Support\PathResolver;
 use ReflectionClass;
+use function class_alias;
+use function dirname;
 
 final class Tasks extends \Robo\Tasks
 {

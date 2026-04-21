@@ -1,11 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Foundation\Subscriber;
 
 use LunaPress\FoundationContracts\Subscriber\IDelayedSubscriber;
-
-defined('ABSPATH') || exit;
 
 abstract class AbstractDelayedSubscriber implements IDelayedSubscriber
 {

@@ -1,12 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Core\Hook;
 
 use Attribute;
 use LunaPress\CoreContracts\Hook\IHook;
-
-defined('ABSPATH') || exit;
 
 #[Attribute(Attribute::TARGET_CLASS | Attribute::IS_REPEATABLE)]
 final readonly class Hook implements IHook

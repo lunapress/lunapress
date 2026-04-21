@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Cli\Build\Archive;
@@ -14,6 +15,11 @@ use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\Gitignore;
 use Throwable;
 use ZipArchive;
+use function dirname;
+use function is_writable;
+use function preg_match;
+use function str_ends_with;
+use function str_replace;
 
 final readonly class ZipArchiver implements IArchiver
 {

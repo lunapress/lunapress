@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Wp\I18n\Function\EscAttrTranslate;
@@ -6,8 +7,6 @@ namespace LunaPress\Wp\I18n\Function\EscAttrTranslate;
 use LunaPress\Wp\I18nContracts\Function\EscAttrTranslate\IEscAttrTranslateFactory;
 use LunaPress\Wp\I18nContracts\Function\EscAttrTranslate\IEscAttrTranslateFunction;
 use Psr\Container\ContainerInterface;
-
-defined('ABSPATH') || exit;
 
 final readonly class EscAttrTranslateFactory implements IEscAttrTranslateFactory
 {

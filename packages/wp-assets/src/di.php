@@ -1,5 +1,8 @@
 <?php
+
 declare(strict_types=1);
+
+defined('ABSPATH') || exit;
 
 use LunaPress\Wp\Assets\Entity\AssetDependency;
 use LunaPress\Wp\Assets\Factory\AssetDependencyFactory;
@@ -8,9 +11,9 @@ use LunaPress\Wp\Assets\Function\WpEnqueueScript\WpEnqueueScriptArgs;
 use LunaPress\Wp\Assets\Function\WpEnqueueScript\WpEnqueueScriptArgsFactory;
 use LunaPress\Wp\Assets\Function\WpEnqueueScript\WpEnqueueScriptFactory;
 use LunaPress\Wp\Assets\Function\WpEnqueueScriptModule\WpEnqueueScriptModule;
-use LunaPress\Wp\Assets\Function\WpEnqueueScriptModule\WpEnqueueScriptModuleFactory;
 use LunaPress\Wp\Assets\Function\WpEnqueueScriptModule\WpEnqueueScriptModuleDep;
 use LunaPress\Wp\Assets\Function\WpEnqueueScriptModule\WpEnqueueScriptModuleDepsFactory;
+use LunaPress\Wp\Assets\Function\WpEnqueueScriptModule\WpEnqueueScriptModuleFactory;
 use LunaPress\Wp\Assets\Function\WpEnqueueStyle\WpEnqueueStyle;
 use LunaPress\Wp\Assets\Function\WpEnqueueStyle\WpEnqueueStyleFactory;
 use LunaPress\Wp\Assets\Function\WpRegisterScript\WpRegisterScript;

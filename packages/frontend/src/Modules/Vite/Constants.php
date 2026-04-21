@@ -1,11 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Frontend\Modules\Vite;
 
 use LunaPress\Wp\AssetsContracts\Enum\WpAssetHandle;
-
-defined('ABSPATH') || exit;
 
 final readonly class Constants
 {

@@ -1,14 +1,15 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Frontend\Modules\Vite\Service;
 
 use LunaPress\CoreContracts\Hook\IActionManager;
 use LunaPress\FoundationContracts\Support\WpFunction\IWpFunctionExecutor;
-use LunaPress\FrontendContracts\Vite\IViteEntryPoint;
 use LunaPress\Frontend\Modules\Vite\Constants;
 use LunaPress\FrontendContracts\Vite\IViteAssetsLoader;
 use LunaPress\FrontendContracts\Vite\IViteConfig;
+use LunaPress\FrontendContracts\Vite\IViteEntryPoint;
 use LunaPress\FrontendContracts\Vite\IViteManifestReader;
 use LunaPress\FrontendContracts\Vite\IViteModeDetector;
 use LunaPress\Wp\AssetsContracts\Entity\IAssetDependency;
@@ -20,8 +21,11 @@ use LunaPress\Wp\AssetsContracts\Function\WpEnqueueScriptModule\IWpEnqueueScript
 use LunaPress\Wp\AssetsContracts\Function\WpEnqueueStyle\IWpEnqueueStyleFactory;
 use LunaPress\Wp\AssetsContracts\Function\WpRegisterScript\IWpRegisterScriptFactory;
 use RuntimeException;
-
-defined('ABSPATH') || exit;
+use function array_filter;
+use function array_map;
+use function count;
+use function preg_match;
+use function rtrim;
 
 final readonly class WpViteAssetsLoader implements IViteAssetsLoader
 {
@@ -73,7 +77,6 @@ final readonly class WpViteAssetsLoader implements IViteAssetsLoader
 
     /**
      * @param array<IAssetDependency|IWpEnqueueScriptModuleDep> $dependencies
-     * @return void
      */
     private function connectDependencies(array $dependencies): void
     {
@@ -103,7 +106,6 @@ final readonly class WpViteAssetsLoader implements IViteAssetsLoader
 
     /**
      * @param IViteEntryPoint[] $entryPoints
-     * @return string
      */
     private function devScriptsHtml(array $entryPoints): string
     {

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Cli\Test\Fixture\I18n\Pot\Generator\Case01_Default\src\ExcludedFolder;

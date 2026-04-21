@@ -1,12 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Wp\I18n\Function\UnloadTextDomain;
 
 use LunaPress\Wp\I18n\Trait\HasDomain;
 use LunaPress\Wp\I18nContracts\Function\UnloadTextDomain\IUnloadTextDomainFunction;
-
-defined('ABSPATH') || exit;
 
 final class UnloadTextDomain implements IUnloadTextDomainFunction
 {
@@ -29,7 +28,7 @@ final class UnloadTextDomain implements IUnloadTextDomainFunction
     {
         return [
             $this->getDomain(),
-            $this->isReloadable()
+            $this->isReloadable(),
         ];
     }
 

@@ -1,23 +1,24 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Core\Plugin;
 
 use LunaPress\Core\Loader\PluginLoader;
 use LunaPress\Core\Support\PackageIterator;
+use LunaPress\CoreContracts\Plugin\IPlugin;
 use LunaPress\CoreContracts\Plugin\IPluginContext;
+use LunaPress\Foundation\Support\Singleton;
 use LunaPress\FoundationContracts\Container\IContainerBuilder;
 use LunaPress\FoundationContracts\Package\IPackage;
-use LunaPress\CoreContracts\Plugin\IPlugin;
-use LunaPress\Foundation\Support\Singleton;
 use Override;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use ReflectionClass;
 use RuntimeException;
-
-defined('ABSPATH') || exit;
+use function dirname;
+use function file_exists;
 
 abstract class AbstractPlugin extends Singleton implements IPlugin
 {
@@ -29,8 +30,6 @@ abstract class AbstractPlugin extends Singleton implements IPlugin
     private bool $initialized                      = false;
 
     /**
-     * @param string $callerFile
-     * @return void
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
@@ -100,18 +99,11 @@ abstract class AbstractPlugin extends Singleton implements IPlugin
         return $this->callerFile;
     }
 
-    /**
-     * @return ContainerInterface
-     */
     public function getContainer(): ContainerInterface
     {
         return $this->container;
     }
 
-    /**
-     * @param ContainerInterface $container
-     * @return self
-     */
     public function setContainer(ContainerInterface $container): self
     {
         $this->container = $container;
@@ -119,9 +111,6 @@ abstract class AbstractPlugin extends Singleton implements IPlugin
         return $this;
     }
 
-    /**
-     * @return IContainerBuilder|null
-     */
     public function getContainerBuilder(): ?IContainerBuilder
     {
         return $this->containerBuilder;

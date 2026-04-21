@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Cli\Test\Integration\Build;
@@ -12,8 +13,14 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Path;
 use ZipArchive;
+use function afterEach;
+use function beforeEach;
+use function expect;
+use function it;
+use function sys_get_temp_dir;
+use function uniqid;
 
-beforeEach(function () {
+beforeEach(function (): void {
     $this->fixturePath = Path::join('Build', 'Archive');
     $this->fs = new Filesystem();
     $this->tempDir = sys_get_temp_dir() . '/lunapress_archiver_' . uniqid('', true);
@@ -28,13 +35,15 @@ beforeEach(function () {
     $this->io = new SymfonyStyle(new ArrayInput([]), $this->bufferedOutput);
 });
 
-afterEach(function () {
-    if ($this->fs->exists($this->tempDir)) {
-        $this->fs->remove($this->tempDir);
-    }
+afterEach(function (): void {
+    if (!$this->fs->exists($this->tempDir)) {
+		return;
+	}
+
+	$this->fs->remove($this->tempDir);
 });
 
-it('creates a valid archive wrapping files inside a base directory', function () {
+it('creates a valid archive wrapping files inside a base directory', function (): void {
     $fixturePath = packageFixture(Package::CLI, Path::join($this->fixturePath, 'Case01_Default'));
     $this->fs->mirror($fixturePath, $this->sourcePath);
 
@@ -52,7 +61,7 @@ it('creates a valid archive wrapping files inside a base directory', function ()
     $zip->close();
 });
 
-it('respects .distignore including negations and excludes vcs', function () {
+it('respects .distignore including negations and excludes vcs', function (): void {
     $fixturePath = packageFixture(Package::CLI, Path::join($this->fixturePath, 'Case02_WithDistignore'));
     $this->fs->mirror($fixturePath, $this->sourcePath);
 
@@ -74,7 +83,7 @@ it('respects .distignore including negations and excludes vcs', function () {
     $zip->close();
 });
 
-it('emits a warning when .distignore is missing', function () {
+it('emits a warning when .distignore is missing', function (): void {
     $fixturePath = packageFixture(Package::CLI, Path::join($this->fixturePath, 'Case01_Default'));
     $this->fs->mirror($fixturePath, $this->sourcePath);
 
@@ -85,13 +94,13 @@ it('emits a warning when .distignore is missing', function () {
     expect($output)->toContain('No .distignore file found');
 });
 
-it('throws exception if source path does not exist', function () {
+it('throws exception if source path does not exist', function (): void {
     $missingSource = Path::join($this->tempDir, 'missing-source');
 
     $this->archiver->archive($missingSource, $this->outputPath, $this->baseDirectory, $this->io);
 })->throws(ArchiveException::class);
 
-it('throws exception if output path is not writable', function () {
+it('throws exception if output path is not writable', function (): void {
     $this->fs->mkdir($this->outputPath);
 
     $this->fs->dumpFile(Path::join($this->sourcePath, 'test.txt'), 'test');
@@ -99,7 +108,7 @@ it('throws exception if output path is not writable', function () {
     $this->archiver->archive($this->sourcePath, $this->outputPath, $this->baseDirectory, $this->io);
 })->throws(ArchiveException::class);
 
-it('excludes the output file and its parent directory from the archive when located inside source', function () {
+it('excludes the output file and its parent directory from the archive when located inside source', function (): void {
     $buildDir = Path::join($this->sourcePath, 'build-artifacts');
     $this->fs->mkdir($buildDir);
     $this->fs->dumpFile(Path::join($buildDir, 'garbage.txt'), '');

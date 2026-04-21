@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Wp\I18n\Function\EscHtmlContextTranslate;
@@ -6,8 +7,6 @@ namespace LunaPress\Wp\I18n\Function\EscHtmlContextTranslate;
 use LunaPress\Wp\I18nContracts\Function\EscHtmlContextTranslate\IEscHtmlContextTranslateFactory;
 use LunaPress\Wp\I18nContracts\Function\EscHtmlContextTranslate\IEscHtmlContextTranslateFunction;
 use Psr\Container\ContainerInterface;
-
-defined('ABSPATH') || exit;
 
 final readonly class EscHtmlContextTranslateFactory implements IEscHtmlContextTranslateFactory
 {

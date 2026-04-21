@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Wp\I18n\Function\RenderTranslate;
@@ -6,8 +7,6 @@ namespace LunaPress\Wp\I18n\Function\RenderTranslate;
 use LunaPress\Wp\I18n\Trait\HasDomain;
 use LunaPress\Wp\I18n\Trait\HasText;
 use LunaPress\Wp\I18nContracts\Function\RenderTranslate\IRenderTranslateFunction;
-
-defined('ABSPATH') || exit;
 
 final class RenderTranslate implements IRenderTranslateFunction
 {
@@ -18,7 +17,7 @@ final class RenderTranslate implements IRenderTranslateFunction
     {
         return [
             $this->getText(),
-            $this->getDomain()
+            $this->getDomain(),
         ];
     }
 

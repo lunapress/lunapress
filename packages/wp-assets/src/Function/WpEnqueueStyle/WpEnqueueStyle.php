@@ -1,12 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Wp\Assets\Function\WpEnqueueStyle;
 
 use LunaPress\Wp\AssetsContracts\Entity\AssetDependency\IAssetDependency;
 use LunaPress\Wp\AssetsContracts\Function\WpEnqueueStyle\IWpEnqueueStyleFunction;
-
-defined('ABSPATH') || exit;
 
 final class WpEnqueueStyle implements IWpEnqueueStyleFunction
 {

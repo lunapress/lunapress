@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Cli\I18n\Pot\Generator;
@@ -15,6 +16,23 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Path;
 use Symfony\Component\Finder\Finder;
+use function array_diff;
+use function array_filter;
+use function array_keys;
+use function array_map;
+use function array_merge;
+use function array_push;
+use function array_unique;
+use function array_values;
+use function explode;
+use function getcwd;
+use function gmdate;
+use function in_array;
+use function is_dir;
+use function is_file;
+use function iterator_to_array;
+use function preg_grep;
+use function sprintf;
 
 final readonly class PotGenerator implements IPotGenerator
 {
@@ -111,9 +129,11 @@ final readonly class PotGenerator implements IPotGenerator
             }
 
             $batch = array_filter($files, fn($f) => $extractor->supports($f));
-            if ($batch) {
-                $messages = array_merge($messages, $extractor->extract($batch, $source, $domains, $ignoreDomains));
-            }
+            if (!$batch) {
+				continue;
+			}
+
+			$messages = array_merge($messages, $extractor->extract($batch, $source, $domains, $ignoreDomains));
         }
         return $messages;
     }
@@ -142,10 +162,8 @@ final readonly class PotGenerator implements IPotGenerator
     }
 
     /**
-     * @param string $source
      * @param string[] $include
      * @param string[] $exclude
-     * @param bool $skipFrontend
      * @return string[]
      */
     private function collectFiles(
@@ -255,17 +273,19 @@ final readonly class PotGenerator implements IPotGenerator
         $headers->set('Last-Translator', 'FULL NAME <EMAIL@ADDRESS>');
         $headers->set('Language-Team', 'LANGUAGE <LL@li.org>');
 
-        if ($metadata !== null && $author) {
-            $year = gmdate('Y');
-            $type = $metadata->isTheme ? 'theme' : 'plugin';
+        if ($metadata === null || !$author) {
+			return;
+		}
 
-            if ($license) {
-                $description = sprintf("Copyright (C) %s %s\nThis file is distributed under the %s.", $year, $author, $license);
-            } else {
-                $description = sprintf("Copyright (C) %s %s\nThis file is distributed under the same license as the %s %s.", $year, $author, $name, $type);
-            }
+		$year = gmdate('Y');
+		$type = $metadata->isTheme ? 'theme' : 'plugin';
 
-            $translations->setDescription($description);
-        }
+		if ($license) {
+			$description = sprintf("Copyright (C) %s %s\nThis file is distributed under the %s.", $year, $author, $license);
+		} else {
+			$description = sprintf("Copyright (C) %s %s\nThis file is distributed under the same license as the %s %s.", $year, $author, $name, $type);
+		}
+
+		$translations->setDescription($description);
     }
 }

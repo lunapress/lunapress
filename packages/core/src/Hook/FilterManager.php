@@ -1,11 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Core\Hook;
 
 use LunaPress\CoreContracts\Hook\IFilterManager;
-
-defined('ABSPATH') || exit;
 
 final readonly class FilterManager implements IFilterManager
 {

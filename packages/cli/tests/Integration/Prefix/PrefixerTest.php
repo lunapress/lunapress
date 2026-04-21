@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Cli\Test\Integration\Prefix;
@@ -9,12 +10,20 @@ use LunaPress\Cli\Prefix\StraussPrefixer;
 use LunaPress\Config\ConfigResolver;
 use LunaPress\Test\Package;
 use Symfony\Component\Console\Input\ArrayInput;
+use Symfony\Component\Console\Output\BufferedOutput;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Path;
-use Symfony\Component\Console\Output\BufferedOutput;
+use function afterEach;
+use function beforeEach;
+use function expect;
+use function it;
+use function json_encode;
+use function sys_get_temp_dir;
+use function uniqid;
+use const JSON_PRETTY_PRINT;
 
-beforeEach(function () {
+beforeEach(function (): void {
     $this->fs      = new Filesystem();
     $this->tempDir = sys_get_temp_dir() . '/lunapress_prefixer_' . uniqid('', true);
 
@@ -26,13 +35,15 @@ beforeEach(function () {
     $this->io = new SymfonyStyle(new ArrayInput([]), $this->bufferedOutput);
 });
 
-afterEach(function () {
-    if ($this->fs->exists($this->tempDir)) {
-        $this->fs->remove($this->tempDir);
-    }
+afterEach(function (): void {
+    if (!$this->fs->exists($this->tempDir)) {
+		return;
+	}
+
+	$this->fs->remove($this->tempDir);
 });
 
-it('prefixes vendor namespaces according to configuration', function () {
+it('prefixes vendor namespaces according to configuration', function (): void {
     $fixturePath = packageFixture(Package::CLI, 'Prefix/Case01_Default');
     $this->fs->mirror($fixturePath, $this->tempDir);
 
@@ -52,18 +63,18 @@ it('prefixes vendor namespaces according to configuration', function () {
         ->toContain('use PDO;');
 });
 
-it('throws exception if composer.json is missing', function () {
+it('throws exception if composer.json is missing', function (): void {
     $this->prefixer->prefix($this->tempDir, [], $this->io);
 })->throws(ComposerJsonNotFoundException::class);
 
-it('throws exception if composer.json contains invalid json', function () {
+it('throws exception if composer.json contains invalid json', function (): void {
     $composerPath = Path::join($this->tempDir, 'composer.json');
     $this->fs->dumpFile($composerPath, '{ "invalid": json }');
 
     $this->prefixer->prefix($this->tempDir, ['some' => 'config'], $this->io);
 })->throws(StraussExecutionException::class, 'Failed to update composer.json');
 
-it('restores composer.json even if strauss execution fails', function () {
+it('restores composer.json even if strauss execution fails', function (): void {
     $composerPath = Path::join($this->tempDir, 'composer.json');
     $originalContent = json_encode(['name' => 'test/project'], JSON_PRETTY_PRINT) . "\n";
     $this->fs->dumpFile($composerPath, $originalContent);
@@ -79,7 +90,7 @@ it('restores composer.json even if strauss execution fails', function () {
         ->and($this->fs->readFile($composerPath))->toBe($originalContent);
 });
 
-it('captures and reports error output from strauss process', function () {
+it('captures and reports error output from strauss process', function (): void {
     $composerPath = Path::join($this->tempDir, 'composer.json');
     $this->fs->dumpFile($composerPath, json_encode(['name' => 'test/project']));
 

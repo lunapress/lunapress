@@ -1,11 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Config;
 
 use LunaPress\Config\DTO\BuildConfig;
-
-defined('ABSPATH') || exit;
 
 final class ProjectConfig
 {
@@ -32,7 +31,6 @@ final class ProjectConfig
     }
 
     /**
-     * @param array $config
      * @return $this
      */
     public function withStrauss(array $config): self

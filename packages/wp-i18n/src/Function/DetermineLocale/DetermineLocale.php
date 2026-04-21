@@ -1,11 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Wp\I18n\Function\DetermineLocale;
 
 use LunaPress\Wp\I18nContracts\Function\DetermineLocale\IDetermineLocaleFunction;
-
-defined('ABSPATH') || exit;
 
 final class DetermineLocale implements IDetermineLocaleFunction
 {

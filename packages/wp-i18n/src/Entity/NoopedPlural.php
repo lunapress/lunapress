@@ -1,11 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Wp\I18n\Entity;
 
 use LunaPress\Wp\I18nContracts\Entity\INoopedPlural;
-
-defined('ABSPATH') || exit;
 
 final readonly class NoopedPlural implements INoopedPlural
 {

@@ -3,7 +3,10 @@
  * @var IDefaultTranslator $translator
  * @var ITranslateFactory $translateFactory
  */
+
 declare(strict_types=1);
+
+defined('ABSPATH') || exit;
 
 use LunaPress\Cli\Test\Fixture\I18n\Pot\Extractor\PhpStanExtractor\Case01_Default\src\Core\Translator\IDefaultTranslator;
 use LunaPress\Wp\I18nContracts\Function\Translate\ITranslateFactory;
@@ -75,13 +78,18 @@ $translator->run(
 <div>
     <span>
         <?php
-        /* translators: Inside HTML template */
+
+defined('ABSPATH') || exit;
+
+/* translators: Inside HTML template */
         esc_html_e('HTML mixed text', 'bred');
         ?>
     </span>
 </div>
 
 <?php
+
+defined('ABSPATH') || exit;
 
 sprintf(
 // translators: %s - sprintf

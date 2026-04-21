@@ -1,12 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Wp\I18n\Function\LoadTextDomain;
 
 use LunaPress\Wp\I18n\Trait\HasDomain;
 use LunaPress\Wp\I18nContracts\Function\LoadTextDomain\ILoadTextDomainFunction;
-
-defined('ABSPATH') || exit;
 
 final class LoadTextDomain implements ILoadTextDomainFunction
 {
@@ -42,7 +41,7 @@ final class LoadTextDomain implements ILoadTextDomainFunction
         return [
             $this->getDomain(),
             $this->getMoFile(),
-            $this->getLocale()
+            $this->getLocale(),
         ];
     }
 

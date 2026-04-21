@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Cli\I18n\Pot\Scanner;
@@ -14,6 +15,8 @@ use PHPStan\DependencyInjection\MissingServiceException;
 use PHPStan\Node\FileNode;
 use PHPStan\Parser\ParserErrorsException;
 use PHPStan\Parser\PathRoutingParser;
+use function getcwd;
+use function sys_get_temp_dir;
 
 final class PhpStanScanner implements IScanner
 {

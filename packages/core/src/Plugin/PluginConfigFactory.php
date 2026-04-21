@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Core\Plugin;
@@ -6,10 +7,6 @@ namespace LunaPress\Core\Plugin;
 use LunaPress\CoreContracts\Plugin\IConfig;
 use LunaPress\CoreContracts\Plugin\IConfigFactory;
 use LunaPress\CoreContracts\Plugin\IPlugin;
-use ReflectionClass;
-use RuntimeException;
-
-defined('ABSPATH') || exit;
 
 final readonly class PluginConfigFactory implements IConfigFactory
 {

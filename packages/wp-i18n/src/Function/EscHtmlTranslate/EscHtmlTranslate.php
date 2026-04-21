@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Wp\I18n\Function\EscHtmlTranslate;
@@ -6,8 +7,6 @@ namespace LunaPress\Wp\I18n\Function\EscHtmlTranslate;
 use LunaPress\Wp\I18n\Trait\HasDomain;
 use LunaPress\Wp\I18n\Trait\HasText;
 use LunaPress\Wp\I18nContracts\Function\EscHtmlTranslate\IEscHtmlTranslateFunction;
-
-defined('ABSPATH') || exit;
 
 final class EscHtmlTranslate implements IEscHtmlTranslateFunction
 {
@@ -18,7 +17,7 @@ final class EscHtmlTranslate implements IEscHtmlTranslateFunction
     {
         return [
             $this->getText(),
-            $this->getDomain()
+            $this->getDomain(),
         ];
     }
 

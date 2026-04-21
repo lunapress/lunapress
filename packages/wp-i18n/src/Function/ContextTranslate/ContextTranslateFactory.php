@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Wp\I18n\Function\ContextTranslate;
@@ -6,8 +7,6 @@ namespace LunaPress\Wp\I18n\Function\ContextTranslate;
 use LunaPress\Wp\I18nContracts\Function\ContextTranslate\IContextTranslateFactory;
 use LunaPress\Wp\I18nContracts\Function\ContextTranslate\IContextTranslateFunction;
 use Psr\Container\ContainerInterface;
-
-defined('ABSPATH') || exit;
 
 final readonly class ContextTranslateFactory implements IContextTranslateFactory
 {

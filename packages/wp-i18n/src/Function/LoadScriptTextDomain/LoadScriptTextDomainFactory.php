@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Wp\I18n\Function\LoadScriptTextDomain;
@@ -6,8 +7,6 @@ namespace LunaPress\Wp\I18n\Function\LoadScriptTextDomain;
 use LunaPress\Wp\I18nContracts\Function\LoadScriptTextDomain\ILoadScriptTextDomainFactory;
 use LunaPress\Wp\I18nContracts\Function\LoadScriptTextDomain\ILoadScriptTextDomainFunction;
 use Psr\Container\ContainerInterface;
-
-defined('ABSPATH') || exit;
 
 final readonly class LoadScriptTextDomainFactory implements ILoadScriptTextDomainFactory
 {

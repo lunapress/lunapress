@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Cli\Frontend\Init;
@@ -8,6 +9,7 @@ use Mustache\Loader\FilesystemLoader;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Path;
 use Symfony\Component\Finder\Finder;
+use function str_replace;
 
 final readonly class FrontendTemplateRenderer
 {

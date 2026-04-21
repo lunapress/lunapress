@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Foundation\Composer;
@@ -9,8 +10,18 @@ use ReflectionClass;
 use ReflectionException;
 use ReflectionProperty;
 use RuntimeException;
-
-defined('ABSPATH') || exit;
+use function array_column;
+use function file_get_contents;
+use function is_array;
+use function is_file;
+use function is_null;
+use function is_object;
+use function is_string;
+use function json_decode;
+use function method_exists;
+use function realpath;
+use function spl_autoload_functions;
+use const DIRECTORY_SEPARATOR;
 
 final class ComposerManager implements IComposerManager
 {
@@ -24,7 +35,6 @@ final class ComposerManager implements IComposerManager
     }
 
     /**
-     * @return string
      * @throws ReflectionException
      */
     #[Override]
@@ -64,7 +74,6 @@ final class ComposerManager implements IComposerManager
     }
 
     /**
-     * @return array
      * @throws ReflectionException
      */
     #[Override]
@@ -90,8 +99,6 @@ final class ComposerManager implements IComposerManager
     }
 
     /**
-     * @param string $packageName
-     * @return string|null
      * @throws ReflectionException
      */
     #[Override]
@@ -109,7 +116,6 @@ final class ComposerManager implements IComposerManager
     }
 
     /**
-     * @return array
      * @throws ReflectionException
      */
     private function loadInstalledPhp(): array

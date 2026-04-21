@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Core\Loader;
@@ -6,14 +7,20 @@ namespace LunaPress\Core\Loader;
 use LunaPress\Core\DiProvider;
 use LunaPress\Core\Plugin\AbstractPlugin;
 use LunaPress\CoreContracts\Plugin\IPlugin;
-use LunaPress\FoundationContracts\Support\ILoader;
 use LunaPress\FoundationContracts\Container\IContainerBuilder;
 use LunaPress\FoundationContracts\PackageMeta\IPackageMetaFactory;
 use LunaPress\FoundationContracts\ServicePackage\IServicePackageMeta;
 use LunaPress\FoundationContracts\Support\IHasDi;
+use LunaPress\FoundationContracts\Support\ILoader;
 use Override;
-
-defined('ABSPATH') || exit;
+use function basename;
+use function constant;
+use function defined;
+use function dirname;
+use function file_exists;
+use function is_string;
+use function str_replace;
+use function strtoupper;
 
 final readonly class ContainerLoader implements ILoader
 {
@@ -38,9 +45,11 @@ final readonly class ContainerLoader implements ILoader
 
         // Service Packages
         foreach ($this->metaFactory->createAll() as $meta) {
-            if ($meta instanceof IServicePackageMeta && $meta->getDiPath()) {
-                $this->builder->addDefinitions($meta->getDiPath());
-            }
+            if (!($meta instanceof IServicePackageMeta) || !$meta->getDiPath()) {
+				continue;
+			}
+
+			$this->builder->addDefinitions($meta->getDiPath());
         }
 
         // Packages
@@ -65,9 +74,11 @@ final readonly class ContainerLoader implements ILoader
     private function addDiFile(string $class): void
     {
         $path = $class::getDiPath();
-        if ($path && file_exists($path)) {
-            $this->builder->addDefinitions($path);
-        }
+        if (!$path || !file_exists($path)) {
+			return;
+		}
+
+		$this->builder->addDefinitions($path);
     }
 
     private function configureCache(AbstractPlugin $plugin, IContainerBuilder $builder): void

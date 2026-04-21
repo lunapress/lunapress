@@ -1,11 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Core\Support;
 
 use LunaPress\FoundationContracts\Package\IPackage;
-
-defined('ABSPATH') || exit;
+use function class_exists;
+use function is_a;
+use function is_string;
 
 trait PackageIterator
 {
@@ -23,9 +25,11 @@ trait PackageIterator
                 $package = new $package();
             }
 
-            if ($package instanceof IPackage) {
-                $callback($package);
-            }
+            if (!($package instanceof IPackage)) {
+				continue;
+			}
+
+			$callback($package);
         }
     }
 }

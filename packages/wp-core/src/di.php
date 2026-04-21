@@ -1,5 +1,8 @@
 <?php
+
 declare(strict_types=1);
+
+defined('ABSPATH') || exit;
 
 use LunaPress\Wp\Core\Function\WpDie\WpDie;
 use LunaPress\Wp\Core\Function\WpDie\WpDieArgs;

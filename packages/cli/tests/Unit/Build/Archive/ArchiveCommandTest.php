@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Cli\Test\Unit\Build\Archive;
@@ -14,8 +15,13 @@ use Mockery;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Tester\CommandTester;
+use function array_filter;
+use function beforeEach;
+use function expect;
+use function it;
+use function sprintf;
 
-beforeEach(function () {
+beforeEach(function (): void {
     $this->archiver       = Mockery::mock(IArchiver::class);
     $this->configResolver = Mockery::mock(IConfigResolver::class);
     $this->pathResolver   = Mockery::mock(IPathResolver::class);
@@ -24,7 +30,7 @@ beforeEach(function () {
     $this->tester      = new CommandTester($this->testCommand);
 });
 
-it('has correct command parameters', function () {
+it('has correct command parameters', function (): void {
     $definition = $this->testCommand->getDefinition();
 
     expect($definition->hasArgument('source'))->toBeTrue()
@@ -42,7 +48,7 @@ it('executes successfully with valid paths and configs', function (
     string $outputPath,
     string $slug,
     ProjectConfig $config
-) {
+): void {
     $this->pathResolver->shouldReceive('projectPath')
         ->once()
         ->with($source)
@@ -92,10 +98,10 @@ it('executes successfully with valid paths and configs', function (
         '/absolute/path/dist/release.zip',
         'custom-plugin-slug',
         ProjectConfig::createDefault()->withBuild(new BuildConfig(pluginSlug: 'custom-plugin-slug')),
-    ]
+    ],
 ]);
 
-it('returns failure and displays error', function () {
+it('returns failure and displays error', function (): void {
     $errorMessage = 'Source path does not exist or is not readable.';
 
     $this->pathResolver->shouldReceive('projectPath')->andReturn('/default/path');

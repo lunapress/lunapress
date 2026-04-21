@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Cli\Frontend\Init;
@@ -11,6 +12,7 @@ use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Style\SymfonyStyle;
+use function array_map;
 
 #[AsCommand(
     name: 'frontend:init',
@@ -77,9 +79,6 @@ final class FrontendInitCommand extends Command
         return Command::SUCCESS;
     }
 
-    /**
-     * @return FrontendInitConfig
-     */
     public function getConfig(): FrontendInitConfig
     {
         return $this->config;

@@ -1,11 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Core;
 
 use LunaPress\FoundationContracts\Support\IHasDi;
-
-defined('ABSPATH') || exit;
+use function file_exists;
 
 final readonly class DiProvider implements IHasDi
 {

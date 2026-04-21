@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Cli\I18n\Pot\Scanner;
@@ -6,6 +7,22 @@ namespace LunaPress\Cli\I18n\Pot\Scanner;
 use LunaPress\Cli\I18n\Pot\Extractor\FileHeaderExtractor\Dto\FileHeader;
 use LunaPress\Cli\I18n\Pot\Extractor\FileHeaderExtractor\Dto\HeaderField;
 use Symfony\Component\Filesystem\Path;
+use function array_map;
+use function basename;
+use function file_get_contents;
+use function implode;
+use function is_readable;
+use function preg_match_all;
+use function preg_quote;
+use function preg_replace;
+use function sort;
+use function str_ends_with;
+use function str_replace;
+use function str_starts_with;
+use function substr_count;
+use function trim;
+use const PREG_OFFSET_CAPTURE;
+use const PREG_SET_ORDER;
 
 final class ProjectMetadataScanner
 {
@@ -48,8 +65,6 @@ final class ProjectMetadataScanner
      * We don't cache this as it's typically fast and called rarely.
      *
      * @param string[] $files
-     * @param string $source
-     * @return FileHeader|null
      */
     public function scan(array $files, string $source): ?FileHeader
     {
@@ -74,17 +89,23 @@ final class ProjectMetadataScanner
                 }
             }
 
-            if ($isCss && basename($file) === 'style.css' && $themeData === null) {
-                $relativePath = Path::makeRelative($file, $source);
+            if (!$isCss || basename($file) !== 'style.css' || $themeData !== null) {
+				continue;
+			}
 
-                // Only detect style.css files in the root or an immediate subdirectory of the source.
-                if (!str_starts_with($relativePath, '..') && substr_count($relativePath, '/') <= 1) {
-                    $themeHeaders = $this->getFileData($file, self::THEME_HEADERS);
-                    if (isset($themeHeaders[self::HEADER_THEME_NAME]) && !$themeHeaders[self::HEADER_THEME_NAME]->isEmpty()) {
-                        $themeData = new FileHeader($file, $themeHeaders, true);
-                    }
-                }
-            }
+			$relativePath = Path::makeRelative($file, $source);
+
+			// Only detect style.css files in the root or an immediate subdirectory of the source.
+			if (str_starts_with($relativePath, '..') || substr_count($relativePath, '/') > 1) {
+				continue;
+			}
+
+			$themeHeaders = $this->getFileData($file, self::THEME_HEADERS);
+			if (!isset($themeHeaders[self::HEADER_THEME_NAME]) || $themeHeaders[self::HEADER_THEME_NAME]->isEmpty()) {
+				continue;
+			}
+
+			$themeData = new FileHeader($file, $themeHeaders, true);
         }
 
         // Return theme primarily if both found (as per WP CLI behavior generally, but usually only one applies)

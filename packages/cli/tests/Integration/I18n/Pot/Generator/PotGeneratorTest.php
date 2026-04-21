@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Cli\Test\Integration\I18n\Pot\Generator;
@@ -20,6 +21,11 @@ use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Path;
 use Symfony\Component\Finder\Finder;
 use Symfony\Component\Finder\SplFileInfo;
+use function beforeEach;
+use function expect;
+use function it;
+use function preg_replace;
+use function trim;
 
 const DEFAULT_DOMAIN = 'default';
 const WC_DOMAIN      = 'woocommerce';
@@ -27,7 +33,7 @@ const PLUGIN_DOMAIN  = 'bred';
 const OTHER_DOMAIN   = 'other';
 const FIXTURES_PATH  = 'I18n/Pot/Generator';
 
-beforeEach(function () {
+beforeEach(function (): void {
     $this->io        = new SymfonyStyle(new ArrayInput([]), new NullOutput());
     $this->fs        = new Filesystem();
     $this->generator = new PotGenerator(
@@ -38,7 +44,7 @@ beforeEach(function () {
             new JavascriptExtractor(
                 new ProcessFactory(),
                 new MapperBuilder()
-            )
+            ),
         ],
         new PoGenerator(),
         $this->fs,
@@ -46,7 +52,7 @@ beforeEach(function () {
     );
 });
 
-it('generates correct pot for scenario', function (string $projectPath) {
+it('generates correct pot for scenario', function (string $projectPath): void {
     $expectedDir = Path::join($projectPath, 'languages', 'expected');
     $actualDir   = Path::join($projectPath, 'languages', 'actual');
 
@@ -81,7 +87,7 @@ it('filters domains based on onlyDomains and ignoreDomains', function (
     array $ignoreDomains,
     array $shouldExist,
     array $shouldNotExist
-) {
+): void {
     $fixturePath = packageFixture(Package::CLI, Path::join(FIXTURES_PATH, 'Case01_Default'));
     $actualDir   = Path::join($fixturePath, 'languages', 'actual');
 
@@ -131,7 +137,7 @@ it('filters domains based on onlyDomains and ignoreDomains', function (
     ],
 ]);
 
-it('excludes paths', function () {
+it('excludes paths', function (): void {
     $fixtureDir = packageFixture(Package::CLI, Path::join(FIXTURES_PATH, 'Case01_Default'));
     $sourceDir  = Path::join($fixtureDir, 'src');
     $actualDir  = Path::join($fixtureDir, 'languages', 'actual');
@@ -166,7 +172,7 @@ it('excludes paths', function () {
         ->not->toContain('msgid "Ignored via wildcard"');
 });
 
-it('skips frontend files', function () {
+it('skips frontend files', function (): void {
     $fixtureDir = packageFixture(Package::CLI, Path::join(FIXTURES_PATH, 'Case02_Frontend'));
     $actualDir  = Path::join($fixtureDir, 'languages', 'actual');
 
@@ -189,7 +195,7 @@ it('skips frontend files', function () {
         ->not->toContain('msgid "JS string"');
 });
 
-it('generates only domain from plugin header if text domain is specified', function () {
+it('generates only domain from plugin header if text domain is specified', function (): void {
     $fixtureDir = packageFixture(Package::CLI, Path::join(FIXTURES_PATH, 'Case03_PluginHeader'));
     $actualDir  = Path::join($fixtureDir, 'languages', 'actual');
 
@@ -207,7 +213,7 @@ it('generates only domain from plugin header if text domain is specified', funct
         ->and(Path::join($actualDir, WC_DOMAIN . '.pot'))->not->toBeFile();
 });
 
-it('shows warning when domains and project headers are missing', function () {
+it('shows warning when domains and project headers are missing', function (): void {
     $fixtureDir = packageFixture(Package::CLI, Path::join(FIXTURES_PATH, 'Case01_Default'));
     $actualDir  = Path::join($fixtureDir, 'languages', 'actual');
 

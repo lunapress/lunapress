@@ -1,5 +1,8 @@
 <?php
+
 declare(strict_types=1);
+
+defined('ABSPATH') || exit;
 
 /*
 Plugin Name: My First Plugin

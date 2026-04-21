@@ -1,12 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Wp\I18n\Function\LoadScriptTextDomain;
 
 use LunaPress\Wp\I18n\Trait\HasDomain;
 use LunaPress\Wp\I18nContracts\Function\LoadScriptTextDomain\ILoadScriptTextDomainFunction;
-
-defined('ABSPATH') || exit;
 
 final class LoadScriptTextDomain implements ILoadScriptTextDomainFunction
 {
@@ -20,7 +19,7 @@ final class LoadScriptTextDomain implements ILoadScriptTextDomainFunction
         return [
             $this->getHandle(),
             $this->getDomain(),
-            $this->getPath()
+            $this->getPath(),
         ];
     }
 

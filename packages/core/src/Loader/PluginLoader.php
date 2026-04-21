@@ -1,16 +1,15 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Core\Loader;
 
 use LunaPress\Core\Plugin\AbstractPlugin;
-use LunaPress\FoundationContracts\Support\ILoader;
 use LunaPress\Foundation\PackageMeta\PackageMetaFactory;
 use LunaPress\FoundationContracts\Container\IContainerBuilder;
+use LunaPress\FoundationContracts\Support\ILoader;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
-
-defined('ABSPATH') || exit;
 
 final readonly class PluginLoader implements ILoader
 {
@@ -21,7 +20,6 @@ final readonly class PluginLoader implements ILoader
     }
 
     /**
-     * @return void
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */

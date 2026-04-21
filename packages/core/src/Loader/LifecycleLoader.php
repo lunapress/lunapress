@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Core\Loader;
@@ -6,8 +7,6 @@ namespace LunaPress\Core\Loader;
 use LunaPress\CoreContracts\Plugin\IPlugin;
 use LunaPress\FoundationContracts\Support\ILoader;
 use ReflectionClass;
-
-defined('ABSPATH') || exit;
 
 final readonly class LifecycleLoader implements ILoader
 {

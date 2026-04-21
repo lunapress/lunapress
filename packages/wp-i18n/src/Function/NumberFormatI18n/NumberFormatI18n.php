@@ -1,11 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Wp\I18n\Function\NumberFormatI18n;
 
 use LunaPress\Wp\I18nContracts\Function\NumberFormatI18n\INumberFormatI18nFunction;
-
-defined('ABSPATH') || exit;
 
 final class NumberFormatI18n implements INumberFormatI18nFunction
 {
@@ -39,7 +38,7 @@ final class NumberFormatI18n implements INumberFormatI18nFunction
     {
         return [
             $this->getNumber(),
-            $this->getDecimals()
+            $this->getDecimals(),
         ];
     }
 

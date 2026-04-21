@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Wp\I18n\Function\NoopPluralTranslate;
@@ -6,8 +7,6 @@ namespace LunaPress\Wp\I18n\Function\NoopPluralTranslate;
 use LunaPress\Wp\I18nContracts\Function\NoopPluralTranslate\INoopPluralTranslateFactory;
 use LunaPress\Wp\I18nContracts\Function\NoopPluralTranslate\INoopPluralTranslateFunction;
 use Psr\Container\ContainerInterface;
-
-defined('ABSPATH') || exit;
 
 final readonly class NoopPluralTranslateFactory implements INoopPluralTranslateFactory
 {

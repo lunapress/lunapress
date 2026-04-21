@@ -1,11 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Wp\I18n\Function\LoadPluginTextDomain;
 
 use LunaPress\Wp\I18nContracts\Function\LoadPluginTextDomain\ILoadPluginTextDomainFunction;
-
-defined('ABSPATH') || exit;
 
 final class LoadPluginTextDomain implements ILoadPluginTextDomainFunction
 {
@@ -17,7 +16,7 @@ final class LoadPluginTextDomain implements ILoadPluginTextDomainFunction
         return [
             $this->getDomain(),
             false,
-            $this->getPluginRelPath()
+            $this->getPluginRelPath(),
         ];
     }
 

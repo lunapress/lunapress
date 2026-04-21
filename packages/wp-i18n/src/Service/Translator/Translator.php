@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Wp\I18n\Service\Translator;
@@ -29,8 +30,8 @@ use LunaPress\Wp\I18nContracts\Function\Translate\ITranslateFactory;
 use LunaPress\Wp\I18nContracts\Function\TranslateNoopedPlural\ITranslateNoopedPluralFactory;
 use LunaPress\Wp\I18nContracts\Service\Translator\ITranslator;
 use ReflectionClass;
-
-defined('ABSPATH') || exit;
+use function count;
+use function sprintf;
 
 readonly class Translator implements ITranslator
 {

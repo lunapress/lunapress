@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Core\Subscriber;
@@ -6,6 +7,7 @@ namespace LunaPress\Core\Subscriber;
 use LunaPress\Core\Hook\ActionManager;
 use LunaPress\Core\Hook\FilterManager;
 use LunaPress\Core\Hook\Hook;
+use LunaPress\CoreContracts\Subscriber\ISubscriberRegistry;
 use LunaPress\FoundationContracts\Subscriber\IActionSubscriber;
 use LunaPress\FoundationContracts\Subscriber\IDelayedSubscriber;
 use LunaPress\FoundationContracts\Subscriber\IFilterSubscriber;
@@ -14,9 +16,7 @@ use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
 use ReflectionClass;
-use LunaPress\CoreContracts\Subscriber\ISubscriberRegistry;
-
-defined('ABSPATH') || exit;
+use function is_string;
 
 final readonly class SubscriberRegistry implements ISubscriberRegistry
 {

@@ -1,11 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Frontend\Modules\Vite\Service;
 
 use LunaPress\FrontendContracts\Vite\IViteModeDetector;
-
-defined('ABSPATH') || exit;
+use function constant;
+use function defined;
 
 final class ConstantViteModeDetector implements IViteModeDetector
 {

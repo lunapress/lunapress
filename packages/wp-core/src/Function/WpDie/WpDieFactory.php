@@ -1,14 +1,13 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Wp\Core\Function\WpDie;
 
 use LunaPress\Wp\CoreContracts\Entity\WpError\IWpError;
-use LunaPress\Wp\CoreContracts\Function\WpDie\IWpDieFunction;
 use LunaPress\Wp\CoreContracts\Function\WpDie\IWpDieFactory;
+use LunaPress\Wp\CoreContracts\Function\WpDie\IWpDieFunction;
 use Psr\Container\ContainerInterface;
-
-defined('ABSPATH') || exit;
 
 final readonly class WpDieFactory implements IWpDieFactory
 {

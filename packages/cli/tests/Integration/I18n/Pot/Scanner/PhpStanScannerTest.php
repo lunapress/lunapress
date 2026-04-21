@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Cli\Test\Integration\I18n\Pot\Scanner;
@@ -9,8 +10,10 @@ use PhpParser\Node;
 use PhpParser\Node\Stmt\Class_;
 use PHPStan\Analyser\MutatingScope;
 use PHPStan\Type\ObjectType;
+use function expect;
+use function it;
 
-it('phpstan scanner scans files and can identify types using phpstan', function () {
+it('phpstan scanner scans files and can identify types using phpstan', function (): void {
     $projectRoot = packageFixture(Package::CLI, 'I18n/Pot/Scanner/PhpStanScanner/Case01_Default');
 
     $filesToScan = [
@@ -22,7 +25,7 @@ it('phpstan scanner scans files and can identify types using phpstan', function 
 
     $resolvedClasses = [];
 
-    $scanner->scan($filesToScan, function (Node $node, MutatingScope $scope) use (&$resolvedClasses) {
+    $scanner->scan($filesToScan, function (Node $node, MutatingScope $scope) use (&$resolvedClasses): void {
         if (!$node instanceof Class_ || !isset($node->namespacedName)) {
             return;
         }

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Cli\Test\Integration\I18n\Pot\Extractor;
@@ -11,10 +12,13 @@ use LunaPress\Test\Package;
 use Pest\Expectation;
 use Symfony\Component\Filesystem\Path;
 use Symfony\Component\Finder\Finder;
+use function beforeEach;
+use function expect;
+use function it;
 
 const FIXTURES_PATH = 'I18n/Pot/Extractor/JavascriptExtractor';
 
-beforeEach(function () {
+beforeEach(function (): void {
     $this->finder    = new Finder();
     $this->extractor = new JavascriptExtractor(
         new ProcessFactory(),
@@ -22,7 +26,7 @@ beforeEach(function () {
     );
 });
 
-it('javascript extractor gets translation objects from real files', function () {
+it('javascript extractor gets translation objects from real files', function (): void {
     $fixtureDir = packageFixture(Package::CLI, Path::join(FIXTURES_PATH, 'Case01_Default'));
     prepareAllNestedFixtures($fixtureDir);
 
@@ -32,14 +36,14 @@ it('javascript extractor gets translation objects from real files', function () 
         ->toBeArray()
         ->toHaveCount(5)
         ->sequence(
-            function ($message) {
+            function ($message): void {
                 /** @var Expectation<ExtractedMessage> $message */
                 $message->toBeInstanceOf(ExtractedMessage::class);
 
                 expect($message->value->getDomain())->toBe('plugin')
                     ->and($message->value->getTranslation()->getOriginal())->toBe('text');
             },
-            function ($message) {
+            function ($message): void {
                 /** @var Expectation<ExtractedMessage> $message */
                 $message->toBeInstanceOf(ExtractedMessage::class);
 
@@ -47,7 +51,7 @@ it('javascript extractor gets translation objects from real files', function () 
                     ->and($message->value->getTranslation()->getOriginal())->toBe('text with context')
                     ->and($message->value->getTranslation()->getContext())->toBe('context');
             },
-            function ($message) {
+            function ($message): void {
                 /** @var Expectation<ExtractedMessage> $message */
                 $message->toBeInstanceOf(ExtractedMessage::class);
 
@@ -55,7 +59,7 @@ it('javascript extractor gets translation objects from real files', function () 
                     ->and($message->value->getTranslation()->getOriginal())->toBe('single')
                     ->and($message->value->getTranslation()->getPlural())->toBe('plural');
             },
-            function ($message) {
+            function ($message): void {
                 /** @var Expectation<ExtractedMessage> $message */
                 $message->toBeInstanceOf(ExtractedMessage::class);
 
@@ -64,7 +68,7 @@ it('javascript extractor gets translation objects from real files', function () 
                     ->and($message->value->getTranslation()->getPlural())->toBe('plural2')
                     ->and($message->value->getTranslation()->getContext())->toBe('context2');
             },
-            function ($message) {
+            function ($message): void {
                 /** @var Expectation<ExtractedMessage> $message */
                 $message->toBeInstanceOf(ExtractedMessage::class);
 
@@ -75,7 +79,7 @@ it('javascript extractor gets translation objects from real files', function () 
         );
 });
 
-it('filters messages by domains argument', function () {
+it('filters messages by domains argument', function (): void {
     $fixtureDir = packageFixture(Package::CLI, Path::join(FIXTURES_PATH, 'Case01_Default'));
     prepareAllNestedFixtures($fixtureDir);
 
@@ -86,7 +90,7 @@ it('filters messages by domains argument', function () {
         ->toBeEmpty();
 });
 
-it('ignores messages by ignoreDomains argument', function () {
+it('ignores messages by ignoreDomains argument', function (): void {
     $fixtureDir = packageFixture(Package::CLI, Path::join(FIXTURES_PATH, 'Case01_Default'));
     prepareAllNestedFixtures($fixtureDir);
 

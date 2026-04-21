@@ -1,16 +1,16 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Core\Loader;
 
-use LunaPress\FoundationContracts\Support\ILoader;
 use LunaPress\FoundationContracts\Package\IHasPackages;
 use LunaPress\FoundationContracts\Package\IPackage;
+use LunaPress\FoundationContracts\Support\ILoader;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
 use Psr\Container\NotFoundExceptionInterface;
-
-defined('ABSPATH') || exit;
+use function is_string;
 
 final readonly class PackageLoader implements ILoader
 {
@@ -21,7 +21,6 @@ final readonly class PackageLoader implements ILoader
     }
 
     /**
-     * @return void
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
@@ -32,9 +31,11 @@ final readonly class PackageLoader implements ILoader
                 ? $this->container->get($packageClass)
                 : $packageClass;
 
-            if ($package instanceof IPackage) {
-                (new ModuleLoader($package, $this->container))->load();
-            }
+            if (!($package instanceof IPackage)) {
+				continue;
+			}
+
+			(new ModuleLoader($package, $this->container))->load();
         }
     }
 }

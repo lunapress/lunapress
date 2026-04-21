@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Cli\I18n\Pot\Extractor;
@@ -38,6 +39,10 @@ use PHPStan\ShouldNotHappenException;
 use PHPStan\Type\ObjectType;
 use PHPStan\Type\Type;
 use Symfony\Component\Filesystem\Path;
+use function array_merge;
+use function preg_match;
+use function preg_replace;
+use function trim;
 
 final readonly class PhpStanExtractor implements IExtractor
 {
@@ -132,24 +137,30 @@ final readonly class PhpStanExtractor implements IExtractor
 
             if ($node instanceof Match_) {
                 foreach ($node->arms as $arm) {
-                    if ($arm !== null) {
-                        $structuralComments[$arm->body->getStartLine()] = $arm->getComments();
-                    }
+                    if ($arm === null) {
+						continue;
+					}
+
+					$structuralComments[$arm->body->getStartLine()] = $arm->getComments();
                 }
             } elseif ($node instanceof Array_) {
                 foreach ($node->items as $item) {
-                    if ($item !== null) {
-                        $structuralComments[$item->value->getStartLine()] = $item->getComments();
-                    }
+                    if ($item === null) {
+						continue;
+					}
+
+					$structuralComments[$item->value->getStartLine()] = $item->getComments();
                 }
             } elseif ($node instanceof CallLike) {
                 foreach ($node->getArgs() as $arg) {
-                    if ($arg instanceof Arg) {
-                        $structuralComments[$arg->value->getStartLine()] = array_merge(
-                            $structuralComments[$arg->value->getStartLine()] ?? [],
-                            $arg->getComments()
-                        );
-                    }
+                    if (!($arg instanceof Arg)) {
+						continue;
+					}
+
+					$structuralComments[$arg->value->getStartLine()] = array_merge(
+						$structuralComments[$arg->value->getStartLine()] ?? [],
+						$arg->getComments()
+					);
                 }
             }
 
@@ -185,9 +196,11 @@ final readonly class PhpStanExtractor implements IExtractor
 
         if ($node instanceof CallLike) {
             foreach ($node->getArgs() as $arg) {
-                if ($arg instanceof Arg) {
-                    $nodeComments = array_merge($nodeComments, $arg->getComments(), $arg->value->getComments());
-                }
+                if (!($arg instanceof Arg)) {
+					continue;
+				}
+
+				$nodeComments = array_merge($nodeComments, $arg->getComments(), $arg->value->getComments());
             }
         }
 
@@ -310,14 +323,16 @@ final readonly class PhpStanExtractor implements IExtractor
      */
     private function yieldMessage(?ExtractedMessage $message, Node $node, string $file, string $source): Generator
     {
-        if ($message !== null) {
-            $line         = $node->getStartLine();
-            $relativePath = Path::makeRelative($file, $source);
+        if ($message === null) {
+			return;
+		}
 
-            $message->getTranslation()->getReferences()->add($relativePath, $line);
+		$line         = $node->getStartLine();
+		$relativePath = Path::makeRelative($file, $source);
 
-            yield $message;
-        }
+		$message->getTranslation()->getReferences()->add($relativePath, $line);
+
+		yield $message;
     }
 
     private function extractBasic(MethodCall $node, string $domain): ?ExtractedMessage

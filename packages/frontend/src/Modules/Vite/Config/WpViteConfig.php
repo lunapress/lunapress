@@ -1,12 +1,12 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Frontend\Modules\Vite\Config;
 
-use LunaPress\FrontendContracts\Vite\IViteConfig;
 use LunaPress\CoreContracts\Plugin\IConfig;
-
-defined('ABSPATH') || exit;
+use LunaPress\FrontendContracts\Vite\IViteConfig;
+use function rtrim;
 
 final readonly class WpViteConfig implements IViteConfig
 {

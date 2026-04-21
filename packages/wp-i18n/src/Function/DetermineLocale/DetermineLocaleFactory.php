@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Wp\I18n\Function\DetermineLocale;
@@ -6,8 +7,6 @@ namespace LunaPress\Wp\I18n\Function\DetermineLocale;
 use LunaPress\Wp\I18nContracts\Function\DetermineLocale\IDetermineLocaleFactory;
 use LunaPress\Wp\I18nContracts\Function\DetermineLocale\IDetermineLocaleFunction;
 use Psr\Container\ContainerInterface;
-
-defined('ABSPATH') || exit;
 
 final readonly class DetermineLocaleFactory implements IDetermineLocaleFactory
 {

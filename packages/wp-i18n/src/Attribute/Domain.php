@@ -1,12 +1,11 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Wp\I18n\Attribute;
 
 use Attribute;
 use LunaPress\Wp\I18nContracts\Capability\IDomain;
-
-defined('ABSPATH') || exit;
 
 #[Attribute(Attribute::TARGET_CLASS)]
 final readonly class Domain implements IDomain

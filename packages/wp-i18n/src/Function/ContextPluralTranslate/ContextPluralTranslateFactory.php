@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Wp\I18n\Function\ContextPluralTranslate;
@@ -6,8 +7,6 @@ namespace LunaPress\Wp\I18n\Function\ContextPluralTranslate;
 use LunaPress\Wp\I18nContracts\Function\ContextPluralTranslate\IContextPluralTranslateFactory;
 use LunaPress\Wp\I18nContracts\Function\ContextPluralTranslate\IContextPluralTranslateFunction;
 use Psr\Container\ContainerInterface;
-
-defined('ABSPATH') || exit;
 
 final readonly class ContextPluralTranslateFactory implements IContextPluralTranslateFactory
 {

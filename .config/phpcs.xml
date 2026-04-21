@@ -4,11 +4,6 @@
 
     <file>../packages</file>
 
-    <rule ref="LunaPressStandard.WP.AbspathAfterNamespace">
-        <exclude-pattern type="relative">*/tests/*</exclude-pattern>
-        <exclude-pattern type="relative">packages/cli/*</exclude-pattern>
-    </rule>
-
     <rule ref="WordPress.WP.AlternativeFunctions">
         <exclude-pattern type="relative">*/tests/*</exclude-pattern>
         <exclude-pattern type="relative">packages/cli/*</exclude-pattern>

@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Cli\Test\Unit\Frontend\Init;
@@ -11,8 +12,11 @@ use LunaPress\Cli\Frontend\PackageManager;
 use Mockery;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Tester\CommandTester;
+use function beforeEach;
+use function expect;
+use function it;
 
-beforeEach(function () {
+beforeEach(function (): void {
     $this->generator = Mockery::mock(IFrontendProjectGenerator::class);
     $this->generator->shouldReceive('generate')->andReturnNull();
 
@@ -20,7 +24,7 @@ beforeEach(function () {
     $this->tester  = new CommandTester($this->testCommand);
 });
 
-it('sets defaults when no input provided', function () {
+it('sets defaults when no input provided', function (): void {
     $this->tester->setInputs(['', '', '', '']);
     $code = $this->tester->execute([]);
 
@@ -35,7 +39,7 @@ it('sets defaults when no input provided', function () {
         ->and($config->directory)->toBe('frontend');
 });
 
-it('sets options from input', function () {
+it('sets options from input', function (): void {
     $this->tester->setInputs(['', 'n', '', 'test']);
     $code = $this->tester->execute([]);
 

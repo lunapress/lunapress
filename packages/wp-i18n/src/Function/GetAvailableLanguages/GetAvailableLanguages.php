@@ -1,11 +1,10 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Wp\I18n\Function\GetAvailableLanguages;
 
 use LunaPress\Wp\I18nContracts\Function\GetAvailableLanguages\IGetAvailableLanguagesFunction;
-
-defined('ABSPATH') || exit;
 
 final class GetAvailableLanguages implements IGetAvailableLanguagesFunction
 {
@@ -25,12 +24,11 @@ final class GetAvailableLanguages implements IGetAvailableLanguagesFunction
     public function rawArgs(): array
     {
         return [
-            $this->getDir()
+            $this->getDir(),
         ];
     }
 
     /**
-     * @param array $args
      * @return string[]
      */
     public function executeWithArgs(array $args): array

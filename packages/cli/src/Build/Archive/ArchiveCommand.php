@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Cli\Build\Archive;
@@ -11,11 +12,12 @@ use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Attribute\Option;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Style\SymfonyStyle;
-use Symfony\Component\Filesystem\Path;
+use function basename;
+use function sprintf;
 
 #[AsCommand(
     name: 'build:archive',
-    description: 'Builds a release ZIP archive from the given directory'
+    description: 'Builds a ZIP with vendor prefix'
 )]
 final class ArchiveCommand extends Command
 {

@@ -1,5 +1,8 @@
 <?php
+
 declare(strict_types=1);
+
+defined('ABSPATH') || exit;
 
 use LunaPress\Frontend\Modules\Vite\Config\WpViteConfig;
 use LunaPress\Frontend\Modules\Vite\Service\ConstantViteModeDetector;

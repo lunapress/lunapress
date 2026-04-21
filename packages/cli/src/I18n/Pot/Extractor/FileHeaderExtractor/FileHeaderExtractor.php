@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace LunaPress\Cli\I18n\Pot\Extractor\FileHeaderExtractor;
@@ -8,10 +9,12 @@ use LunaPress\Cli\I18n\Constants;
 use LunaPress\Cli\I18n\Pot\Extractor\ExtractedMessage;
 use LunaPress\Cli\I18n\Pot\Extractor\ExtractorPatternMatchTrait;
 use LunaPress\Cli\I18n\Pot\Extractor\FileHeaderExtractor\Dto\FileHeader;
-use LunaPress\Cli\I18n\Pot\Extractor\FileHeaderExtractor\Dto\HeaderField;
 use LunaPress\Cli\I18n\Pot\Extractor\IExtractor;
 use LunaPress\Cli\I18n\Pot\Scanner\ProjectMetadataScanner;
 use Symfony\Component\Filesystem\Path;
+use function array_merge;
+use function in_array;
+use function sprintf;
 
 final readonly class FileHeaderExtractor implements IExtractor
 {
