@@ -5,29 +5,24 @@ declare(strict_types=1);
 namespace LunaPress\Wp\I18n\Service\Translator;
 
 use LogicException;
-use LunaPress\FoundationContracts\Support\IExecutableFunction;
-use LunaPress\FoundationContracts\Support\WpFunction\IWpFunctionExecutor;
 use LunaPress\Wp\I18n\Attribute\Domain;
+use LunaPress\Wp\I18n\Function\ContextNoopPluralTranslate;
+use LunaPress\Wp\I18n\Function\ContextPluralTranslate;
+use LunaPress\Wp\I18n\Function\ContextTranslate;
+use LunaPress\Wp\I18n\Function\EscAttrContextTranslate;
+use LunaPress\Wp\I18n\Function\EscAttrRender;
+use LunaPress\Wp\I18n\Function\EscAttrTranslate;
+use LunaPress\Wp\I18n\Function\EscHtmlContextTranslate;
+use LunaPress\Wp\I18n\Function\EscHtmlRender;
+use LunaPress\Wp\I18n\Function\EscHtmlTranslate;
+use LunaPress\Wp\I18n\Function\NoopPluralTranslate;
+use LunaPress\Wp\I18n\Function\PluralTranslate;
+use LunaPress\Wp\I18n\Function\RenderContextTranslate;
+use LunaPress\Wp\I18n\Function\RenderTranslate;
+use LunaPress\Wp\I18n\Function\Translate;
+use LunaPress\Wp\I18n\Function\TranslateNoopedPlural;
 use LunaPress\Wp\I18nContracts\Capability\IDomain;
-use LunaPress\Wp\I18nContracts\Capability\IHasDomain;
-use LunaPress\Wp\I18nContracts\Capability\IHasOptionalDomain;
 use LunaPress\Wp\I18nContracts\Entity\INoopedPlural;
-use LunaPress\Wp\I18nContracts\Entity\ITranslatorFunction;
-use LunaPress\Wp\I18nContracts\Function\ContextNoopPluralTranslate\IContextNoopPluralTranslateFactory;
-use LunaPress\Wp\I18nContracts\Function\ContextPluralTranslate\IContextPluralTranslateFactory;
-use LunaPress\Wp\I18nContracts\Function\ContextTranslate\IContextTranslateFactory;
-use LunaPress\Wp\I18nContracts\Function\EscAttrContextTranslate\IEscAttrContextTranslateFactory;
-use LunaPress\Wp\I18nContracts\Function\EscAttrRender\IEscAttrRenderFactory;
-use LunaPress\Wp\I18nContracts\Function\EscAttrTranslate\IEscAttrTranslateFactory;
-use LunaPress\Wp\I18nContracts\Function\EscHtmlContextTranslate\IEscHtmlContextTranslateFactory;
-use LunaPress\Wp\I18nContracts\Function\EscHtmlRender\IEscHtmlRenderFactory;
-use LunaPress\Wp\I18nContracts\Function\EscHtmlTranslate\IEscHtmlTranslateFactory;
-use LunaPress\Wp\I18nContracts\Function\NoopPluralTranslate\INoopPluralTranslateFactory;
-use LunaPress\Wp\I18nContracts\Function\PluralTranslate\IPluralTranslateFactory;
-use LunaPress\Wp\I18nContracts\Function\RenderContextTranslate\IRenderContextTranslateFactory;
-use LunaPress\Wp\I18nContracts\Function\RenderTranslate\IRenderTranslateFactory;
-use LunaPress\Wp\I18nContracts\Function\Translate\ITranslateFactory;
-use LunaPress\Wp\I18nContracts\Function\TranslateNoopedPlural\ITranslateNoopedPluralFactory;
 use LunaPress\Wp\I18nContracts\Service\Translator\ITranslator;
 use ReflectionClass;
 use function count;
@@ -35,132 +30,101 @@ use function sprintf;
 
 readonly class Translator implements ITranslator
 {
+    private ?string $resolvedDomain;
+
     public function __construct(
-        private IWpFunctionExecutor $wpFunctionExecutor,
-        private ITranslateFactory $translateFactory,
-        private IRenderTranslateFactory $renderTranslateFactory,
-        private IContextTranslateFactory $contextTranslateFactory,
-        private IRenderContextTranslateFactory $renderContextTranslateFactory,
-        private IPluralTranslateFactory $pluralTranslateFactory,
-        private IContextPluralTranslateFactory $contextPluralTranslateFactory,
-        private IEscHtmlTranslateFactory $escHtmlTranslateFactory,
-        private IEscHtmlRenderFactory $escHtmlRenderFactory,
-        private IEscHtmlContextTranslateFactory $escHtmlContextTranslateFactory,
-        private IEscAttrTranslateFactory $escAttrTranslateFactory,
-        private IEscAttrRenderFactory $escAttrRenderFactory,
-        private IEscAttrContextTranslateFactory $escAttrContextTranslateFactory,
-        private INoopPluralTranslateFactory $noopPluralTranslateFactory,
-        private IContextNoopPluralTranslateFactory $contextNoopPluralTranslateFactory,
-        private ITranslateNoopedPluralFactory $translateNoopedPluralFactory,
+        private Translate $translate,
+        private RenderTranslate $renderTranslate,
+        private ContextTranslate $contextTranslate,
+        private RenderContextTranslate $renderContextTranslate,
+        private PluralTranslate $pluralTranslate,
+        private ContextPluralTranslate $contextPluralTranslate,
+        private EscHtmlTranslate $escHtmlTranslate,
+        private EscHtmlRender $escHtmlRender,
+        private EscHtmlContextTranslate $escHtmlContextTranslate,
+        private EscAttrTranslate $escAttrTranslate,
+        private EscAttrRender $escAttrRender,
+        private EscAttrContextTranslate $escAttrContextTranslate,
+        private NoopPluralTranslate $noopPluralTranslate,
+        private ContextNoopPluralTranslate $contextNoopPluralTranslate,
+        private TranslateNoopedPlural $translateNoopedPlural,
     ) {
-    }
-
-    public function run(ITranslatorFunction|IExecutableFunction $function)
-    {
-        if ($function instanceof IHasDomain || $function instanceof IHasOptionalDomain) {
-            $domain = $this->resolveDomainFromInterface();
-
-            if ($domain !== null || $function instanceof IHasOptionalDomain) {
-                $function->domain($domain);
-            }
-        }
-
-        return $this->wpFunctionExecutor->execute(
-            $function,
-        );
+        $this->resolvedDomain = $this->resolveDomainFromInterface();
     }
 
     public function translate(string $text): string
     {
-        return $this->run(
-            $this->translateFactory->make($text)
-        );
+        return ($this->translate)($text, $this->getStrictDomain());
     }
 
     public function render(string $text): void
     {
-        $this->run(
-            $this->renderTranslateFactory->make($text)
-        );
+        ($this->renderTranslate)($text, $this->getStrictDomain());
     }
 
     public function context(string $text, string $context): string
     {
-        return $this->run(
-            $this->contextTranslateFactory->make($text, $context)
-        );
+        return ($this->contextTranslate)($text, $context, $this->getStrictDomain());
     }
 
     public function plural(string $single, string $plural, int $number): string
     {
-        return $this->run(
-            $this->pluralTranslateFactory->make($single, $plural, $number)
-        );
+        return ($this->pluralTranslate)($single, $plural, $number, $this->getStrictDomain());
     }
 
     public function contextPlural(string $single, string $plural, int $number, string $context): string
     {
-        return $this->run(
-            $this->contextPluralTranslateFactory->make($single, $plural, $number, $context)
-        );
+        return ($this->contextPluralTranslate)($single, $plural, $number, $context, $this->getStrictDomain());
     }
 
     public function renderContext(string $text, string $context): void
     {
-        $this->run(
-            $this->renderContextTranslateFactory->make($text, $context)
-        );
+        ($this->renderContextTranslate)($text, $context, $this->getStrictDomain());
     }
 
     public function translateEscHtml(string $text): string
     {
-        return $this->run($this->escHtmlTranslateFactory->make($text));
+        return ($this->escHtmlTranslate)($text, $this->getStrictDomain());
     }
 
     public function renderEscHtml(string $text): void
     {
-        $this->run($this->escHtmlRenderFactory->make($text));
+        ($this->escHtmlRender)($text, $this->getStrictDomain());
     }
 
     public function translateEscHtmlContext(string $text, string $context): string
     {
-        return $this->run($this->escHtmlContextTranslateFactory->make($text, $context));
+        return ($this->escHtmlContextTranslate)($text, $context, $this->getStrictDomain());
     }
 
     public function translateEscAttr(string $text): string
     {
-        return $this->run($this->escAttrTranslateFactory->make($text));
+        return ($this->escAttrTranslate)($text, $this->getStrictDomain());
     }
 
     public function renderEscAttr(string $text): void
     {
-        $this->run($this->escAttrRenderFactory->make($text));
+        ($this->escAttrRender)($text, $this->getStrictDomain());
     }
 
     public function translateEscAttrContext(string $text, string $context): string
     {
-        return $this->run($this->escAttrContextTranslateFactory->make($text, $context));
+        return ($this->escAttrContextTranslate)($text, $context, $this->getStrictDomain());
     }
 
     public function noopPlural(string $single, string $plural): INoopedPlural
     {
-        return $this->run(
-            $this->noopPluralTranslateFactory->make($single, $plural)
-        );
+        return ($this->noopPluralTranslate)($single, $plural, $this->getStrictDomain());
     }
 
     public function contextNoopPlural(string $single, string $plural, string $context): INoopedPlural
     {
-        return $this->run(
-            $this->contextNoopPluralTranslateFactory->make($single, $plural, $context)
-        );
+        return ($this->contextNoopPluralTranslate)($single, $plural, $context, $this->getStrictDomain());
     }
 
     public function translateNoopedPlural(INoopedPlural $noopedPlural, int $number): string
     {
-        return $this->run(
-            $this->translateNoopedPluralFactory->make($noopedPlural, $number)
-        );
+        return ($this->translateNoopedPlural)($noopedPlural, $number);
     }
 
     private function resolveDomainFromInterface(): ?string
@@ -182,15 +146,13 @@ readonly class Translator implements ITranslator
 
     private function getStrictDomain(): string
     {
-        $domain = $this->resolveDomainFromInterface();
-
-        if ($domain === null) {
+        if ($this->resolvedDomain === null) {
             throw new LogicException(sprintf(
                 'Cannot execute domain-specific function: Domain attribute is missing on [%s] interfaces.',
                 static::class
             ));
         }
 
-        return $domain;
+        return $this->resolvedDomain;
     }
 }

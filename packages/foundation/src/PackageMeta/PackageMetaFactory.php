@@ -28,7 +28,7 @@ final readonly class PackageMetaFactory implements IPackageMetaFactory
     public function __construct()
     {
         $this->map = [
-            PackageType::SERVICE->value => $this->makeServicePackage(...),
+            PackageType::Service->value => $this->makeServicePackage(...),
         ];
 
         $this->composerManager = new ComposerManager(self::class);

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace LunaPress\Frontend\Modules\Vite\Service;
 
 use LunaPress\Frontend\Modules\Vite\Constants;
-use LunaPress\Frontend\Modules\Vite\Entity\WpViteManifest;
+use LunaPress\Frontend\Modules\Vite\DTO\WpViteManifest;
 use LunaPress\FrontendContracts\Vite\IViteConfig;
 use LunaPress\FrontendContracts\Vite\IViteEntry;
 use LunaPress\FrontendContracts\Vite\IViteManifest;

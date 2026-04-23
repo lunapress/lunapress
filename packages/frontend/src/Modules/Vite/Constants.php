@@ -10,5 +10,5 @@ final readonly class Constants
 {
     public const string HMR_HOST             = 'http://localhost:5173';
     public const string MANIFEST_FILE_PATH   = '.vite/manifest.json';
-    public const array DEFAULT_FRONTEND_DEPS = [WpAssetHandle::COMPONENTS];
+    public const array DEFAULT_FRONTEND_DEPS = [WpAssetHandle::Components];
 }

@@ -13,7 +13,7 @@ final readonly class ActionManager implements IActionManager
         add_action($name, $callback, $priority, $args);
     }
 
-    public function do(string $name, ...$args): void
+    public function do(string $name, mixed ...$args): void
     {
         do_action($name, ...$args);
     }

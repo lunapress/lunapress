@@ -14,7 +14,7 @@ final readonly class ServicePackageMeta extends AbstractPackageMeta implements I
         string $name,
         private ?string $diPath,
     ) {
-        parent::__construct($name, PackageType::SERVICE);
+        parent::__construct($name, PackageType::Service);
     }
 
     public function getDiPath(): ?string

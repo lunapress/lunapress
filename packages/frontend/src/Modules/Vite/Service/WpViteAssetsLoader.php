@@ -4,27 +4,25 @@ declare(strict_types=1);
 
 namespace LunaPress\Frontend\Modules\Vite\Service;
 
+use BackedEnum;
 use LunaPress\CoreContracts\Hook\IActionManager;
-use LunaPress\FoundationContracts\Support\WpFunction\IWpFunctionExecutor;
 use LunaPress\Frontend\Modules\Vite\Constants;
 use LunaPress\FrontendContracts\Vite\IViteAssetsLoader;
 use LunaPress\FrontendContracts\Vite\IViteConfig;
 use LunaPress\FrontendContracts\Vite\IViteEntryPoint;
 use LunaPress\FrontendContracts\Vite\IViteManifestReader;
 use LunaPress\FrontendContracts\Vite\IViteModeDetector;
-use LunaPress\Wp\AssetsContracts\Entity\IAssetDependency;
+use LunaPress\Wp\Assets\Function\WpEnqueueScript;
+use LunaPress\Wp\Assets\Function\WpEnqueueScriptModule;
+use LunaPress\Wp\Assets\Function\WpEnqueueStyle;
+use LunaPress\Wp\Assets\Function\WpRegisterScript;
+use LunaPress\Wp\AssetsContracts\DTO\ScriptModuleDependency;
 use LunaPress\Wp\AssetsContracts\Enum\WpAssetHandle;
-use LunaPress\Wp\AssetsContracts\Factory\IAssetDependencyFactory;
-use LunaPress\Wp\AssetsContracts\Function\WpEnqueueScript\IWpEnqueueScriptFactory;
-use LunaPress\Wp\AssetsContracts\Function\WpEnqueueScriptModule\IWpEnqueueScriptModuleDep;
-use LunaPress\Wp\AssetsContracts\Function\WpEnqueueScriptModule\IWpEnqueueScriptModuleFactory;
-use LunaPress\Wp\AssetsContracts\Function\WpEnqueueStyle\IWpEnqueueStyleFactory;
-use LunaPress\Wp\AssetsContracts\Function\WpRegisterScript\IWpRegisterScriptFactory;
 use RuntimeException;
 use function array_filter;
-use function array_map;
+use function array_values;
 use function count;
-use function preg_match;
+use function is_string;
 use function rtrim;
 
 final readonly class WpViteAssetsLoader implements IViteAssetsLoader
@@ -33,12 +31,10 @@ final readonly class WpViteAssetsLoader implements IViteAssetsLoader
         private IViteModeDetector $viteModeDetector,
         private IViteManifestReader $viteManifestReader,
         private IActionManager $actionManager,
-        private IWpFunctionExecutor $wpFunctionExecutor,
-        private IWpEnqueueScriptModuleFactory $enqueueScriptModuleFactory,
-        private IWpRegisterScriptFactory $registerScriptFactory,
-        private IWpEnqueueStyleFactory $enqueueStyleFactory,
-        private IAssetDependencyFactory $assetDependencyFactory,
-        private IWpEnqueueScriptFactory $enqueueScriptFactory,
+        private WpEnqueueScriptModule $enqueueScriptModule,
+        private WpRegisterScript $registerScript,
+        private WpEnqueueStyle $enqueueStyle,
+        private WpEnqueueScript $enqueueScript,
         private IViteConfig $config,
     ) {
     }
@@ -58,8 +54,8 @@ final readonly class WpViteAssetsLoader implements IViteAssetsLoader
     }
 
     /**
-     * @param array<IWpEnqueueScriptModuleDep|IAssetDependency> $rawDependencies
-     * @return array<IWpEnqueueScriptModuleDep|IAssetDependency>
+     * @param array<ScriptModuleDependency|string|BackedEnum> $rawDependencies
+     * @return array<ScriptModuleDependency|string|BackedEnum>
      */
     private function normalizeDependencies(array $rawDependencies): array
     {
@@ -67,27 +63,22 @@ final readonly class WpViteAssetsLoader implements IViteAssetsLoader
 
         if (count($rawDependencies) === 0) {
             /**
-             * @var WpAssetHandle $handle
+             * @var WpAssetHandle[]|string[] $dependencies
              */
-            $dependencies = array_map(fn($handle) => $this->assetDependencyFactory->make($handle->value), Constants::DEFAULT_FRONTEND_DEPS);
+            $dependencies = Constants::DEFAULT_FRONTEND_DEPS;
         }
 
         return $dependencies;
     }
 
     /**
-     * @param array<IAssetDependency|IWpEnqueueScriptModuleDep> $dependencies
+     * @param array<string|BackedEnum> $dependencies
      */
     private function connectDependencies(array $dependencies): void
     {
         foreach ($dependencies as $dependency) {
-            if (!($dependency instanceof IAssetDependency)) {
-                continue;
-            }
-
-            $this->wpFunctionExecutor->execute(
-                $this->enqueueScriptFactory
-                    ->make($dependency->getHandle())
+            ($this->enqueueScript)(
+                handle: $dependency
             );
         }
     }
@@ -134,13 +125,29 @@ final readonly class WpViteAssetsLoader implements IViteAssetsLoader
 
     /**
      * @param IViteEntryPoint[] $entryPoints
-     * @param array<IWpEnqueueScriptModuleDep|IAssetDependency> $dependencies
+     * @param array<ScriptModuleDependency|string|BackedEnum> $allDependencies
      */
-    private function connectProd(array $entryPoints, array $dependencies): void
+    private function connectProd(array $entryPoints, array $allDependencies): void
     {
         $manifest = $this->viteManifestReader->getManifest();
         $version  = $this->config->getPluginVersion();
         $baseUrl  = rtrim($this->config->getBuildViteUrl(), '/');
+        /**
+         * @var ScriptModuleDependency[] $moduleDependencies
+         */
+        $moduleDependencies = array_filter(
+            $allDependencies,
+            fn($dependency) => $dependency instanceof ScriptModuleDependency,
+        );
+        /**
+         * @var array<string|BackedEnum> $dependencies
+         */
+        $dependencies = array_values(
+            array_filter(
+                $allDependencies,
+                static fn(mixed $dependency): bool => is_string($dependency) || $dependency instanceof BackedEnum
+            )
+        );
 
         foreach ($entryPoints as $entryPoint) {
             $entry = $manifest->getEntry($entryPoint->getName());
@@ -152,43 +159,32 @@ final readonly class WpViteAssetsLoader implements IViteAssetsLoader
             $fileUrl = "{$baseUrl}/{$entry->getFile()}";
 
             // JS
-            if (!preg_match('/\.css$/', $entry->getFile())) {
-                /**
-                 * @var IWpEnqueueScriptModuleDep[] $moduleDependencies
-                 */
-                $moduleDependencies = array_filter(
-                    $dependencies,
-                    fn($dependency) => $dependency instanceof IWpEnqueueScriptModuleDep,
-                );
-
+            if (!$entry->isCss()) {
                 $this->connectDependencies($dependencies);
 
-                $this->wpFunctionExecutor->execute(
-                    $this->enqueueScriptModuleFactory
-                        ->make($entry->getName())
-                        ->src($fileUrl)
-                        ->deps($moduleDependencies)
-                        ->version($version)
+                ($this->enqueueScriptModule)(
+                    id: $entry->getName(),
+                    src: $fileUrl,
+                    deps: $moduleDependencies,
+                    version: $version,
                 );
 
-                $this->wpFunctionExecutor->execute(
-                    $this->registerScriptFactory
-                        ->make($entry->getName(), $fileUrl)
-                        ->deps($dependencies)
-                        ->version($version)
-                        ->args(true)
+                ($this->registerScript)(
+                    handle: $entry->getName(),
+                    src: $fileUrl,
+                    deps: $dependencies,
+                    version: $version,
+                    args: true
                 );
             }
 
             // CSS
             foreach ($entry->getCss() as $css) {
-                $this->wpFunctionExecutor->execute(
-                    $this->enqueueStyleFactory
-                        ->make($css)
-                        ->src("{$baseUrl}/{$css}")
-                        ->deps($dependencies)
-                        ->version($version)
-                        ->media('all')
+                ($this->enqueueStyle)(
+                    handle: $css,
+                    src: "{$baseUrl}/{$css}",
+                    deps: $dependencies,
+                    version: $version,
                 );
             }
         }
