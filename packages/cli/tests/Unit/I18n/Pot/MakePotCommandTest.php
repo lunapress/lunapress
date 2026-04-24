@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace LunaPress\Cli\Test\Unit\I18n\Pot;
 
-use LunaPress\Cli\I18n\Pot\Generator\IPotGenerator;
+use LunaPress\Cli\I18n\Pot\Generator\PotGenerator;
 use LunaPress\Cli\I18n\Pot\MakePotCommand;
-use LunaPress\Cli\Support\IPathResolver;
+use LunaPress\Cli\Support\PathResolver;
 use Mockery;
 use Symfony\Component\Console\Style\SymfonyStyle;
 use Symfony\Component\Console\Tester\CommandTester;
@@ -18,8 +18,8 @@ use function getcwd;
 use function it;
 
 beforeEach(function (): void {
-    $this->generator    = Mockery::mock(IPotGenerator::class);
-    $this->pathResolver = Mockery::mock(IPathResolver::class);
+    $this->generator    = Mockery::mock(PotGenerator::class);
+    $this->pathResolver = Mockery::mock(PathResolver::class);
     $this->testCommand      = new MakePotCommand($this->generator, $this->pathResolver);
     $this->tester       = new CommandTester($this->testCommand);
 });

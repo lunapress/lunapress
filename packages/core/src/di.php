@@ -4,50 +4,50 @@ declare(strict_types=1);
 
 defined('ABSPATH') || exit;
 
-use LunaPress\Core\Hook\ActionManager;
-use LunaPress\Core\Hook\FilterManager;
-use LunaPress\Core\Plugin\PluginConfigFactory;
-use LunaPress\Core\Plugin\PluginContextFactory;
-use LunaPress\Core\Subscriber\SubscriberRegistry;
+use LunaPress\Core\Hook\DefaultActionManager;
+use LunaPress\Core\Hook\DefaultFilterManager;
+use LunaPress\Core\Plugin\DefaultPluginConfigFactory;
+use LunaPress\Core\Plugin\DefaultPluginContextFactory;
+use LunaPress\Core\Subscriber\DefaultSubscriberRegistry;
 use LunaPress\Core\View\DefaultTemplateContextProvider;
-use LunaPress\Core\View\TemplateManager;
-use LunaPress\CoreContracts\Hook\IActionManager;
-use LunaPress\CoreContracts\Hook\IFilterManager;
-use LunaPress\CoreContracts\Plugin\IConfig;
-use LunaPress\CoreContracts\Plugin\IConfigFactory;
-use LunaPress\CoreContracts\Plugin\IPlugin;
-use LunaPress\CoreContracts\Plugin\IPluginContext;
-use LunaPress\CoreContracts\Plugin\IPluginContextFactory;
-use LunaPress\CoreContracts\Subscriber\ISubscriberRegistry;
-use LunaPress\Foundation\Support\WpCaster;
-use LunaPress\FoundationContracts\Support\WpFunction\IWpCaster;
-use LunaPress\FoundationContracts\View\ITemplateContextProvider;
-use LunaPress\FoundationContracts\View\ITemplateManager;
+use LunaPress\Core\View\DefaultTemplateManager;
+use LunaPress\CoreContracts\Hook\ActionManager;
+use LunaPress\CoreContracts\Hook\FilterManager;
+use LunaPress\CoreContracts\Plugin\Plugin;
+use LunaPress\CoreContracts\Plugin\PluginConfig;
+use LunaPress\CoreContracts\Plugin\PluginConfigFactory;
+use LunaPress\CoreContracts\Plugin\PluginContext;
+use LunaPress\CoreContracts\Plugin\PluginContextFactory;
+use LunaPress\CoreContracts\Subscriber\SubscriberRegistry;
+use LunaPress\Foundation\Support\DefaultWpCaster;
+use LunaPress\FoundationContracts\Support\Wp\WpCaster;
+use LunaPress\FoundationContracts\View\TemplateContextProvider;
+use LunaPress\FoundationContracts\View\TemplateManager;
 use function LunaPress\Foundation\Container\autowire;
 use function LunaPress\Foundation\Container\factory;
 
 return [
-    IConfigFactory::class => autowire(PluginConfigFactory::class),
-    IPluginContextFactory::class => autowire(PluginContextFactory::class),
-    IConfig::class => factory(function (IConfigFactory $factory, IPlugin $plugin) {
+    PluginConfigFactory::class => autowire(DefaultPluginConfigFactory::class),
+    PluginContextFactory::class => autowire(DefaultPluginContextFactory::class),
+    PluginConfig::class => factory(function (PluginConfigFactory $factory, Plugin $plugin) {
         return $factory->make($plugin);
     }),
-    IPluginContext::class => factory(function (IPluginContextFactory $factory, IPlugin $plugin) {
+    PluginContext::class => factory(function (DefaultPluginContextFactory $factory, Plugin $plugin) {
         return $factory->make($plugin);
     }),
 
-    IActionManager::class => autowire(ActionManager::class),
-    IFilterManager::class => autowire(FilterManager::class),
-    ISubscriberRegistry::class => autowire(SubscriberRegistry::class),
+    ActionManager::class => autowire(DefaultActionManager::class),
+    FilterManager::class => autowire(DefaultFilterManager::class),
+    SubscriberRegistry::class => autowire(DefaultSubscriberRegistry::class),
 
-    IWpCaster::class => autowire(WpCaster::class),
+    WpCaster::class => autowire(DefaultWpCaster::class),
 
-    ITemplateContextProvider::class => autowire(DefaultTemplateContextProvider::class),
-    ITemplateManager::class => factory(function (
-        ITemplateContextProvider $provider,
-        IConfig $config
-    ): TemplateManager {
-        return (new TemplateManager($provider))
-            ->setBasePath($config->getPluginPath() . '/templates');
+    TemplateContextProvider::class => autowire(DefaultTemplateContextProvider::class),
+    TemplateManager::class => factory(function (
+        TemplateContextProvider $provider,
+        PluginConfig $config
+    ): DefaultTemplateManager {
+        return (new DefaultTemplateManager($provider))
+            ->setBasePath($config->pluginPath . '/templates');
     }),
 ];

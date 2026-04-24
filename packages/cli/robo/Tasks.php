@@ -6,9 +6,9 @@ namespace LunaPress\Cli\Robo;
 
 use LunaPress\Cli\Frontend\FrontendFramework;
 use LunaPress\Cli\Frontend\Init\FrontendInitConfig;
-use LunaPress\Cli\Frontend\Init\FrontendProjectGenerator;
+use LunaPress\Cli\Frontend\Init\DefaultFrontendProjectGenerator;
 use LunaPress\Cli\Frontend\PackageManager;
-use LunaPress\Cli\Support\PathResolver;
+use LunaPress\Cli\Support\DefaultPathResolver;
 use ReflectionClass;
 use function class_alias;
 use function dirname;
@@ -24,7 +24,7 @@ final class Tasks extends \Robo\Tasks
             '.frontend-preview'
         );
 
-        $pathResolver = new PathResolver(
+        $pathResolver = new DefaultPathResolver(
             dirname(__DIR__),
             null,
             new WorkingDirectory()
@@ -33,7 +33,7 @@ final class Tasks extends \Robo\Tasks
         $targetPath = $pathResolver->frontendInitPath($config);
         $this->_deleteDir($targetPath);
 
-        (new FrontendProjectGenerator(
+        (new DefaultFrontendProjectGenerator(
             $pathResolver
         ))->generate($config);
 

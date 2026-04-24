@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace LunaPress\Cli\Prefix;
 
 use LunaPress\Cli\Prefix\Exceptions\PrefixException;
-use LunaPress\Cli\Support\IPathResolver;
-use LunaPress\Config\IConfigResolver;
+use LunaPress\Cli\Support\PathResolver;
+use LunaPress\Config\ConfigResolver;
 use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Command\Command;
@@ -19,9 +19,9 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 final class PrefixCommand extends Command
 {
     public function __construct(
-        private readonly IPrefixer $prefixer,
-        private readonly IConfigResolver $configResolver,
-        private readonly IPathResolver $pathResolver,
+        private readonly Prefixer       $prefixer,
+        private readonly ConfigResolver $configResolver,
+        private readonly PathResolver   $pathResolver,
     ) {
         parent::__construct();
     }

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace LunaPress\Cli\Build;
 
-use LunaPress\Cli\Support\IPathResolver;
-use LunaPress\Config\IConfigResolver;
+use LunaPress\Cli\Support\PathResolver;
+use LunaPress\Config\ConfigResolver;
 use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Attribute\Option;
@@ -19,8 +19,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 class BuildCommand extends Command
 {
     public function __construct(
-        private readonly IConfigResolver $configResolver,
-        private readonly IPathResolver $pathResolver,
+        private readonly ConfigResolver $configResolver,
+        private readonly PathResolver   $pathResolver,
     ) {
         parent::__construct();
     }

@@ -21,7 +21,7 @@ use function preg_match;
 use function str_ends_with;
 use function str_replace;
 
-final readonly class ZipArchiver implements IArchiver
+final readonly class ZipArchiver implements Archiver
 {
     public function __construct(
         private Filesystem $fs = new Filesystem()

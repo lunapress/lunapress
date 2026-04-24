@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace LunaPress\Foundation\Subscriber;
 
-use LunaPress\FoundationContracts\Subscriber\IDelayedSubscriber;
+use LunaPress\FoundationContracts\Subscriber\DelayedSubscriber;
 
-abstract class AbstractDelayedSubscriber implements IDelayedSubscriber
+abstract class AbstractDelayedSubscriber implements DelayedSubscriber
 {
     public static function afterPriority(): int
     {

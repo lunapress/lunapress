@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace LunaPress\Core\Plugin;
 
-use LunaPress\Core\Loader\PluginLoader;
+use LunaPress\Core\Loader\ContainerFactory;
+use LunaPress\Core\Loader\PluginBootstrapper;
 use LunaPress\Core\Support\PackageIterator;
-use LunaPress\CoreContracts\Plugin\IPlugin;
-use LunaPress\CoreContracts\Plugin\IPluginContext;
+use LunaPress\CoreContracts\Plugin\Plugin;
+use LunaPress\CoreContracts\Plugin\PluginContext;
 use LunaPress\Foundation\Support\Singleton;
-use LunaPress\FoundationContracts\Container\IContainerBuilder;
-use LunaPress\FoundationContracts\Package\IPackage;
+use LunaPress\FoundationContracts\Container\ContainerBuilder;
+use LunaPress\FoundationContracts\Package\Package;
 use Override;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\ContainerInterface;
@@ -19,15 +20,14 @@ use ReflectionClass;
 use RuntimeException;
 use function dirname;
 use function file_exists;
+use function is_string;
 
-abstract class AbstractPlugin extends Singleton implements IPlugin
+abstract class AbstractPlugin extends Singleton implements Plugin
 {
-    use PackageIterator;
-
     protected string $callerFile;
     protected ContainerInterface $container;
-    protected ?IContainerBuilder $containerBuilder = null;
-    private bool $initialized                      = false;
+    protected ?ContainerBuilder $containerBuilder = null;
+    private bool $booted = false;
 
     /**
      * @throws ContainerExceptionInterface
@@ -36,11 +36,9 @@ abstract class AbstractPlugin extends Singleton implements IPlugin
     #[Override]
     public function boot(string $callerFile): void
     {
-        if ($this->initialized) {
+        if ($this->booted) {
             return;
         }
-
-        $this->callerFile = $callerFile;
 
         if (!$this->containerBuilder) {
             throw new RuntimeException(
@@ -49,13 +47,17 @@ abstract class AbstractPlugin extends Singleton implements IPlugin
             );
         }
 
-        (new PluginLoader($this, $this->containerBuilder))->load();
+        $this->callerFile = $callerFile;
 
-        $this->initialized = true;
+        $this->container = (new ContainerFactory($this->containerBuilder))->make($this);
+
+        (new PluginBootstrapper($this->container))->boot($this);
+
+        $this->booted = true;
     }
 
     #[Override]
-    public function setContainerBuilder(IContainerBuilder $builder): self
+    public function setContainerBuilder(ContainerBuilder $builder): self
     {
         $this->containerBuilder = $builder;
 
@@ -64,22 +66,34 @@ abstract class AbstractPlugin extends Singleton implements IPlugin
 
     #[Override]
     public function activate(): void {
-        /** @var IPluginContext $context */
-        $context = $this->container->get(IPluginContext::class);
+        /** @var PluginContext $context */
+        $context = $this->container->get(PluginContext::class);
 
-        $this->iteratePackages($this->getPackages(), function (IPackage $package) use ($context): void {
-            $package->activate($context);
-        });
+        foreach ($this->getPackages() as $package) {
+            $instance = is_string($package) ? $this->container->get($package) : $package;
+
+            if (!($instance instanceof Package)) {
+				continue;
+			}
+
+			$instance->activate($context->context);
+        }
     }
 
     #[Override]
     public function deactivate(): void {
-        /** @var IPluginContext $context */
-        $context = $this->container->get(IPluginContext::class);
+        /** @var PluginContext $context */
+        $context = $this->container->get(PluginContext::class);
 
-        $this->iteratePackages($this->getPackages(), function (IPackage $package) use ($context): void {
-            $package->deactivate($context);
-        });
+        foreach ($this->getPackages() as $package) {
+            $instance = is_string($package) ? $this->container->get($package) : $package;
+
+            if (!($instance instanceof Package)) {
+				continue;
+			}
+
+			$instance->deactivate($context->context);
+        }
     }
 
     #[Override]
@@ -102,17 +116,5 @@ abstract class AbstractPlugin extends Singleton implements IPlugin
     public function getContainer(): ContainerInterface
     {
         return $this->container;
-    }
-
-    public function setContainer(ContainerInterface $container): self
-    {
-        $this->container = $container;
-
-        return $this;
-    }
-
-    public function getContainerBuilder(): ?IContainerBuilder
-    {
-        return $this->containerBuilder;
     }
 }

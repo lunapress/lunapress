@@ -8,19 +8,19 @@ use Gettext\Generator\PoGenerator;
 use LunaPress\Cli\Build\Archive\ArchiveCommand;
 use LunaPress\Cli\Build\Archive\ZipArchiver;
 use LunaPress\Cli\Frontend\Init\FrontendInitCommand;
-use LunaPress\Cli\Frontend\Init\FrontendProjectGenerator;
+use LunaPress\Cli\Frontend\Init\DefaultFrontendProjectGenerator;
 use LunaPress\Cli\I18n\Pot\Extractor\FileHeaderExtractor\FileHeaderExtractor;
 use LunaPress\Cli\I18n\Pot\Extractor\JavascriptExtractor\JavascriptExtractor;
 use LunaPress\Cli\I18n\Pot\Extractor\PhpStanExtractor;
-use LunaPress\Cli\I18n\Pot\Generator\PotGenerator;
+use LunaPress\Cli\I18n\Pot\Generator\DefaultPotGenerator;
 use LunaPress\Cli\I18n\Pot\MakePotCommand;
 use LunaPress\Cli\I18n\Pot\Scanner\PhpStanScanner;
 use LunaPress\Cli\I18n\Pot\Scanner\ProjectMetadataScanner;
 use LunaPress\Cli\Prefix\PrefixCommand;
 use LunaPress\Cli\Prefix\StraussPrefixer;
-use LunaPress\Cli\Support\PathResolver;
-use LunaPress\Cli\Support\ProcessFactory;
-use LunaPress\Config\ConfigResolver;
+use LunaPress\Cli\Support\DefaultPathResolver;
+use LunaPress\Cli\Support\DefaultProcessFactory;
+use LunaPress\Config\DefaultConfigResolver;
 use Symfony\Component\Console\Application;
 use Symfony\Component\Filesystem\Filesystem;
 
@@ -55,30 +55,30 @@ $cliPackageRoot = dirname(__DIR__);
 
 $app = new Application('LunaPress CLI', ltrim((string) $version, 'v'));
 $projectMetadataScanner = new ProjectMetadataScanner();
-$pathResolver = new PathResolver($cliPackageRoot);
+$pathResolver = new DefaultPathResolver($cliPackageRoot);
 
 $app->addCommand(new ArchiveCommand(
         new ZipArchiver(),
-        new ConfigResolver(),
+        new DefaultConfigResolver(),
         $pathResolver
 ));
 $app->addCommand(new PrefixCommand(
         new StraussPrefixer(),
-        new ConfigResolver(),
+        new DefaultConfigResolver(),
         $pathResolver
 ));
 $app->addCommand(new FrontendInitCommand(
-    new FrontendProjectGenerator($pathResolver),
+    new DefaultFrontendProjectGenerator($pathResolver),
 ));
 $app->addCommand(new MakePotCommand(
-    new PotGenerator(
+    new DefaultPotGenerator(
         [
             new FileHeaderExtractor($projectMetadataScanner),
             new PhpStanExtractor(
                     new PhpStanScanner()
             ),
             new JavascriptExtractor(
-                    new ProcessFactory(),
+                    new DefaultProcessFactory(),
                     new MapperBuilder()
             ),
         ],

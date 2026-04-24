@@ -8,10 +8,10 @@ use CuyZ\Valinor\MapperBuilder;
 use Gettext\Generator\PoGenerator;
 use LunaPress\Cli\I18n\Pot\Extractor\JavascriptExtractor\JavascriptExtractor;
 use LunaPress\Cli\I18n\Pot\Extractor\PhpStanExtractor;
-use LunaPress\Cli\I18n\Pot\Generator\PotGenerator;
+use LunaPress\Cli\I18n\Pot\Generator\DefaultPotGenerator;
 use LunaPress\Cli\I18n\Pot\Scanner\PhpStanScanner;
 use LunaPress\Cli\I18n\Pot\Scanner\ProjectMetadataScanner;
-use LunaPress\Cli\Support\ProcessFactory;
+use LunaPress\Cli\Support\DefaultProcessFactory;
 use LunaPress\Test\Package;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
@@ -36,13 +36,13 @@ const FIXTURES_PATH  = 'I18n/Pot/Generator';
 beforeEach(function (): void {
     $this->io        = new SymfonyStyle(new ArrayInput([]), new NullOutput());
     $this->fs        = new Filesystem();
-    $this->generator = new PotGenerator(
+    $this->generator = new DefaultPotGenerator(
         [
             new PhpStanExtractor(
                 new PhpStanScanner()
             ),
             new JavascriptExtractor(
-                new ProcessFactory(),
+                new DefaultProcessFactory(),
                 new MapperBuilder()
             ),
         ],

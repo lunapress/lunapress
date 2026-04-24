@@ -10,13 +10,13 @@ use Gettext\Translation;
 use LunaPress\Cli\I18n\Pot\Extractor\ExtractedMessage;
 use LunaPress\Cli\I18n\Pot\Extractor\ExtractorPatternMatchTrait;
 use LunaPress\Cli\I18n\Pot\Extractor\FormatFlagTrait;
-use LunaPress\Cli\I18n\Pot\Extractor\IExtractor;
+use LunaPress\Cli\I18n\Pot\Extractor\Extractor;
 use LunaPress\Cli\I18n\Pot\Extractor\JavascriptExtractor\DTO\CLIOutputItem;
-use LunaPress\Cli\Support\IProcessFactory;
+use LunaPress\Cli\Support\ProcessFactory;
 use Symfony\Component\Process\Exception\ProcessFailedException;
 use function json_decode;
 
-final readonly class JavascriptExtractor implements IExtractor
+final readonly class JavascriptExtractor implements Extractor
 {
     use ExtractorPatternMatchTrait;
     use FormatFlagTrait;
@@ -25,10 +25,10 @@ final readonly class JavascriptExtractor implements IExtractor
     public const string DEFAULT_VERSION = '0.1.8';
 
     public function __construct(
-        private IProcessFactory $processFactory,
-        private MapperBuilder $mapperBuilder,
-        private string $packageName = self::JS_CLI_PACKAGE,
-        private string $version = self::DEFAULT_VERSION
+        private ProcessFactory $processFactory,
+        private MapperBuilder  $mapperBuilder,
+        private string         $packageName = self::JS_CLI_PACKAGE,
+        private string         $version = self::DEFAULT_VERSION
     ) {
     }
 

@@ -7,7 +7,7 @@ namespace LunaPress\Cli\Test\Integration\Prefix;
 use LunaPress\Cli\Prefix\Exceptions\ComposerJsonNotFoundException;
 use LunaPress\Cli\Prefix\Exceptions\StraussExecutionException;
 use LunaPress\Cli\Prefix\StraussPrefixer;
-use LunaPress\Config\ConfigResolver;
+use LunaPress\Config\DefaultConfigResolver;
 use LunaPress\Test\Package;
 use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Output\BufferedOutput;
@@ -30,7 +30,7 @@ beforeEach(function (): void {
     $this->fs->mkdir($this->tempDir);
 
     $this->prefixer = new StraussPrefixer();
-    $this->configResolver = new ConfigResolver();
+    $this->configResolver = new DefaultConfigResolver();
     $this->bufferedOutput = new BufferedOutput();
     $this->io = new SymfonyStyle(new ArrayInput([]), $this->bufferedOutput);
 });

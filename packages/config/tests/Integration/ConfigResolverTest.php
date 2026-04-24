@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace LunaPress\Config\Test\Integration;
 
-use LunaPress\Config\ConfigResolver;
+use LunaPress\Config\DefaultConfigResolver;
 use LunaPress\Config\Exceptions\InvalidConfigurationException;
 use LunaPress\Config\ProjectConfig;
 use LunaPress\Test\Package;
@@ -13,7 +13,7 @@ use function expect;
 use function it;
 
 beforeEach(function (): void {
-    $this->resolver = new ConfigResolver();
+    $this->resolver = new DefaultConfigResolver();
 });
 
 it('resolves config from .config directory', function (): void {

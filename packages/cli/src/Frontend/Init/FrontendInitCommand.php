@@ -23,7 +23,7 @@ final class FrontendInitCommand extends Command
     private FrontendInitConfig $config;
 
     public function __construct(
-        private readonly IFrontendProjectGenerator $generator,
+        private readonly FrontendProjectGenerator $generator,
     ) {
         parent::__construct();
     }

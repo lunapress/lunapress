@@ -18,7 +18,7 @@ use PHPStan\Parser\PathRoutingParser;
 use function getcwd;
 use function sys_get_temp_dir;
 
-final class PhpStanScanner implements IScanner
+final class PhpStanScanner implements Scanner
 {
     private Container $container;
 

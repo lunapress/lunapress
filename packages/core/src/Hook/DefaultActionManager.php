@@ -1,0 +1,20 @@
+<?php
+
+declare(strict_types=1);
+
+namespace LunaPress\Core\Hook;
+
+use LunaPress\CoreContracts\Hook\ActionManager;
+
+final readonly class DefaultActionManager implements ActionManager
+{
+    public function add(string $name, callable $callback, int $priority = 10, int $args = 1): void
+    {
+        add_action($name, $callback, $priority, $args);
+    }
+
+    public function do(string $name, mixed ...$args): void
+    {
+        do_action($name, ...$args);
+    }
+}

@@ -7,7 +7,7 @@ namespace LunaPress\Cli\I18n\Pot\Extractor;
 use Generator;
 use Gettext\Translation;
 use LunaPress\Cli\I18n\Constants;
-use LunaPress\Cli\I18n\Pot\Scanner\IScanner;
+use LunaPress\Cli\I18n\Pot\Scanner\Scanner;
 use LunaPress\Wp\I18n\Attribute\Domain;
 use LunaPress\Wp\I18nContracts\Function\ContextNoopPluralTranslate\IContextNoopPluralTranslateFactory;
 use LunaPress\Wp\I18nContracts\Function\ContextPluralTranslate\IContextPluralTranslateFactory;
@@ -44,7 +44,7 @@ use function preg_match;
 use function preg_replace;
 use function trim;
 
-final readonly class PhpStanExtractor implements IExtractor
+final readonly class PhpStanExtractor implements Extractor
 {
     use ExtractorPatternMatchTrait;
     use FormatFlagTrait;
@@ -60,7 +60,7 @@ final readonly class PhpStanExtractor implements IExtractor
     private array $wpFunctionHandlers;
 
     public function __construct(
-        private IScanner $scanner,
+        private Scanner $scanner,
     )
     {
         $this->handlers = [

@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace LunaPress\Wp\Assets\Function;
 
 use BackedEnum;
-use LunaPress\FoundationContracts\Support\WpFunction\IWpCaster;
+use LunaPress\FoundationContracts\Support\Wp\WpCaster;
 use LunaPress\Wp\AssetsContracts\Enum\StyleMedia;
 
 final readonly class WpEnqueueStyle
 {
     public function __construct(
-        private IWpCaster $caster,
+        private WpCaster $caster,
     ) {
     }
 

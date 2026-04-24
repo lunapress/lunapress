@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace LunaPress\Core\Hook;
 
 use Attribute;
-use LunaPress\CoreContracts\Hook\IHook;
+use LunaPress\CoreContracts\Hook\Hook as HookContract;
 
 #[Attribute(Attribute::TARGET_CLASS | Attribute::IS_REPEATABLE)]
-final readonly class Hook implements IHook
+final readonly class Hook implements HookContract
 {
     public function __construct(
         private string $name,

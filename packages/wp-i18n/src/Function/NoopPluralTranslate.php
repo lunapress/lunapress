@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace LunaPress\Wp\I18n\Function;
 
-use LunaPress\Wp\I18n\Entity\NoopedPlural;
+use LunaPress\Wp\I18nContracts\DTO\NoopedPlural;
 
 final readonly class NoopPluralTranslate
 {

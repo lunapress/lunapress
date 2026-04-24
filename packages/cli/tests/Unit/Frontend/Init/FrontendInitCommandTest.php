@@ -7,7 +7,7 @@ namespace LunaPress\Cli\Test\Unit\Frontend\Init;
 use LunaPress\Cli\Frontend\FrontendFramework;
 use LunaPress\Cli\Frontend\Init\FrontendInitCommand;
 use LunaPress\Cli\Frontend\Init\FrontendInitConfig;
-use LunaPress\Cli\Frontend\Init\IFrontendProjectGenerator;
+use LunaPress\Cli\Frontend\Init\FrontendProjectGenerator;
 use LunaPress\Cli\Frontend\PackageManager;
 use Mockery;
 use Symfony\Component\Console\Command\Command;
@@ -17,7 +17,7 @@ use function expect;
 use function it;
 
 beforeEach(function (): void {
-    $this->generator = Mockery::mock(IFrontendProjectGenerator::class);
+    $this->generator = Mockery::mock(FrontendProjectGenerator::class);
     $this->generator->shouldReceive('generate')->andReturnNull();
 
     $this->testCommand = new FrontendInitCommand($this->generator);

@@ -6,10 +6,10 @@ namespace LunaPress\Cli\Test\Unit\Build\Archive;
 
 use LunaPress\Cli\Build\Archive\ArchiveCommand;
 use LunaPress\Cli\Build\Archive\Exceptions\ArchiveException;
-use LunaPress\Cli\Build\Archive\IArchiver;
-use LunaPress\Cli\Support\IPathResolver;
+use LunaPress\Cli\Build\Archive\Archiver;
+use LunaPress\Cli\Support\PathResolver;
 use LunaPress\Config\DTO\BuildConfig;
-use LunaPress\Config\IConfigResolver;
+use LunaPress\Config\ConfigResolver;
 use LunaPress\Config\ProjectConfig;
 use Mockery;
 use Symfony\Component\Console\Command\Command;
@@ -22,9 +22,9 @@ use function it;
 use function sprintf;
 
 beforeEach(function (): void {
-    $this->archiver       = Mockery::mock(IArchiver::class);
-    $this->configResolver = Mockery::mock(IConfigResolver::class);
-    $this->pathResolver   = Mockery::mock(IPathResolver::class);
+    $this->archiver       = Mockery::mock(Archiver::class);
+    $this->configResolver = Mockery::mock(ConfigResolver::class);
+    $this->pathResolver   = Mockery::mock(PathResolver::class);
 
     $this->testCommand = new ArchiveCommand($this->archiver, $this->configResolver, $this->pathResolver);
     $this->tester      = new CommandTester($this->testCommand);

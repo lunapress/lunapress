@@ -25,7 +25,7 @@ use const JSON_THROW_ON_ERROR;
 use const JSON_UNESCAPED_SLASHES;
 use const PHP_BINARY;
 
-final class StraussPrefixer implements IPrefixer
+final class StraussPrefixer implements Prefixer
 {
     private const string VENDOR = 'brianhenryie';
     private const string PACKAGE = 'strauss-phar';

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace LunaPress\Cli\I18n\Pot;
 
-use LunaPress\Cli\I18n\Pot\Generator\IPotGenerator;
-use LunaPress\Cli\Support\IPathResolver;
+use LunaPress\Cli\I18n\Pot\Generator\PotGenerator;
+use LunaPress\Cli\Support\PathResolver;
 use Symfony\Component\Console\Attribute\Argument;
 use Symfony\Component\Console\Attribute\AsCommand;
 use Symfony\Component\Console\Attribute\Option;
@@ -19,8 +19,8 @@ use Symfony\Component\Console\Style\SymfonyStyle;
 final class MakePotCommand extends Command
 {
     public function __construct(
-        private readonly IPotGenerator $generator,
-        private readonly IPathResolver $pathResolver,
+        private readonly PotGenerator $generator,
+        private readonly PathResolver $pathResolver,
     ) {
         parent::__construct();
     }

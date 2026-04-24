@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace LunaPress\Core;
 
-use LunaPress\FoundationContracts\Support\IHasDi;
+use LunaPress\FoundationContracts\Support\HasDi;
 use function file_exists;
 
-final readonly class DiProvider implements IHasDi
+final readonly class DiProvider implements HasDi
 {
     public static function getDiPath(): ?string
     {

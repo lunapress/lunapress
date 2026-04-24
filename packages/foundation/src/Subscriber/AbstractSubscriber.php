@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace LunaPress\Foundation\Subscriber;
 
 use LogicException;
-use LunaPress\FoundationContracts\Subscriber\ISubscriber;
+use LunaPress\FoundationContracts\Subscriber\Subscriber;
 use function method_exists;
 
-abstract readonly class AbstractSubscriber implements ISubscriber
+abstract readonly class AbstractSubscriber implements Subscriber
 {
     public function callback(): callable
     {

@@ -5,15 +5,16 @@ declare(strict_types=1);
 namespace LunaPress\Wp\Assets\Function;
 
 use BackedEnum;
-use LunaPress\FoundationContracts\Support\WpFunction\IWpCaster;
-use LunaPress\FoundationContracts\Support\WpFunction\WpArray;
+use LunaPress\FoundationContracts\Support\Wp\WpArray;
+use LunaPress\FoundationContracts\Support\Wp\WpCaster;
+use LunaPress\FoundationContracts\Support\Wp\WpUnset;
 use LunaPress\Wp\AssetsContracts\DTO\ScriptModuleDependency;
 use LunaPress\Wp\AssetsContracts\DTO\WpEnqueueScriptModuleArgs;
 
 final readonly class WpEnqueueScriptModule
 {
     public function __construct(
-        private IWpCaster $caster,
+        private WpCaster $caster,
     ) {
     }
 
@@ -33,7 +34,25 @@ final readonly class WpEnqueueScriptModule
             $this->caster->value($src),
             $this->caster->list($deps),
             $version,
-            $this->caster->value($args)
+            $this->caster->value($args, $this->mapArgs(...))
         );
+    }
+
+    /**
+     * @return array<string, mixed>
+     */
+    private function mapArgs(WpEnqueueScriptModuleArgs $args): array
+    {
+        $result = [];
+
+        if ($args->inFooter !== WpUnset::Value) {
+            $result['footer'] = $args->inFooter;
+        }
+
+        if ($args->fetchPriority !== WpUnset::Value) {
+            $result['priority'] = $args->fetchPriority;
+        }
+
+        return $result;
     }
 }

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace LunaPress\Foundation\Module;
 
-use LunaPress\FoundationContracts\Module\IModule;
+use LunaPress\FoundationContracts\Module\Module;
 
-abstract class AbstractModule implements IModule
+abstract class AbstractModule implements Module
 {
 }

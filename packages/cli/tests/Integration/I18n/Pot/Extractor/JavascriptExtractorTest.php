@@ -7,7 +7,7 @@ namespace LunaPress\Cli\Test\Integration\I18n\Pot\Extractor;
 use CuyZ\Valinor\MapperBuilder;
 use LunaPress\Cli\I18n\Pot\Extractor\ExtractedMessage;
 use LunaPress\Cli\I18n\Pot\Extractor\JavascriptExtractor\JavascriptExtractor;
-use LunaPress\Cli\Support\ProcessFactory;
+use LunaPress\Cli\Support\DefaultProcessFactory;
 use LunaPress\Test\Package;
 use Pest\Expectation;
 use Symfony\Component\Filesystem\Path;
@@ -21,7 +21,7 @@ const FIXTURES_PATH = 'I18n/Pot/Extractor/JavascriptExtractor';
 beforeEach(function (): void {
     $this->finder    = new Finder();
     $this->extractor = new JavascriptExtractor(
-        new ProcessFactory(),
+        new DefaultProcessFactory(),
         new MapperBuilder()
     );
 });

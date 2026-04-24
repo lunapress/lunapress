@@ -4,20 +4,28 @@ declare(strict_types=1);
 
 defined('ABSPATH') || exit;
 
-use LunaPress\Frontend\Modules\Vite\Config\WpViteConfig;
-use LunaPress\Frontend\Modules\Vite\Service\ConstantViteModeDetector;
-use LunaPress\Frontend\Modules\Vite\Service\WpViteAssetsLoader;
-use LunaPress\Frontend\Modules\Vite\Service\WpViteManifestReader;
-use LunaPress\FrontendContracts\Vite\IViteAssetsLoader;
-use LunaPress\FrontendContracts\Vite\IViteConfig;
-use LunaPress\FrontendContracts\Vite\IViteManifestReader;
-use LunaPress\FrontendContracts\Vite\IViteModeDetector;
+use LunaPress\Frontend\Modules\Vite\Service\DefaultViteAssetsLoader;
+use LunaPress\Frontend\Modules\Vite\Service\DefaultViteConfigFactory;
+use LunaPress\Frontend\Modules\Vite\Service\DefaultViteEnvDetector;
+use LunaPress\Frontend\Modules\Vite\Service\DefaultViteManifestFactory;
+use LunaPress\Frontend\Modules\Vite\Service\DefaultViteManifestReader;
+use LunaPress\FrontendContracts\Vite\DTO\ViteConfig;
+use LunaPress\FrontendContracts\Vite\ViteAssetsLoader;
+use LunaPress\FrontendContracts\Vite\ViteConfigFactory;
+use LunaPress\FrontendContracts\Vite\ViteEnvDetector;
+use LunaPress\FrontendContracts\Vite\ViteManifestFactory;
+use LunaPress\FrontendContracts\Vite\ViteManifestReader;
 use function LunaPress\Foundation\Container\autowire;
+use function LunaPress\Foundation\Container\factory;
 
 return [
-    IViteConfig::class => autowire(WpViteConfig::class),
+    ViteConfig::class => factory(function (ViteConfigFactory $factory) {
+        return $factory->make();
+    }),
 
-    IViteModeDetector::class => autowire(ConstantViteModeDetector::class),
-    IViteAssetsLoader::class => autowire(WpViteAssetsLoader::class),
-    IViteManifestReader::class => autowire(WpViteManifestReader::class),
+    ViteEnvDetector::class => autowire(DefaultViteEnvDetector::class),
+    ViteConfigFactory::class => autowire(DefaultViteConfigFactory::class),
+    ViteAssetsLoader::class => autowire(DefaultViteAssetsLoader::class),
+    ViteManifestReader::class => autowire(DefaultViteManifestReader::class),
+    ViteManifestFactory::class => autowire(DefaultViteManifestFactory::class),
 ];

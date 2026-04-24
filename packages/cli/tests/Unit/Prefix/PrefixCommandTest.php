@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace LunaPress\Cli\Test\Unit\Pefix;
 
 use LunaPress\Cli\Prefix\Exceptions\PrefixException;
-use LunaPress\Cli\Prefix\IPrefixer;
+use LunaPress\Cli\Prefix\Prefixer;
 use LunaPress\Cli\Prefix\PrefixCommand;
-use LunaPress\Cli\Support\IPathResolver;
-use LunaPress\Config\IConfigResolver;
+use LunaPress\Cli\Support\PathResolver;
+use LunaPress\Config\ConfigResolver;
 use LunaPress\Config\ProjectConfig;
 use Mockery;
 use Symfony\Component\Console\Command\Command;
@@ -20,9 +20,9 @@ use function it;
 const VALID_STRAUSS_CONFIG = ['namespace_prefix' => 'Test\\'];
 
 beforeEach(function (): void {
-    $this->prefixer = Mockery::mock(IPrefixer::class);
-    $this->pathResolver = Mockery::mock(IPathResolver::class);
-    $this->configResolver = Mockery::mock(IConfigResolver::class);
+    $this->prefixer = Mockery::mock(Prefixer::class);
+    $this->pathResolver = Mockery::mock(PathResolver::class);
+    $this->configResolver = Mockery::mock(ConfigResolver::class);
 
     $this->testCommand = new PrefixCommand($this->prefixer, $this->configResolver, $this->pathResolver);
     $this->tester  = new CommandTester($this->testCommand);
